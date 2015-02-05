@@ -1,0 +1,95 @@
+# -*- mode: muttrc -*-
+
+unset ascii_chars
+set autoedit
+
+set delete=yes
+set alias_file = ~/.mail_aliases
+set sort_alias= alias
+set reverse_alias=yes
+
+source ~/.mutt/gpg
+source ~/.mutt/bindings
+source ~/.mutt/macros
+source ~/.mutt/themes/solarized-dark-256
+
+source $alias_file
+
+set folder = ~/.mail
+set spoolfile = +cryptodrunks/cryptodrunks
+# set record = +cryptodrunks/Sent
+set copy = yes
+
+unset sig_dashes
+# set editor="vim '+/To:'"
+# set editor="vim"
+# set editor="emacs -nw --no-init-file --load ~crito/.emacs.d/emacs.mail +8:0"
+set editor="emacsclient -c -t +8:0"
+# set record="=sent-mail-`date '+%Y-%m'`"
+set edit_headers
+set mark_old
+set pager_stop
+set pager_index_lines=7
+set forward_quote
+alternative_order text/enriched text/plain text/html
+
+set status_format="mutt_xtitle"
+
+set move = no
+
+set imap_check_subscribed
+
+# Address lookup using mu
+set query_command="mu cfind --muhome=~/.mu-sent-index --format=mutt-ab '%s'"
+
+# Make the index show number of bytes, since Maildir has no Lines:
+set index_format="%4C %Z %{%b %d} %-15.15L (%5c) %s"
+
+# Make the browser show only the info I want
+set folder_format="%2C %t %N %8s %d %f"
+
+# MESSAGE SORTING
+# Only in thread if same subject and Re:
+set sort_re
+set sort=date-received
+
+# No header in replies
+unset header
+
+ignore List X-Spam X-Virus X-Mailman X-* X-.*
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+
+# So that new threads come last
+set sort_browser="reverse-date"
+set sort_aux=last-date-received
+
+set sort="threads"
+set strict_threads="yes"
+unset collapse_unread
+bind index - collapse-thread
+bind index _ collapse-all
+
+# Check every min
+set timeout=60
+
+# Read html mail
+auto_view text/html
+
+# Imitate the old search-body function
+macro index \eb '/~b ' 'search in message bodies'
+
+# Show documentation when pressing F1
+macro generic <f1> "!less /usr/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro index   <f1> "!less /usr/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+macro pager   <f1> "!less /usr/share/doc/mutt/manual.txt\n" "Show Mutt documentation"
+
+set abort_nosubject=no
+
+# Use aspell
+# set ispell="/usr/bin/aspell --mode=email check"
+
+# If we are in any directory starting with the following, pull
+# specific settings from somewhere else
+folder-hook +cryptodrunks/.* "source ~/.mutt/accounts/cryptodrunks"

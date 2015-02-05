@@ -1,0 +1,35 @@
+# See: http://dev.gentoo.org/~tomka/mail.html
+[general]
+# for interactive use
+ui = ttyui
+# for headless use (cron)
+# ui = silent
+maxsyncaccounts = 5
+pythonfile=~/Applications/offlineimap-helpers.py
+socktimeout = 120
+accounts = cryptodrunks
+
+[Account cryptodrunks]
+localrepository = cryptodrunks-local
+remoterepository = cryptodrunks-remote
+autorefresh = 2
+quick = 0
+
+[Repository cryptodrunks-local]
+type = Maildir
+localfolders = ~/.mail/cryptodrunks
+nametrans = localtransfolder_cryptodrunks
+
+[Repository cryptodrunks-remote]
+type = IMAP
+ssl = yes
+cert_fingerprint = fea0bfb0adbe5cd8e168a7340f6999ebe05233cd
+remoteport = 993
+remotehost = mx20.cryptodrunks.net
+remoteuser = crito
+maxconnections = 3
+nametrans = oimaptransfolder_cryptodrunks
+#keepalive = 60
+
+folderfilter = lambda foldername: foldername in [
+             'INBOX', 'Drafts', 'Sent', 'Trash']

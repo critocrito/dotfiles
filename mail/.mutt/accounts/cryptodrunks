@@ -1,0 +1,32 @@
+# -*- mode: muttrc -*-
+
+# vim: set filetype=muttrc
+# See: http://dev.gentoo.org/~tomka/mail.html
+
+set mbox_type=Maildir
+mailboxes ="cryptodrunks" ="cryptodrunks.Sent" ="cryptodrunks.Drafts"
+set mask="!^\\.[^.]"
+set record = +cryptodrunks/cryptodrunks.Sent
+set postponed = +cryptodrunks/cryptodrunks.Drafts
+
+set from = "crito@cryptodrunks.net"
+
+set header_cache=~/.mutt/cache/cryptodrunks/headers
+set message_cachedir=~/.mutt/cache/cryptodrunks/bodies
+set certificate_file=~/.mutt/certificates
+
+set use_envelope_from # a boolean value, you can deselect it with set
+                      # nouse_envelope_from
+set envelope_from_address= "crito@cryptodrunks.net"
+my_hdr From: "crito" <crito@cryptodrunks.net>
+
+set status_format="-%r-CRYPTODRUNKS: %f [New:%n Del:%d Tag:%t]"
+set help=no
+
+# Cryptodrunks specific bindings
+macro index gi  "<change-folder> =cryptodrunks/cryptodrunks<enter>"  "go to Inbox"
+macro index gs  "<change-folder> =cryptodrunks/cryptodrunks.Sent<enter>"  "go to Sent Messages"
+
+# 'a' shows all messages again (supersedes default <alias> binding)
+macro index a "<limit>all\n" "show all messages (undo limit)"
+macro index / "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"

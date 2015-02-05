@@ -1,0 +1,34 @@
+# -*- mode: muttrc -*-
+
+# macros
+macro generic ,<Space> ":source ~/.mail_config/mutt/muttrc\n" "Reload mutt's configuration file"
+macro index \cn <next-unread-mailbox>
+bind  pager   <left>   exit
+macro pager j <next-line>
+macro pager k <previous-line>
+macro pager <PageUp> <previous-undeleted>
+macro pager <PageDown> <next-undeleted>
+macro index   <left>   "c?"
+bind browser    $       check-new
+bind  index   <Tab>    next-unread
+#macro pager \cb <pipe-entry>'w3m'<enter> 'Follow links in w3m'
+
+macro index A1 "<change-folder>=cryptodrunks/INBOX\n" "Switch to cryptodrunks.net account"
+macro index A2 "<change-folder>=critio/INBOX\n" "Switch to critio.net account"
+
+# simulate the old url menu
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
+macro pager \cb |urlview\n 'call urlview to extract URLs out of a message'
+
+#macro index,pager \cb "<pipe-message> urlscan<Enter>"
+#macro attach,compose \cb "<pipe-entry> urlscan<Enter>"
+
+macro index I "<clear-flag>N" "Mark as read"
+macro index U "<set-flag>N" "Mark as unread"
+
+# 'L' performs a notmuch query, showing only the results
+macro index L "<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter><limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" "show only messages matching a notmuch pattern"
+# 'a' shows all messages again (supersedes default <alias> binding)
+macro index a "<limit>all\n" "show all messages (undo limit)"
+
+# vim: set ft=muttrc

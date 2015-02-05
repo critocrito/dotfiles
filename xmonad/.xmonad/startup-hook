@@ -34,12 +34,6 @@ emacs --daemon &
 gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh
 export SSH_AUTH_SOCK="$GNOME_KEYRING_CONTROL/ssh"
 
-# Export the dbus session address on startup so it can be used by cron
-touch $HOME/.Xdbus
-chmod 600 $HOME/.Xdbus
-env | grep DBUS_SESSION_BUS_ADDRESS > $HOME/.Xdbus
-echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
-
 # Enable connman-notify
 if [ -z "$(pgrep -f connman-notify)" ] ; then
     connman-notify &

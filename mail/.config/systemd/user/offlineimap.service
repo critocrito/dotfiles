@@ -3,7 +3,7 @@ Description=Fetch mail from IMAP
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /home/crito/Applications/offlineimap.sh
+ExecStart=/bin/bash %h/Applications/offlineimap.sh
 
 [Install]
 WantedBy=default.target

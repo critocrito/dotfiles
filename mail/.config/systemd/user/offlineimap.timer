@@ -1,11 +1,11 @@
 [Unit]
-Description = Check for mail every minute
-RefuseManualStart = no
-RefuseManualStop = no
+Description=Check for mail every minute
+RefuseManualStart=no
+RefuseManualStop=no
  
 [Timer]
-Persistent = false
-OnCalendar = minutely
+Persistent=false
+OnCalendar=minutely
  
 [Install]
-WantedBy = default.target
+WantedBy=default.target

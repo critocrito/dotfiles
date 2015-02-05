@@ -1,0 +1,122 @@
+# Checks
+is_mac() { [[ $OSTYPE == darwin* ]] }
+is_freebsd() { [[ $OSTYPE == freebsd* ]] }
+is_linux() { [[ $OSTYPE == linux-gnu ]] }
+
+has_brew() { [[ -n ${commands[brew]} ]] }
+has_apt() { [[ -n ${commands[apt-get]} ]] }
+has_yum() { [[ -n ${commands[yum]} ]] }
+
+function box_name {
+  [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
+}
+
+# If a virtualenv is active, show the name
+function virtualenv_info {
+  [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+}
+
+# Some mercurial related repository information
+function hg_prompt_info {
+  hg prompt --angle-brackets "\
+  < on %{$fg[magenta]%}<branch>%{$reset_color%}>\
+  < at %{$fg[yellow]%}<tags|%{$reset_color%}, %{$fg[yellow]%}>%{$reset_color%}>\
+  %{$fg[green]%}<status|modified|unknown><update>%{$reset_color%}<
+  patches: <patches|join( → )|pre_applied(%{$fg[yellow]%})|post_applied(%{$reset_color%})|pre_unapplied(%{$fg_bold[black]%})|post_unapplied(%{$reset_color%})>>" 2>/dev/null
+}
+
+# Show a directory tree
+function tree {
+  echo
+  if [ "$1" != "" ]; then  #if parameter exists, use as base folder
+    cd "$1"
+  fi
+  pwd
+  ls -R | grep ":$" |   \
+     sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+  # 1st sed: remove colons
+  # 2nd sed: replace higher level folder names with dashes
+  # 3rd sed: indent graph three spaces
+  # 4th sed: replace first dash with a vertical bar
+  if [ `ls -F -1 | grep "/" | wc -l` = 0 ]; then   # check if no folders
+    echo "   -> no sub-directories"
+  fi
+  echo
+}
+
+function gitexport() {
+  mkdir -p "$1"
+  git archive master | tar -x -C "$1"
+}
+
+# Beautify the path prompt.
+function collapse_pwd {
+  echo $(pwd | sed -e "s,^$HOME,~,")
+}
+
+function prompt_time() {
+  echo "[%T on %D]"  
+}
+
+function prompt_username() {
+  echo "%{$fg[magenta]%}%n%{$reset_color%}"
+}
+
+function prompt_host() {
+  echo "%{$fg[yellow]%}%m%{$reset_color%}"
+}
+
+function prompt_pwd() {
+  echo "%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}"
+}
+
+function prompt_virtualenv() {
+  echo "%{$fg[blue]%}$(virtualenv_info)%{$reset_color%}"
+}
+
+# Show a different symbol, whether its a git or mercurial repository
+function prompt_char {
+  char="λ"
+  git branch >/dev/null 2>/dev/null && char="γ"
+  echo "Bender do %{$fg_bold[red]%}$char%{$reset_color%}"
+}
+
+ex() {
+    if [[ -f $1 ]]; then
+case $1 in
+          *.tar.bz2) tar xvjf $1;;
+          *.tar.gz) tar xvzf $1;;
+          *.tar.xz) tar xvJf $1;;
+          *.tar.lzma) tar --lzma xvf $1;;
+          *.bz2) bunzip $1;;
+          *.rar) unrar $1;;
+          *.gz) gunzip $1;;
+          *.tar) tar xvf $1;;
+          *.tbz2) tar xvjf $1;;
+          *.tgz) tar xvzf $1;;
+          *.zip) unzip $1;;
+          *.Z) uncompress $1;;
+          *.7z) 7z x $1;;
+          *.dmg) hdiutul mount $1;; # mount OS X disk images
+          *) echo "'$1' cannot be extracted via >ex<";;
+    esac
+else
+echo "'$1' is not a valid file"
+    fi
+}
+
+path() {
+  echo $PATH | tr ":" "\n" | \
+    awk "{ sub(\"/usr\", \"$fg_no_bold[green]/usr$reset_color\"); \
+           sub(\"/bin\", \"$fg_no_bold[blue]/bin$reset_color\"); \
+           sub(\"/opt\", \"$fg_no_bold[cyan]/opt$reset_color\"); \
+           sub(\"/sbin\", \"$fg_no_bold[magenta]/sbin$reset_color\"); \
+           sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
+           print }"
+}
+
+if is_linux; then
+fi
+
+if is_mac; then
+fi

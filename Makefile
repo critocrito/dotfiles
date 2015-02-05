@@ -1,7 +1,7 @@
 DOTFILEDIR := $(shell pwd)
 TARGETDIR := ~$(USER)
 
-all: git mail xmonad
+all: git mail xmonad zsh
 
 mail:
 	@echo Installing mail ...
@@ -15,13 +15,21 @@ mail:
 	@systemctl --user --quiet reenable offlineimap.service
 	@systemctl --user --quiet daemon-reload
 
+git:
+	@echo Installing git ...
+	@stow -t $(TARGETDIR) git
+
 xmonad:
 	@echo Installing xmonad ...
 	@stow -t $(TARGETDIR) xmonad
 	@xmonad --recompile
 
-git:
-	@echo Installing git ...
-	@stow -t $(TARGETDIR) git
+shell:
+	@echo Installing shell basics ...
+	@stow -t $(TARGETDIR) shell
 
-.PHONY: git mail xmonad
+zsh: shell
+	@echo Installing zsh ...
+	@stow -t $(TARGETDIR) zsh
+
+.PHONY: git mail xmonad shell zsh

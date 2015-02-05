@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# xmonad "startup hook" script. This gets run after xmonad is initialized,
+# via the startupHook facility provided by xmonad. It's useful for
+# running any programs which you want to use within xmonad but
+# which don't need to be initialized before xmonad is running.
+#
+# Author: David Brewer
+# Repository: https://github.com/davidbrewer/xmonad-ubuntu-conf
+
+# Load X resources (fixes some font issues)
+xrdb -merge ~/.Xresources
+
+# Start compositing to support transparency. You can omit this
+# if you prefer not to use any transparency, but it is likely to cause
+# ugly black fringing with some programs such as synapse that expect
+# transparency support.
+xcompmgr -n &
+
+# To set your backgrounds, run nitrogren /path/to/images
+nitrogen --restore &
+
+NVM_HOME="$HOME/.nvm"
+
+### Node Version Manager
+[[ -f "$NVM_HOME/nvm.sh" ]] && source "$NVM_HOME/nvm.sh"
+
+emacs --daemon &
+
+# Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
+# when using gnome applications which expect access to the keyring, such
+# as Empathy. This prevents prompts you may otherwise get for invalid
+# certificates and the like.
+gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh
+export SSH_AUTH_SOCK="$GNOME_KEYRING_CONTROL/ssh"
+
+# Export the dbus session address on startup so it can be used by cron
+touch $HOME/.Xdbus
+chmod 600 $HOME/.Xdbus
+env | grep DBUS_SESSION_BUS_ADDRESS > $HOME/.Xdbus
+echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
+
+# Enable connman-notify
+if [ -z "$(pgrep -f connman-notify)" ] ; then
+    connman-notify &
+fi
+
+# Use Parcellite to manage copy/paste buffer
+if [ -z "$(pgrep parcellite)" ] ; then
+    parcellite -n &
+fi
+
+# Load dropbox background process
+#if [ -z "$(pgrep dropbox)" ] ; then
+#    ~/.dropbox-dist/dropbox &
+#fi
+
+# On login, we unlock the ssh keychain so we're not prompted for
+# passphrases later. We pipe /dev/null to ssh-add to make it realize
+# it's not running in a terminal. Otherwise, it won't launch the prompt.
+#
+# If you don't use the ssh keychain you may not want this. Commented
+# by default as it is assumed many users will not want this feature.
+
+# export SSH_ASKPASS="/usr/bin/ssh-askpass"
+# cat /dev/null | ssh-add &
+
+# I disable the middle mouse button because otherwise I constantly
+# accidentally paste unwanted text in the middle of my code while scrolling.
+# Note that the id of the mouse device may be different depending on
+# which usb port it is plugged into! To find it, use:
+# xinput list |grep 'id='
+# In the following command, the id is the first argument, the rest is
+# the remapping.
+
+# Commented by default as it is assumed many users will not want this.
+# xinput set-button-map 10 1 0 3 4 5 6 7

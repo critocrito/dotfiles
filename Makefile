@@ -1,15 +1,15 @@
 DOTFILEDIR := $(shell pwd)
-TARGETDIR := ~$(USER)
+TARGET := ~$(USER)
 
 all: git mail xmonad zsh mpd
 
 mail:
 	@echo Installing mail ...
-	@[[ -f $(TARGETDIR)/.mail_lastlongsync ]] || touch $(TARGETDIR)/.mail_lastlongsync
-	@[[ -d $(TARGETDIR)/.mail/cryptodrunks ]] || mkdir -p $(TARGETDIR)/.mail/cryptodrunks
-	@[[ -d $(TARGETDIR)/.config/systemd/user ]] || mkdir -p $(TARGETDIR)/.config/systemd/user
-	@stow -t $(TARGETDIR) --ignore .config/systemd mail
-	@cp -a $(DOTFILEDIR)/mail/.config/systemd $(TARGETDIR)/.config
+	@[[ -f $(TARGET)/.mail_lastlongsync ]] || touch $(TARGET)/.mail_lastlongsync
+	@[[ -d $(TARGET)/.mail/cryptodrunks ]] || mkdir -p $(TARGET)/.mail/cryptodrunks
+	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir -p $(TARGET)/.config/systemd/user
+	@stow -t $(TARGET) --ignore .config/systemd mail
+	@cp -a $(DOTFILEDIR)/mail/.config/systemd $(TARGET)/.config
 	@systemctl --user --quiet reenable offlineimap.timer
 	@systemctl --user --quiet reenable offlineimap.service
 	@systemctl --user --quiet reenable index-mail.timer
@@ -20,27 +20,27 @@ mail:
 
 git:
 	@echo Installing git ...
-	@stow -t $(TARGETDIR) git
+	@stow -t $(TARGET) git
 
 xmonad:
 	@echo Installing xmonad ...
-	@stow -t $(TARGETDIR) xmonad
+	@stow -t $(TARGET) xmonad
 	@xmonad --recompile
 
 shell:
 	@echo Installing shell basics ...
-	@stow -t $(TARGETDIR) shell
+	@stow -t $(TARGET) shell
 
 zsh: shell
 	@echo Installing zsh ...
-	@stow -t $(TARGETDIR) zsh
+	@stow -t $(TARGET) zsh
 
 mpd:
 	@echo Installing MPD ...
-	@[[ -d $(TARGETDIR)/.mpd ]] || mkdir -p $(TARGETDIR)/.mpd
-	@[[ -f $(TARGETDIR)/.mpd/mpd.log ]] || touch $(TARGETDIR)/.mpd/mpd.log
-	@stow -t $(TARGETDIR) --ignore .config/systemd mpd
-	@cp -a $(DOTFILEDIR)/mpd/.config/systemd $(TARGETDIR)/.config
+	@[[ -d $(TARGET)/.mpd ]] || mkdir -p $(TARGET)/.mpd
+	@[[ -f $(TARGET)/.mpd/mpd.log ]] || touch $(TARGET)/.mpd/mpd.log
+	@stow -t $(TARGET) --ignore .config/systemd mpd
+	@cp -a $(DOTFILEDIR)/mpd/.config/systemd $(TARGET)/.config
 	@systemctl --user --quiet reenable mpd.service
 	@systemctl --user --quiet restart mpd.service
 	@systemctl --user --quiet daemon-reload

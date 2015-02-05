@@ -1,0 +1,11 @@
+[Unit]
+Description=Check for mail every minute
+RefuseManualStart=no
+RefuseManualStop=no
+ 
+[Timer]
+Persistent=false
+OnUnitActiveSec=60
+ 
+[Install]
+WantedBy=default.target

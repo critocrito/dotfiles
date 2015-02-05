@@ -1,7 +1,9 @@
 DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 
-all: git mail xmonad zsh mpd rtorrent
+STOW := stow -t $(TARGET)
+
+all: git mail xmonad zsh mpd rtorrent keyring
 
 mail:
 	@echo Installing mail ...
@@ -33,6 +35,7 @@ shell:
 
 zsh: shell
 	@echo Installing zsh ...
+	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
 	@stow -t $(TARGET) zsh
 
 mpd:
@@ -53,4 +56,9 @@ rtorrent:
 	@[[ -d $(TARGET)/.rtorrent/Downloads ]] || mkdir -p $(TARGET)/Downloads
 	@stow -t $(TARGET) rtorrent
 
-.PHONY: git mail xmonad shell zsh mpd rtorrent
+keyring:
+	@echo install keyring ...
+	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
+	@$(STOW) keyring
+
+.PHONY: git mail xmonad shell zsh mpd rtorrent keyring

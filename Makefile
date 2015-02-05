@@ -13,6 +13,10 @@ mail:
 	@cp -a $(DOTFILEDIR)/mail/.config/systemd $(TARGETDIR)/.config
 	@systemctl --user --quiet reenable offlineimap.timer
 	@systemctl --user --quiet reenable offlineimap.service
+	@systemctl --user --quiet reenable index-mail.timer
+	@systemctl --user --quiet reenable index-mail.service
+	@systemctl --user --quiet reenable index-addressbook.timer
+	@systemctl --user --quiet reenable index-addressbook.service
 	@systemctl --user --quiet daemon-reload
 
 git:

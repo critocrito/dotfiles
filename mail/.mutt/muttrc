@@ -9,7 +9,6 @@ set sort_alias= alias
 set reverse_alias=yes
 
 source ~/.mutt/gpg
-source ~/.mutt/bindings
 source ~/.mutt/macros
 source ~/.mutt/themes/solarized-dark-256
 
@@ -64,10 +63,10 @@ ignore "DKIM-Signature:"
 # So that new threads come last
 set sort_browser="reverse-date"
 set sort_aux=last-date-received
-
 set sort="threads"
 set strict_threads="yes"
 unset collapse_unread
+
 bind index - collapse-thread
 bind index _ collapse-all
 

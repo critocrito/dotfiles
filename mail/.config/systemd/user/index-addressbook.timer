@@ -1,11 +1,11 @@
 [Unit]
-Description = Check for mail every minute
+Description = index the address book
 RefuseManualStart = no
 RefuseManualStop = no
- 
+
 [Timer]
 Persistent = false
-OnCalendar = minutely
- 
+OnCalendar = *-*-* *:15:00
+
 [Install]
 WantedBy = default.target

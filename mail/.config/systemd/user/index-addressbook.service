@@ -1,0 +1,9 @@
+[Unit]
+Description = Index the address book from the sent mail folders
+
+[Service]
+Type = oneshot
+ExecStart = /bin/bash %h/Applications/refresshaddress.sh
+
+[Install]
+WantedBy = default.target

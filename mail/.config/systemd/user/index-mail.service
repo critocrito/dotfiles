@@ -1,0 +1,9 @@
+[Unit]
+Description = Rebuild MU mail search index
+
+[Service]
+Type = oneshot
+ExecStart = /usr/bin/mu index --maildir ~/.mail
+
+[Install]
+WantedBy = default.target

@@ -1,7 +1,7 @@
 DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 
-all: git mail xmonad zsh mpd
+all: git mail xmonad zsh mpd rtorrent
 
 mail:
 	@echo Installing mail ...
@@ -45,4 +45,12 @@ mpd:
 	@systemctl --user --quiet restart mpd.service
 	@systemctl --user --quiet daemon-reload
 
-.PHONY: git mail xmonad shell zsh mpd
+rtorrent:
+	@echo Installing rtorrent ...
+	@[[ -d $(TARGET)/.rtorrent/incoming ]] || mkdir -p $(TARGET)/.rtorrent/incoming
+	@[[ -d $(TARGET)/.rtorrent/session ]] || mkdir -p $(TARGET)/.rtorrent/session
+	@[[ -d $(TARGET)/.rtorrent/Torrents ]] || mkdir -p $(TARGET)/Torrents
+	@[[ -d $(TARGET)/.rtorrent/Downloads ]] || mkdir -p $(TARGET)/Downloads
+	@stow -t $(TARGET) rtorrent
+
+.PHONY: git mail xmonad shell zsh mpd rtorrent

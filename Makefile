@@ -1,7 +1,7 @@
 DOTFILEDIR := $(shell pwd)
 TARGETDIR := ~$(USER)
 
-all: git mail xmonad zsh
+all: git mail xmonad zsh mpd
 
 mail:
 	@echo Installing mail ...
@@ -9,7 +9,6 @@ mail:
 	@[[ -d $(TARGETDIR)/.mail/cryptodrunks ]] || mkdir -p $(TARGETDIR)/.mail/cryptodrunks
 	@[[ -d $(TARGETDIR)/.config/systemd/user ]] || mkdir -p $(TARGETDIR)/.config/systemd/user
 	@stow -t $(TARGETDIR) --ignore .config/systemd mail
-	@rm -rf $(TARGETDIR)/.config/systemd
 	@cp -a $(DOTFILEDIR)/mail/.config/systemd $(TARGETDIR)/.config
 	@systemctl --user --quiet reenable offlineimap.timer
 	@systemctl --user --quiet reenable offlineimap.service
@@ -36,4 +35,14 @@ zsh: shell
 	@echo Installing zsh ...
 	@stow -t $(TARGETDIR) zsh
 
-.PHONY: git mail xmonad shell zsh
+mpd:
+	@echo Installing MPD ...
+	@[[ -d $(TARGETDIR)/.mpd ]] || mkdir -p $(TARGETDIR)/.mpd
+	@[[ -f $(TARGETDIR)/.mpd/mpd.log ]] || touch $(TARGETDIR)/.mpd/mpd.log
+	@stow -t $(TARGETDIR) --ignore .config/systemd mpd
+	@cp -a $(DOTFILEDIR)/mpd/.config/systemd $(TARGETDIR)/.config
+	@systemctl --user --quiet reenable mpd.service
+	@systemctl --user --quiet restart mpd.service
+	@systemctl --user --quiet daemon-reload
+
+.PHONY: git mail xmonad shell zsh mpd

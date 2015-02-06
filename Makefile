@@ -2,7 +2,7 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail xmonad zsh mpd rtorrent keyring python
+all: git mail xmonad zsh mpd rtorrent keyring python X urxvt
 
 ensurezshenvd:
 	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
@@ -71,5 +71,13 @@ python: ensurezshenvd ensurezshd
 	@[[ -d $(TARGET)/.pyenv/plugins/pyenv-virtualenv ]] || git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 	@$(STOW) python
 
+X:
+	@echo Installing X ...
+	@$(STOW) X
+
+urxvt:
+	@echo Installing urxvt ...
+	@$(STOW) urxvt
+
 .PHONY: ensurezshenv ensurezshd \
-	git mail xmonad shell zsh mpd rtorrent keyring python
+	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt

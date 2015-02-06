@@ -1,0 +1,105 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/crito/.emacs.d/snippets/" . "coffee-mode/")
+ ("/home/crito/Projects/q-utils/" . "src/")
+ ("/home/crito/.dotfiles/emacs/.emacs.d/" . "personal/")
+ ("/home/crito/.dotfiles/emacs/.emacs.d2/" . "core/")
+ ("/home/crito/.dotfiles/emacs/" . ".emacs.d2/")
+ ("/home/crito/.dotfiles/" . "emacs/")
+ ("/home/crito/Projects/uyb/utils/" . "src/")
+ ("/home/crito/.emacs.d/" . "personal/")
+ ("/home/crito/Projects/uyb/db/src/" . "pool/")
+ ("/home/crito/Projects/uyb/db/" . "src/")
+ ("/home/crito/Projects/uyb/" . "utils/")
+ ("/home/crito/Projects/" . "q-utils/")
+ ("/home/crito/" . "Projects/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/crito/.emacs.d/personal/"
+ "/home/crito/"
+ "/home/crito/Projects/q-utils/src/"
+ "/home/crito/.emacs.d/snippets/coffee-mode/"
+ "/home/crito/.dotfiles/emacs/.emacs.d/personal/"
+ "/home/crito/.emacs.d/"
+ "/home/crito/.dotfiles/emacs/.emacs.d2/core/"
+ "/home/crito/.dotfiles/mutt/.mutt/"
+ "/home/crito/Projects/uyb/utils/src/"
+ "/home/crito/.dotfiles/emacs/.emacs.d3/"
+ "/home/crito/Projects/uyb/db/src/pool/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "git-gutter.el"
+ "evil.el"
+ "yasnippet.el"
+ "globals.el"
+ ".emacs"
+ "q-utils.coffee"
+ "Bound Function.yasnippet"
+ "reduce.yasnippet"
+ ".aliases"
+ "prelude-modules.el"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/crito/.emacs.d/personal/" (21460 38640 421566 998000) "magit.el" "bindings.el" "git-gutter.el" "globals.el" "../" "anzu.el" "yasnippet.el" "preload/" ".gitkeep" "./" "post.el" "mail.el" "evil.el" "guru.el")
+
+ ("/home/crito/.emacs.d/" (21460 38561 408922 42000) "projectile.cache" ".git/" "vendor/" "savefile/" "README.md" "prelude-modules.el" "themes/" "personal/" "snippets/" "init.el" "../" "core/" "projectile-bookmarks.eld" "modules/" "utils/" "sample/" ".gitignore" "./" "var/" "auto-save-list/" "CONTRIBUTING.md" ".projectile" "elpa/")
+
+ ("/home/crito/Projects/q-utils/src/" (21460 7267 333162 995000) "q-utils.coffee" ".#q-utils.coffee" "../" "./")
+
+ ("/home/crito/" (21460 7232 817076 235000) ".aliases" ".zcompdump-xmarksthespot-5.0.2" ".Xresources" ".bash_history" ".compiz/" ".pki/" ".darcs/" ".my.cnf" ".emacs" ".guile_history" "api-docs.retry" ".zsh-update" ".wireshark/" ".gforth-history" ".ICEauthority" ".winff/" ".gtkrc-2.0" "appservers.retry" "Applications/" ".gimp-2.8/" "Downloads/" ".node-gyp/" ".mail_aliases" ".apport-ignore.xml" ".vim/" "reboot.retry" ".steampath" ".erc/" ".pgpass" "FLT_6V3RZW30822_0.pdf" ".password-store/" ".ncmpcpp/" ".racket/" ".npm/" "tmppackage.json" ".gphoto/" ".viminfo" ".offlineimap/" "bootstrap.retry" ".emacs-places" ".emacs.d/" ".log/" ".guile" "new_terminal.md" "Some Music/" ".ghc/" ".recentf" "projectlamar.com_media_A-Thousand-Plateaus.pdf" ".dircolors" ".dbshell" ".tmux.conf" "Reflections on the _Manifesto for an Accel - Antonio Negri.pdf" "Maildir/" ".ido.last" "IMG_20140707_211058.jpg" ".node-completion/" "tmpLICENSE.md" ".mysql_history" "tmpsrc/" "Desktop/" ".litecoin/" ".gnome/" "tmp.gitignore" ".vimperatorrc" ".mozilla/" ".cabal/" "l.zip" ".P/" "pack-worker.retry" ".fonts/" ".Skype/" ".Xauthority.JEJA3W" ".emacs.d.old/" ".easytag/" ".yankring-history_v2.txt" "Org.old/" ".avidemux/" ".sqlite_history" ".jitsuconf" ".irssi/" ".bash_logout" "Videos/" ".overtone/" ".offlineimaprc" ".watch/" ".VirtualBox/" ".dmrc" ".turses/" ".gitk" ".dropbox/" ".config/" ".cache/" ".steam/" "IMG_22072014_111526.png" "l/" ".rediscli_history" "10551027_533970036732619_3976300249696215882_n.png.pgp" ".mutt/" ".jitsulog" "Private/" ".xsession-errors" ".gnome2/" "2014-07-25 09.39.56.jpg" ".links2/" "tmpCakefile" "1370.sqlite" ".virt-manager/" ".freerdp/" ".kde/" "tmp.travis.yml" ".geiser_history.guile" ".tmux/" "nginx.tgz" ".irb-history" ".pip/" ".macromedia/" ".conkeror.mozdev.org/" ".pulse-cookie" ".ansible/" ".org-timestamps/" "Projects/" "Work/" "Org/" ".muttrc" ".android/" ".coffee_history" ".xmonad/" ".thumbnails/" ".zsh_history" ".gnupg/" ".rnd" ".mplayer/" ".notmuch-config" "tmp/" ".rstudio-desktop/" ".recentf~" "dwhelper/" "Source/" ".histfile" ".gem/" ".vimperator/" ".lein/" ".ido.last~" ".java/" "workers.retry" ".aspell.en.pws" ".mcf/" ".aspell.en.prepl" "Dropbox/" ".Rhistory" "ToDo/" ".zshrc" ".conkerorrc" ".virtualenvs/" "webtool.retry" "Foto-1.JPG" ".ssh/" ".jackdrc" "ob-scheme.el" ".scribus/" ".lesshst" ".icons/" ".xsel.log" "x.png" ".mongorc.js" ".acab/" ".jist" "sbt/" ".gconf/" ".gstreamer-0.10/" ".psql_history" "pw" "IMG_20140707_210732.jpg" ".gnome2_private/" "Paradise_Lost_1.jpg" ".zprofile" "redisservers.retry" "Books/" ".jitsu/" ".bashrc" ".p/" ".mysql/" "Pictures/" ".gitconfig" ".adobe/" "data-worker.retry" "Screenshot from 2014-07-08 15:15:45.png" "artworks-000043085783-eq2mzi-original.jpg" "MusicToShift/" ".dropbox-dist/" ".xsession-errors.old" ".pry_history" ".nvm/" ".streamline/" ".heroku/" ".warprc" ".oh-my-zsh/" ".calibre_calibre GUI.lock" ".mailcap" ".steampid" ".rvm/" ".bash_profile" "Documents/" ".dotfiles/" "tmptest/" ".m2/" ".rtorrent.rc" "Music/" ".local/" ".onboard/" "Durer_Revelation_Four_Riders.jpg" ".dockercfg" ".npmrc" ".zsh/" "tmpREADME.md" ".dbus/" ".netrc" ".zcompdump" "FAEAA509-18B8-481D-A7B1-81CC82B352C9.jpg" "website/" ".node_history" "nginx.conf" ".scala_history" ".azure/" ".urxvt/" ".confidential/" ".Xauthority" ".rtorrent/" ".remmina/" ".profile" ".vimrc" ".julia_history" "../" "./")
+
+ ("/home/crito/.emacs.d/snippets/coffee-mode/" (21460 5230 480342 735000) "Switch.yasnippet" "require.yasnippet" "Else if.yasnippet" "Array comprehension.yasnippet" "log.yasnippet" "Range comprehension (inclusive).yasnippet" "Unless.yasnippet" "Bound Function.yasnippet" "../" "Object comprehension.yasnippet" "Ternary If.yasnippet" "Function.yasnippet" "Range comprehension (exclusive).yasnippet" "h2.yasnippet" "h3.yasnippet" "./" "Try __ Catch.yasnippet" "Raw javascript.yasnippet" "If.yasnippet" "Interpolated Code.yasnippet" "Class.yasnippet" "If __ Else.yasnippet" "h1.yasnippet" "README")
+
+ ("/home/crito/.emacs.d/snippets/" (21460 6206 170569 185000) "../" "./" "coffee-mode/")
+
+ ("/home/crito/.zsh/" (21227 27624 548644 636000) "completion" "config" "functions" "../" "./")
+
+ ("/home/crito/.dotfiles/emacs/.emacs.d/" (21460 5226 860334 806000) "projectile.cache" ".git/" "vendor/" "savefile/" "README.md" "prelude-modules.el" "themes/" "personal/" "snippets/" "init.el" "../" "core/" "projectile-bookmarks.eld" "modules/" "utils/" "sample/" ".gitignore" "./" "var/" "auto-save-list/" "CONTRIBUTING.md" ".projectile" "elpa/")
+
+ ("/home/crito/.dotfiles/emacs/.emacs.d/personal/" (21460 5236 536356 4000) "magit.el" "bindings.el" "git-gutter.el" "globals.el" "../" "anzu.el" "yasnippet.el" "preload/" ".gitkeep" "./" "post.el" "mail.el" "evil.el" "guru.el")
+
+ ("/home/crito/.dotfiles/emacs/.emacs.d2/core/" (21460 4091 589477 593000) "org-mode.org" ".#globals.org" "bindings.el" "haskell.org" "globals.org" "globals.el" "haskell.el" "defuns.el" "defuns.org" "bindings.org" "coffee-mode.org" "cider.org" "../" "org-mode.el" "js2-mode.el" "cider.el" "./" "js2-mode.org" "coffee-mode.el")
+
+ ("/home/crito/Projects/q-utils/test/" (21452 18086 193815 411000) "q-utils.coffee" "test_helper.coffee" "../" "./")
+
+ ("/home/crito/Projects/q-utils/" (21455 57923 150911 617000) "LICENSE.md" ".git/" "README.md" ".travis.yml" "doc/" "src/" "package.json" "../" "test/" "Cakefile" ".gitignore" "./" "node_modules/" ".biscottoopts")
+
+ ("/home/crito/.dotfiles/mutt/.mutt/" (21459 64492 50530 415000) "muttrc" "30loops" "../" "gpg" "cryptodrunks" "colors" "macros" "mailboxes" "mutt-colors-solarized/" "./" "critio")
+
+ ("/home/crito/.dotfiles/mutt/" (21045 46988 883199 520000) ".offlineimaprc" ".mutt/" "../" ".muttrc" "./" ".mailcap")
+
+ ("/home/crito/Projects/uyb/utils/src/" (21459 63492 509829 844000) "#uyb-utils.coffee#" "../" "./" "uyb-utils.coffee" "crypto.coffee")
+
+ ("/home/crito/.dotfiles/emacs/.emacs.d2/" (21459 37511 242708 181000) "projectile.cache" "custom.el" "vendor/" "emacs.mail" "skewer-cache/" "org-habit.el" "snippets/" "init.el" "../" "bookmarks" "core/" "projectile-bookmarks.eld" "url/" "ac-comphist.dat" "./" "var/" "post.el" "auto-save-list/" "init.org" "elpa/")
+
+ ("/home/crito/.dotfiles/emacs/.emacs.d3/" (21459 58546 843099 550000) "projectile.cache" ".#init.el" "emacs.mail" "init.el" "../" "projectile-bookmarks.eld" "./" "var/" "post.el" "auto-save-list/" "init.el~" "elpa/")
+
+ ("/home/crito/.dotfiles/emacs/" (21459 55394 531102 618000) ".emacs.d.purcell/" ".emacs.d3/" ".emacs.d/" ".emacs.d.old/" ".emacs.d.new/" ".emacs.d2/" "../" ".oh-my-emacs/" "./" ".emacs2")
+
+ ("/home/crito/.dotfiles/" (21220 23969 666910 136000) "upstart/" ".git/" "swapkeys" "i3/" "nm-dispatcher/" "irssi/" "vimperator/" "twmn/" "vim/" "git/" "bash/" "urxvt/" "mimetypes/" "notifyme.pl" "mercurial/" "xmonad/" "rtorrent/" "systemd/" "base/" "ghc/" "../" "vim-keys" "screenrc" "unison/" "zsh/" "guile/" "mpd/" "notmuch/" "xinitrc" "tmux/" "emacs/" ".gitignore" "fonts.conf" "./" "Makefile" "bin/" "README.rst" "xmonad.tmp/" "xmonad.old/" "mutt/")
+
+ ("/home/crito/Projects/uyb/utils/" (21384 19262 923445 721000) ".git/" "README.md" "src/" "dist/" "package.json" "docs/" "../" "test/" "Cakefile" ".gitignore" "./" "node_modules/")
+
+ ("/home/crito/Projects/uyb/db/src/pool/" (21459 58166 283508 914000) "index.coffee" "dealer.coffee" "../" "./" "helpers.coffee")
+
+ ("/home/crito/Projects/uyb/db/test/" (21459 57847 978926 730000) "pool.coffee" "test_helper.coffee" "../" "./" "uyb-db.coffee")
+
+ ("/home/crito/Projects/uyb/db/src/" (21458 17778 470197 93000) "adapters/" "pool/" "../" "./" "uyb-db.coffee")
+
+ ("/home/crito/Projects/uyb/db/" (21458 11622 422006 209000) ".git/" "README.md" "src/" "dist/" "package.json" "docs/" "../" "test/" "Cakefile" ".gitignore" "./" "node_modules/")
+
+ ("/home/crito/Projects/uyb/" (21458 29295 894780 816000) "librato-node/" "server/" "pack-generator/" "middlewares/" "ssl2.csr" "playbook/" "storage/" "pool/" "webtool/" "job-tracking/" "public-website/" "content-packs/" "apis.json" "scheduled-tasks/" "request/" "apps-config/" "entities/" "../" "farm/" "test/" "oem/" "playbook.old/" "db/" "worker/" "utils/" "./" "servicebus/" "logger/" "server-configs/" "ssl2.key" "models/" "backend/" "uyb_database-operations/" "api-docs/" "tracking/" "search/")
+
+ ("/home/crito/Projects/" (21448 25815 780760 573000) "librato-node/" "q-debug/" "licenses/" "cake-helpers/" "nesh-reload/" "birds/" "flife/" "vjlife/" "notebook/" "emacs_shortcuts.txt" "lazywrapchain/" "script.sql" "skeletor/" "mori-fail-test/" "unlockyourbrain/" "q-utils/" "content-options.coffee" "testapp/" "playground/" "js.scaffold/" "underscore.ext/" "snaketounge/" "express.scaffold/" "mongoose-experiments/" "monads-test/" "../" "test/" "cheatsheets/" "git_workflow.txt" "ruby/" "Server_node-DEV/" "cryptodrunks/" "sicp/" "haskelljs/" "jscmd.scaffold/" "uyb/" "funnel/" "tracegl.js" "clojure/" "monads/" "./" "socketserver/" "blog/" "node-librato-client/" "crito.github.io/" "jslib.scaffold/" "promise-test/" "functional_javascript/" "yub-webtool/" "test2/" "docpad.scaffold/" "nod/")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

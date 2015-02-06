@@ -1,0 +1,36 @@
+
+;; ----- smex-history -----
+(
+ package-list-packages
+ guru-mode
+ yas-minor-mode
+ anzu-query-replace
+ anzu-mode
+ whitespace-cleanup
+ magit-log
+)
+
+;; ----- smex-data -----
+(
+ (guru-mode . 8)
+ (er/expand-region . 1)
+ (eval-buffer . 3)
+ (magit-log . 3)
+ (magit-status . 2)
+ (coffee-compile-buffer . 1)
+ (coffee-compile-region . 1)
+ (mail-mode . 1)
+ (whitespace-mode . 2)
+ (whitespace-report . 1)
+ (whitespace-cleanup . 1)
+ (anzu-mode . 2)
+ (anzu-query-replace . 1)
+ (yas-expand . 2)
+ (yas-tryout-snippet . 2)
+ (yas-minor-mode . 4)
+ (yas-load-snippet-buffer . 1)
+ (yas-insert-snippet . 7)
+ (snippet-mode . 1)
+ (yas-new-snippet . 1)
+ (package-list-packages . 1)
+)

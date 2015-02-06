@@ -1,0 +1,12 @@
+new-session -s incommunicado -n Incommunicado
+#new-window -t incommunicado:1 -n 'Incommunicado'
+#select-window -t incommunicado:1
+split-window -h
+
+select-pane -t 0
+send-keys "mutt" C-m
+
+select-pane -t 1
+send-keys "irssi" C-m
+
+#set -g status off

@@ -2,7 +2,7 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail xmonad zsh mpd rtorrent keyring python X urxvt
+all: git mail xmonad zsh mpd rtorrent keyring python X urxvt tmux
 
 ensurezshenvd:
 	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
@@ -79,5 +79,9 @@ urxvt:
 	@echo Installing urxvt ...
 	@$(STOW) urxvt
 
+tmux:
+	@echo Installing tmux ...
+	@$(STOW) tmux
+
 .PHONY: ensurezshenv ensurezshd \
-	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt
+	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt tmux

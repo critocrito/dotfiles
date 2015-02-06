@@ -1,1 +1,1 @@
-. ~/.zshenv.d/*.rc
+source ~/.zshenv.d/*.rc

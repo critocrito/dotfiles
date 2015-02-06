@@ -2,7 +2,13 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail xmonad zsh mpd rtorrent keyring
+all: git mail xmonad zsh mpd rtorrent keyring python
+
+ensurezshenvd:
+	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
+
+ensurezshd:
+	@[[ -d $(TARGET)/.zsh.d ]] || mkdir $(TARGET)/.zsh.d
 
 mail:
 	@echo Installing mail ...
@@ -28,13 +34,12 @@ xmonad:
 	@$(STOW) xmonad
 	@xmonad --recompile
 
-shell:
+shell: ensurezshd
 	@echo Installing shell basics ...
 	@$(STOW) shell
 
-zsh: shell
+zsh: shell ensurezshenvd
 	@echo Installing zsh ...
-	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
 	@$(STOW) zsh
 
 mpd:
@@ -55,9 +60,16 @@ rtorrent:
 	@[[ -d $(TARGET)/.rtorrent/Downloads ]] || mkdir -p $(TARGET)/Downloads
 	@$(STOW) rtorrent
 
-keyring:
+keyring: ensurezshenvd
 	@echo install keyring ...
-	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
 	@$(STOW) keyring
 
-.PHONY: git mail xmonad shell zsh mpd rtorrent keyring
+python: ensurezshenvd ensurezshd
+	@echo Installing python ...
+	@[[ -d $(TARGET)/.pyenv ]] || git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+	@[[ -d $(TARGET)/.pyenv/plugins/pyenv-pip-rehash ]] || git clone https://github.com/yyuu/pyenv-pip-rehash.git ~/.pyenv/plugins/pyenv-pip-rehash
+	@[[ -d $(TARGET)/.pyenv/plugins/pyenv-virtualenv ]] || git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+	@$(STOW) python
+
+.PHONY: ensurezshenv ensurezshd \
+	git mail xmonad shell zsh mpd rtorrent keyring python

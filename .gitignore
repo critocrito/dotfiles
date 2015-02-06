@@ -4,3 +4,6 @@ xmonad/.xmonad/xmonad.hi
 xmonad/.xmonad/xmonad-x86_64-linux
 
 mpd/.config/pulse/
+
+emacs/.emacs.d/auto-save-list/.saves-*
+emacs/.emacs.d/savefile/savehist

@@ -2,7 +2,7 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail xmonad zsh mpd rtorrent keyring python X urxvt tmux emacs
+all: git mail xmonad zsh mpd rtorrent keyring python X urxvt tmux emacs node
 
 ensurezshenvd:
 	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
@@ -87,5 +87,11 @@ emacs:
 	@echo Installing emacs ...
 	@$(STOW) emacs
 
+node: ensurezshd
+	@echo Installing node ...
+	@[[ -d $(TARGET)/.nvm ]] || (git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags` && cd -)
+	@$(STOW) node
+
 .PHONY: ensurezshenv ensurezshd \
-	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt tmux emacs
+	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt tmux \
+	emacs node

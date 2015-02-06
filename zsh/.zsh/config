@@ -1,7 +1,6 @@
 # Variables
 ZSH="$HOME/.oh-my-zsh"
 ANSIBLE_HOME="$HOME/.ansible"
-NVM_HOME="$HOME/.nvm"
 
 # Source oh-my-zsh if it is installed.
 if [[ -d $ZSH ]]; then
@@ -81,9 +80,6 @@ bindkey -e
 
 # Give me my bash style incremental search
 bindkey '^R' history-incremental-search-backward
-
-### Node Version Manager
-[[ -f "$NVM_HOME/nvm.sh" ]] && source "$NVM_HOME/nvm.sh"
 
 # USE AS DEFAULT PYTHON 2.7.2
 #source $HOME/.pythonbrew/etc/bashrc

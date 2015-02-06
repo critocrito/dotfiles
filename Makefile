@@ -61,7 +61,7 @@ rtorrent:
 	@$(STOW) rtorrent
 
 keyring: ensurezshenvd
-	@echo install keyring ...
+	@echo Installing keyring ...
 	@$(STOW) keyring
 
 python: ensurezshenvd ensurezshd

@@ -312,7 +312,7 @@ myManageHooks = composeAll . concat $
     -- This is used for gimp windwos to force them into a layout.
     doSink = ask >>= \w -> liftX (reveal w) >> doF (W.sink w)
     -- Float dialogs, Download windows and Save dialogs
-    myCFloats = ["Sysinfo", "XMessage"]
+    myCFloats = ["Sysinfo", "XMessage", "dosbox"]
     -- myTFloats = ["Downloads", "Save As..."]
     -- myRFloats = ["Dialog", "Do"]
     myTFloats = []

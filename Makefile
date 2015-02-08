@@ -38,7 +38,7 @@ shell: ensurezshd
 	@echo Installing shell basics ...
 	@$(STOW) shell
 
-zsh: shell ensurezshenvd
+zsh: shell ensurezshenvd ensurezshd
 	@echo Installing zsh ...
 	@$(STOW) zsh
 

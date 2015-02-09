@@ -13,13 +13,20 @@ ensurezshd:
 ensuresystemd:
 	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir $(TARGET)/.config/systemd/user
 
-mail:
+mail: ensuresystemd
 	@echo Installing mail ...
 	@[[ -f $(TARGET)/.mail_lastlongsync ]] || touch $(TARGET)/.mail_lastlongsync
 	@[[ -d $(TARGET)/.mail/cryptodrunks ]] || mkdir -p $(TARGET)/.mail/cryptodrunks
 	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir -p $(TARGET)/.config/systemd/user
-	@$(STOW) --ignore .config/systemd mail
-	@cp -a $(DOTFILEDIR)/mail/.config/systemd $(TARGET)/.config
+
+	@$(STOW) --ignore systemd mail
+	@cp -a $(DOTFILEDIR)/mail/systemd/offlineimap.timer $(TARGET)/.config/systemd/user
+	@cp -a $(DOTFILEDIR)/mail/systemd/offlineimap.service $(TARGET)/.config/systemd/user
+	@cp -a $(DOTFILEDIR)/mail/systemd/index-mail.timer $(TARGET)/.config/systemd/user
+	@cp -a $(DOTFILEDIR)/mail/systemd/index-mail.service $(TARGET)/.config/systemd/user
+	@cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.timer $(TARGET)/.config/systemd/user
+	@cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.service $(TARGET)/.config/systemd/user
+
 	@systemctl --user --quiet reenable offlineimap.timer
 	@systemctl --user --quiet reenable offlineimap.service
 	@systemctl --user --quiet reenable index-mail.timer
@@ -45,12 +52,12 @@ zsh: shell ensurezshenvd ensurezshd
 	@echo Installing zsh ...
 	@$(STOW) zsh
 
-mpd:
+mpd: ensuresystemd
 	@echo Installing MPD ...
 	@[[ -d $(TARGET)/.mpd ]] || mkdir -p $(TARGET)/.mpd
 	@[[ -f $(TARGET)/.mpd/mpd.log ]] || touch $(TARGET)/.mpd/mpd.log
-	@$(STOW) --ignore .config/systemd mpd
-	@cp -a $(DOTFILEDIR)/mpd/.config/systemd $(TARGET)/.config
+	@$(STOW) --ignore systemd mpd
+	@cp -a $(DOTFILEDIR)/mpd/systemd/mpd.service $(TARGET)/.config/systemd/user
 	@systemctl --user --quiet reenable mpd.service
 	@systemctl --user --quiet restart mpd.service
 	@systemctl --user --quiet daemon-reload
@@ -88,10 +95,11 @@ tmux:
 
 emacs: ensuresystemd
 	@echo Installing emacs ...
-	@$(STOW) emacs
-	@cp -a $(DOTFILEDIR)/emacs/emacs.service $(TARGET)/.config/systemd/user/emacs.service
+	@$(STOW) --ignore systemd emacs
+	@cp -a $(DOTFILEDIR)/emacs/systemd/emacs.service $(TARGET)/.config/systemd/user/emacs.service
 	@systemctl --user --quiet reenable emacs
 	@systemctl --user --quiet restart emacs
+	@systemctl --user --quiet daemon-reload
 
 node: ensurezshd
 	@echo Installing node ...

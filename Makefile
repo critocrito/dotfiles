@@ -10,6 +10,9 @@ ensurezshenvd:
 ensurezshd:
 	@[[ -d $(TARGET)/.zsh.d ]] || mkdir $(TARGET)/.zsh.d
 
+ensuresystemd:
+	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir $(TARGET)/.config/systemd/user
+
 mail:
 	@echo Installing mail ...
 	@[[ -f $(TARGET)/.mail_lastlongsync ]] || touch $(TARGET)/.mail_lastlongsync
@@ -83,9 +86,12 @@ tmux:
 	@echo Installing tmux ...
 	@$(STOW) tmux
 
-emacs:
+emacs: ensuresystemd
 	@echo Installing emacs ...
 	@$(STOW) emacs
+	@cp -a $(DOTFILEDIR)/emacs/emacs.service $(TARGET)/.config/systemd/user/emacs.service
+	@systemctl --user --quiet reenable emacs
+	@systemctl --user --quiet restart emacs
 
 node: ensurezshd
 	@echo Installing node ...

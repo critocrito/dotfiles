@@ -217,7 +217,7 @@ myKeyBindings =
     , ((myModMask, xK_a), sendMessage MirrorShrink)
     , ((myModMask, xK_z), sendMessage MirrorExpand)
     , ((myModMask, xK_p), spawn "dmenu_run")
-    , ((myModMask, xK_e), spawn "emacsclient -t")
+    , ((myModMask, xK_e), spawn "urxvt -e emacsclient -t")
     , ((myModMask, xK_n), spawn "sudo connman_dmenu")
     , ((myModMask .|. shiftMask, xK_i), spawn myIncommunicado)
     , ((myModMask, xK_u), focusUrgent)

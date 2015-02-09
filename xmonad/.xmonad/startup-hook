@@ -17,15 +17,16 @@ xrdb -merge ~/.Xresources
 # transparency support.
 xcompmgr -n &
 
+# FIXME: This isn't working. I want to control the background color of xmonad.
+#        How do I set it to black???
 # To set your backgrounds, run nitrogren /path/to/images
-nitrogen --restore &
+# nitrogen --restore &
+# xsetroot -solid midnightblue &
 
 for file in ~/.zsh.d/*.rc; do
   echo $file > /home/crito/tmp/log
   source $file
 done
-
-emacs --daemon &
 
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such

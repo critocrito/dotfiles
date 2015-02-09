@@ -20,10 +20,10 @@ xcompmgr -n &
 # To set your backgrounds, run nitrogren /path/to/images
 nitrogen --restore &
 
-NVM_HOME="$HOME/.nvm"
-
-### Node Version Manager
-[[ -f "$NVM_HOME/nvm.sh" ]] && source "$NVM_HOME/nvm.sh"
+for file in ~/.zsh.d/*.rc; do
+  echo $file > /home/crito/tmp/log
+  source $file
+done
 
 emacs --daemon &
 

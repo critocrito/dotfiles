@@ -32,8 +32,8 @@ done
 # when using gnome applications which expect access to the keyring, such
 # as Empathy. This prevents prompts you may otherwise get for invalid
 # certificates and the like.
-gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh
-export SSH_AUTH_SOCK="$GNOME_KEYRING_CONTROL/ssh"
+eval $(gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
 
 # Enable connman-notify
 if [ -z "$(pgrep -f connman-notify)" ] ; then

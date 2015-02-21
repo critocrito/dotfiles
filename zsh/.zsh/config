@@ -65,7 +65,8 @@ fi
 export LC_ALL=
 # export PATH="$HOME/.cabal/bin:$HOME/Applications:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/games:/usr/games:$HOME/.rvm.bin"
 # export PATH=${PATH}:~/android-dev/sdk/platform-tools:~/android-dev/sdk/tools
-export EDITOR=/usr/bin/vim
+# export EDITOR=/usr/bin/vim
+export EDITOR="emacsclient -t -n -a emacs"
 export BROWSER=/usr/bin/firefox
 export LANG=en_US.UTF-8
 

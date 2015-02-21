@@ -120,3 +120,6 @@ fi
 
 if is_mac; then
 fi
+
+# Use emacsclient with tramp/sudo
+es() { emacsclient -t -a emacs "/sudo::$*" }

@@ -92,3 +92,4 @@ set abort_nosubject=no
 # If we are in any directory starting with the following, pull
 # specific settings from somewhere else
 folder-hook +cryptodrunks/.* "source ~/.mutt/accounts/cryptodrunks"
+folder-hook +tacticaltech/.* "source ~/.mutt/accounts/tacticaltech"

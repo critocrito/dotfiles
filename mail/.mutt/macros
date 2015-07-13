@@ -24,8 +24,11 @@ macro index U "<set-flag>N" "Mark as unread"
 
 # mu search:
 macro index / "<enter-command>unset wait_key<enter><shell-escape>read -p'mu query: ' x; \
-      mu find --clearlinks --linksdir ~/Mail/mu-search --format links \$x<enter>\
-      <change-folder-readonly>~/Mail/mu-search\n" "mu find"
-macro index M "<change-folder-readonly>~/Mail/mu-search\n" "display mu-find results"
+      mu find --clearlinks --linksdir ~/.mail/mu-search --format links \$x<enter>\
+      <change-folder-readonly>~/.mail/mu-search\n" "mu find"
+macro index M "<change-folder-readonly>~/.mail/mu-search\n" "display mu-find results"
+
+# Send the attachment to mailcap. Bind to <ENTER>, but m is possible too
+bind attach <return>    view-mailcap
 
 # vim: set ft=muttrc

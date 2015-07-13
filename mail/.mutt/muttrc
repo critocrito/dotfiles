@@ -76,6 +76,9 @@ set timeout=60
 # Read html mail
 auto_view text/html
 
+# save html for last
+alternative_order text/plain text/enriched text/html
+
 # Imitate the old search-body function
 macro index \eb '/~b ' 'search in message bodies'
 

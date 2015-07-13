@@ -11,3 +11,13 @@
 ;; Get back some default behavior of emacs
 (global-set-key (kbd "C-e") 'move-end-of-line)
 (global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
+
+;; Shortcuts to access the journal
+(global-set-key (kbd "C-c j")
+                (lambda () (interactive) (find-file "~/.org/journal.org")))
+
+;; Remap windmove
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)

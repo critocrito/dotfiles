@@ -2,7 +2,7 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail xmonad zsh mpd rtorrent keyring python X urxvt tmux emacs node irssi
+all: git mail X xmonad urxvt zsh mpd rtorrent keyring python node tmux emacs irssi
 
 ensurezshenvd:
 	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
@@ -11,13 +11,13 @@ ensurezshd:
 	@[[ -d $(TARGET)/.zsh.d ]] || mkdir $(TARGET)/.zsh.d
 
 ensuresystemd:
-	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir $(TARGET)/.config/systemd/user
+	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir -p $(TARGET)/.config/systemd/user
 
 mail: ensuresystemd
 	@echo Installing mail ...
 	@[[ -f $(TARGET)/.mail_lastlongsync ]] || touch $(TARGET)/.mail_lastlongsync
 	@[[ -d $(TARGET)/.mail/cryptodrunks ]] || mkdir -p $(TARGET)/.mail/cryptodrunks
-	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir -p $(TARGET)/.config/systemd/user
+	@[[ -d $(TARGET)/.mail/tacticaltech ]] || mkdir -p $(TARGET)/.mail/tacticaltech
 
 	@$(STOW) --ignore systemd mail
 	@cp -a $(DOTFILEDIR)/mail/systemd/offlineimap.timer $(TARGET)/.config/systemd/user
@@ -55,6 +55,7 @@ zsh: shell ensurezshenvd ensurezshd
 mpd: ensuresystemd
 	@echo Installing MPD ...
 	@[[ -d $(TARGET)/.mpd ]] || mkdir -p $(TARGET)/.mpd
+	@[[ -d $(TARGET)/.mpd/playlists ]] || mkdir -p $(TARGET)/.mpd/playlists
 	@[[ -f $(TARGET)/.mpd/mpd.log ]] || touch $(TARGET)/.mpd/mpd.log
 	@$(STOW) --ignore systemd mpd
 	@cp -a $(DOTFILEDIR)/mpd/systemd/mpd.service $(TARGET)/.config/systemd/user
@@ -74,12 +75,22 @@ keyring: ensurezshenvd
 	@echo Installing keyring ...
 	@$(STOW) keyring
 
+ruby: ensurezshenvd ensurezshd
+	@echo Installing ruby ...
+	@[[ -d $(TARGET)/.rbenv ]] || git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+	@[[ -d $(TARGET)/.rbenv/plugins/ruby-build ]] || git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+	@$(STOW) ruby
+
 python: ensurezshenvd ensurezshd
 	@echo Installing python ...
 	@[[ -d $(TARGET)/.pyenv ]] || git clone https://github.com/yyuu/pyenv.git ~/.pyenv
 	@[[ -d $(TARGET)/.pyenv/plugins/pyenv-pip-rehash ]] || git clone https://github.com/yyuu/pyenv-pip-rehash.git ~/.pyenv/plugins/pyenv-pip-rehash
 	@[[ -d $(TARGET)/.pyenv/plugins/pyenv-virtualenv ]] || git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 	@$(STOW) python
+
+haskell: ensurezshd
+	@echo Installing haskell ...
+	@$(STOW) haskell
 
 X:
 	@echo Installing X ...
@@ -112,4 +123,4 @@ irssi:
 
 .PHONY: ensurezshenv ensurezshd \
 	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt tmux \
-	emacs node irssi
+	emacs node irssi ruby

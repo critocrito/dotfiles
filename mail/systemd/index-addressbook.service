@@ -3,7 +3,7 @@ Description=Index the address book from the sent mail folders
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash %h/Applications/refresshaddress.sh
+ExecStart=/bin/bash %h/bin/refresshaddress.sh
 
 [Install]
 WantedBy=default.target

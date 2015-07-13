@@ -5,7 +5,7 @@ ui = ttyui
 # for headless use (cron)
 # ui = silent
 maxsyncaccounts = 5
-pythonfile=~/Applications/offlineimap-helpers.py
+pythonfile=~/bin/offlineimap-helpers.py
 socktimeout = 120
 accounts = cryptodrunks,tacticaltech
 
@@ -48,7 +48,7 @@ nametrans = localtransfolder_tacticaltech
 [Repository tacticaltech-remote]
 type = IMAP
 ssl = yes
-cert_fingerprint = 5b7382ff5b46e7b93f2bb8680571992d4a5998c9
+cert_fingerprint = 7a8565825c833baa19e9d6e1f8e2e48484d73b4e
 remoteport = 993
 remotehost = mail.electricembers.net
 remoteuser = christo@tacticaltech.org

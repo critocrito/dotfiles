@@ -23,10 +23,9 @@ xcompmgr -n &
 # nitrogen --restore &
 # xsetroot -solid midnightblue &
 
-for file in ~/.zsh.d/*.rc; do
-  echo $file > /home/crito/tmp/log
-  source $file
-done
+#for file in ~/.zsh.d/*.rc; do
+#  source $file
+#done
 
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such

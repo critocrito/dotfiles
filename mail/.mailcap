@@ -1,0 +1,10 @@
+application/pdf; evince %s
+application/vnd.oasis.opendocument.text; libreoffice %s
+
+text/html; firefox %s &; test=test -n "$DISPLAY"; needsterminal;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+
+audio/*; mpv %s
+video/*; mpv %s
+
+image/*; sxiv %s

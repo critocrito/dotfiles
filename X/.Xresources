@@ -55,15 +55,15 @@ xterm*multiScroll:        true
 xterm*toolBar:            false
 
 ! urxvt -----------------------------------------------------------------------
-!URxvt*font:             xft:inconsolata:pixelsize=14:antialias=true:hinting=true:medium
+!URxvt*font:             xft:inconsolata:pixelsize=14:antialias=true:hinting=true
 !URxvt*boldFont:         xft:inconsolata:pixelsize=14:antialias=true:hinting=true:bold
-!URxvt*font:             xft:Dejavu Sans Mono:pixelsize=11:antialias=true:hinting=true:medium
-!URxvt*boldFont:         xft:Dejavu Sans Mono:pixelsize=11:antialias=true:hinting=true:bold
+URxvt*font:             xft:Dejavu Sans Mono:pixelsize=11:antialias=true:hinting=true:medium
+URxvt*boldFont:         xft:Dejavu Sans Mono:pixelsize=11:antialias=true:hinting=true:bold
 
-URxvt*font:           xft:Source Code Pro:pixelsize=11
-URxvt*boldFont:       xft:Source Code Pro:pixelsize=11
-URxvt*italicFont:     xft:Source Code Pro:pixelsize=10:slant=100
-URxvt*boldItalicFont: xft:Source Code Pro:pixelsize=10:style=BoldForPowerline:slant=100
+!URxvt*font:           xft:Source Code Pro:pixelsize=11
+!URxvt*boldFont:       xft:Source Code Pro:pixelsize=11
+!URxvt*italicFont:     xft:Source Code Pro:pixelsize=10:slant=100
+!URxvt*boldItalicFont: xft:Source Code Pro:pixelsize=10:style=BoldForPowerline:slant=100
 
 URxvt.perl-lib:         ~/.urxvt
 URxvt.perl-ext-common:  default,url-select,clipboard

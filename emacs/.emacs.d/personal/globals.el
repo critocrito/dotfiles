@@ -11,8 +11,10 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ; windmove for easier pane navigation
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+;; (when (fboundp 'windmove-default-keybindings)
+;;   (windmove-default-keybindings))
+
+(setq org-replace-disputed-keys t)
 
 ; show the end of the buffer
 (setq-default indicate-empty-line t)

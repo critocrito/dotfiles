@@ -14,15 +14,12 @@
 
 ; Set Some variables
 (setq org-directory "~/.org")
-(setq org-agenda-files (list (expand-file-name "uyb.org" org-directory)
-                             (expand-file-name "uyb.org_archive" org-directory)
-                             (expand-file-name "projects.org" org-directory)
-                             (expand-file-name "projects.org_archive" org-directory)
-                             (expand-file-name "tasks.org" org-directory)
-                             (expand-file-name "tasks.org_archive" org-directory)
-                             (expand-file-name "reading.org" org-directory)
-                             (expand-file-name "reading.org_archive" org-directory)
-                             (expand-file-name "calendar.org" org-directory)))
+(setq org-agenda-files (list
+                        (expand-file-name "tasks.org" org-directory)
+                        (expand-file-name "tasks.org_archive" org-directory)
+                        (expand-file-name "reading.org" org-directory)
+                        (expand-file-name "reading.org_archive" org-directory)
+                        (expand-file-name "calendar.org" org-directory)))
 
 (setq org-default-notes-file (expand-file-name "notes.org" org-directory))
 

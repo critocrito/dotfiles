@@ -1,20 +1,20 @@
 
 ;; ----- smex-history -----
 (
- package-list-packages
+ list-packages
+ eval-buffer
+ ace-window
  guru-mode
+ helm-mode
+ package-list-packages
  yas-minor-mode
- anzu-query-replace
- anzu-mode
- whitespace-cleanup
- magit-log
 )
 
 ;; ----- smex-data -----
 (
- (guru-mode . 8)
+ (guru-mode . 9)
  (er/expand-region . 1)
- (eval-buffer . 3)
+ (eval-buffer . 6)
  (magit-log . 3)
  (magit-status . 2)
  (coffee-compile-buffer . 1)
@@ -33,4 +33,7 @@
  (snippet-mode . 1)
  (yas-new-snippet . 1)
  (package-list-packages . 1)
+ (helm-mode . 1)
+ (list-packages . 4)
+ (ace-window . 1)
 )

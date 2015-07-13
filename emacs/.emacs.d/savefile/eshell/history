@@ -102,3 +102,24 @@ ls
 less node-app.js.process.conf.j2
 x
 exit
+mkdir modules
+exit
+ls
+../
+mkdir templates
+exit
+ls
+cd ..
+ls
+exit
+ls
+cd ..
+l
+ls
+dist/build/
+ls
+cd ..
+../
+ls dist/build/hdgd/hdgd/
+ls dist/build/hdgd/
+dist/build/hdgd/hdgd

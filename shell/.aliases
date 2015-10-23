@@ -10,9 +10,8 @@ alias please=sudo
 
 # ls
 alias l='ls -lAh --color=auto'
+alias lt='l -t'
 alias ls='ls -F --color=auto'
-alias ll='ls -l --color=auto'
-alias la='ls -A --color=auto'
 
 # Format kernel log timestamps nicely
 alias dmesg='dmesg -H'
@@ -42,7 +41,6 @@ alias gre='git re'
 alias gmt='git mt'
 
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias woogapull="git fetch --all; git pull master master"
 # alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
 
 # sinatra/rake

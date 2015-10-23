@@ -103,3 +103,9 @@
 [grep]
 	extendRegexp = true
 	lineNumber = true
+[sendemail]
+	smtpuser = crito
+	smtpserver = mx20.cryptodrunks.net
+	smtpencryption = tls
+	smtpserverport = 587
+	suppresscc = self

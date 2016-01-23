@@ -2,7 +2,7 @@ DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 STOW := stow -t $(TARGET)
 
-all: git mail X xmonad urxvt zsh mpd rtorrent keyring python node tmux emacs irssi android
+all: git mail X xmonad urxvt zsh mpd rtorrent keyring python node tmux emacs irssi android gnupg
 
 ensurezshenvd:
 	@[[ -d $(TARGET)/.zshenv.d ]] || mkdir $(TARGET)/.zshenv.d
@@ -125,6 +125,10 @@ android: ensurezshd
 	@echo Installing android ...
 	@$(STOW) android
 
+gnupg:
+	@echo Installing gnupg
+	@$(STOW) gnupg
+
 .PHONY: ensurezshenv ensurezshd \
 	git mail xmonad shell zsh mpd rtorrent keyring python X urxvt tmux \
-	emacs node irssi ruby android
+	emacs node irssi ruby android gnupg

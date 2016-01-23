@@ -72,7 +72,7 @@ URxvt*loginShell: true
 URxvt*matcher.button:   1
 URxvt*cursorBlink:      false
 URxvt*cursorUnderline: false
-URxvt*urgentOnBell: true   
+URxvt*urgentOnBell: true
 URxvt*saveLines:        65535
 URxvt*scrollBar:        false
 URxvt*cutchars: '"'()*<>[]{n|}
@@ -86,10 +86,8 @@ URxvt*letterSpace:      -1
 URxvt*lineSpace: -2
 URxvt*skipBuiltinGlyphs: true
 
-! Don't know what this is good for, but it prevents from CTRL-SHIFT keys to
-! work.
-URxvt.iso14755:         false
-URxvt.iso14755_52:      false
+URxvt*iso14755:         false
+URxvt*iso14755_52:      false
 
 URxvt.perl-lib:         ~/.urxvt
 URxvt.perl-ext-common:  default,url-select,clipboard
@@ -183,7 +181,8 @@ URxvt.keysym.Control-Shift-V:   perl:clipboard:paste
 
 ! TomorrowNightEighties
 ! https://github.com/chriskempson/tomorrow-theme
-#define t_background        #2d2d2d
+! #define t_background        #2d2d2d
+#define t_background        #000000
 #define t_current_line      #393939
 #define t_selection      	#515151
 #define t_foreground      	#cccccc

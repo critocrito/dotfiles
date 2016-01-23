@@ -1,5 +1,6 @@
 DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
+SYSTEMD_USER := $(TARGET)/.config/systemd/user
 STOW := stow -t $(TARGET)
 
 all: git mail X xmonad urxvt zsh mpd rtorrent keyring python node tmux emacs irssi android gnupg
@@ -108,13 +109,10 @@ emacs: ensuresystemd
 	@echo Installing emacs ...
 	@$(STOW) --ignore systemd emacs
 	@echo Installing emacs systemd unit ...
-	@sudo cp $(DOTFILEDIR)/emacs/systemd/emacs.service /etc/systemd/system/emacs\@.service
-	@echo Reloading systemd daemon
-	@sudo systemctl daemon-reload
-	@echo Enable emacs service for $(USER)
-	@sudo systemctl enable emacs@$(USER).service
-	@echo Restarting emacs for $(USER)
-	@sudo systemctl restart emacs@$(USER).service
+	@sudo cp $(DOTFILEDIR)/emacs/systemd/emacs.service $(SYSTEMD_USER)/emacs.service
+	@systemctl --user daemon-reload
+	@systemctl --user enable emacs.service
+	@systemctl --user restart emacs.service
 
 node: ensurezshd
 	@echo Installing node ...

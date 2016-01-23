@@ -107,10 +107,14 @@ tmux:
 emacs: ensuresystemd
 	@echo Installing emacs ...
 	@$(STOW) --ignore systemd emacs
-	@cp -a $(DOTFILEDIR)/emacs/systemd/emacs.service $(TARGET)/.config/systemd/user/emacs.service
-	@systemctl --user --quiet reenable emacs
-	@systemctl --user --quiet restart emacs
-	@systemctl --user --quiet daemon-reload
+	@echo Installing emacs systemd unit ...
+	@sudo cp $(DOTFILEDIR)/emacs/systemd/emacs.service /etc/systemd/system/emacs\@.service
+	@echo Reloading systemd daemon
+	@sudo systemctl daemon-reload
+	@echo Enable emacs service for $(USER)
+	@sudo systemctl enable emacs@$(USER).service
+	@echo Restarting emacs for $(USER)
+	@sudo systemctl restart emacs@$(USER).service
 
 node: ensurezshd
 	@echo Installing node ...

@@ -3,11 +3,15 @@ Description=Emacs: the extensible, self-documenting text editor
 
 [Service]
 Type=forking
-ExecStartPre=source ~/.nvm/nvm.sh
+User=%i
+WorkingDirectory=/home/%i
 ExecStart=/usr/bin/emacs --daemon
-ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+ExecStop=/usr/bin/emacsclient --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
 Restart=always
+
+# Remove the limit in startup timeout, since emacs
+# cloning and building all packages can take time
+TimeoutStartSec=0
 
 [Install]
 WantedBy=default.target

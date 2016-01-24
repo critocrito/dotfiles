@@ -1,5 +1,4 @@
-# FIXME: Rename the histfile, maybe to .zsh_history???
-[[ -z "$HISTFILE" ]] && HISTFILE=$HOME/.histfile2
+[[ -z "$HISTFILE" ]] && HISTFILE=$HOME/.zsh_history
 
 HISTSIZE=10000
 SAVEHIST=10000

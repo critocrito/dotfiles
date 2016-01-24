@@ -1,8 +1,7 @@
 # Set the delimeter for the word kill,
 # oh-my-zsh sets it to: WORDCHARS=''
 # see http://stackoverflow.com/a/11200998
-# WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-WORDCHARS=''
+WORDCHARS='*?_[]&;!~#%^(){}<>'
 
 # Make sure that the terminal is in application mode when zle is active, since
 # only then values from $terminfo are valid

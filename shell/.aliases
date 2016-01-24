@@ -3,15 +3,32 @@ alias nexus-connect="go-mtpfs /media/nexus"
 alias nexus-disconnect="sudo umount /media/nexus"
 
 # cd
-alias ..='cd ..'
-alias uyb="cd ~/Projects/uyb"
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
 
-alias please=sudo
+alias -- -='cd -'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
 
 # ls
-alias l='ls -lAh --color=auto'
-alias lt='l -t'
 alias ls='ls -F --color=auto'
+
+alias l='ls -lAh'
+alias ll='ls -lh'
+alias lt='l -t'
+
+# Push and pop directories on directory stack
+alias pu='pushd'
+alias po='popd'
 
 # Format kernel log timestamps nicely
 alias dmesg='dmesg -H'
@@ -43,16 +60,11 @@ alias gmt='git mt'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 # alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
 
-# sinatra/rake
-alias rss="rake server:start"
-
 # commands starting with % for pasting from web
 # alias %=' '
 
-# alias pp='python -m json.tool'
-alias pp='pjson'
-
-alias ap='ansible-playbook'
+alias pp='python -m json.tool'
+# alias pp='pjson'
 
 alias e='emacsclient -t'
 
@@ -73,11 +85,12 @@ alias binstall="bundle install"
 alias clr='clear'
 alias s_http='python -m SimpleHTTPServer' # serve current folder via HTTP
 alias s_smtp='python -m smtpd -n -c DebuggingServer localhost:1025' # SMTP test server, outputs to console
-alias wget='wget --no-check-certificate'
+
+# alias wget='wget --no-check-certificate'
+
+alias afind='ack -il'
+
+alias _='sudo'
+alias please='sudo'
 
 alias irb='irb --simple-prompt'
-
-###
-# Remote Machines
-###
-alias mx20="ssh cryptodrunks.net"

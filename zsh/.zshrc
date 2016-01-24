@@ -18,7 +18,7 @@ source $ZSH/history.zsh
 source $ZSH/grep.zsh
 source $HOME/.aliases
 
-for file ($HOME/.zsh.d/*.rc); do
+for file ($HOME/.zsh.d/*.zsh); do
   source $file
 done
 

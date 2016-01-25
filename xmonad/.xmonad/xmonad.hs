@@ -29,6 +29,7 @@ import XMonad.Util.EZConfig
 import XMonad.Util.Run
 import XMonad.Hooks.DynamicLog
 import XMonad.Actions.Plane
+import XMonad.Actions.WindowGo
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ICCCMFocus
@@ -49,7 +50,8 @@ myFocusedBorderColor = "#ff0000"      -- color of focused border
 myNormalBorderColor  = "#cccccc"      -- color of inactive border
 myBorderWidth        = 1              -- width of border around windows
 myTerminal           = "urxvt"   -- which terminal software to use
-myIncommunicado      = "~/bin/incommunicado.sh"
+myEmail              = "/home/crito/bin/start-gnus"
+myEditor             = "/home/crito/bin/start-editor"
 myIMRosterTitle      = "Contact List" -- title of roster on IM workspace
 
 
@@ -92,10 +94,10 @@ myUrgentWSRight = "}"
 
 myWorkspaces =
   [
-    "7:Music",  "8:Dbg",  "9:SQL",
-    "4:Skype", "5:Com", "6:Hub",
-    "1:Web",   "2:Term", "3:Chrome",
-    "0:VM",    "Extr1",  "Extr2"
+    "7:Music",  "8:Dbg",   "9:SQL",
+    "4:Com", "5:Chrome", "6:Hub",
+    "1:Web", "2:Term",  "3:Editor",
+    "0:VM",     "Extr1",   "Extr2"
   ]
 
 startupWorkspace = "2:Term"  -- which workspace do you want to be on after launch?
@@ -151,9 +153,20 @@ defaultLayouts = smartBorders(avoidStruts(
   -- Remaining windows appear in a circle around it
   ||| Circle))
 
+simpleLayout = smartBorders(
+  avoidStruts(noBorders Full
+              ||| ResizableTall 1 (3/100) (1/2) []))
 
 -- Here we define some layouts which will be assigned to specific
 -- workspaces based on the functionality of that workspace.
+
+terminalLayout = smartBorders(
+  avoidStruts(noBorders Full
+              ||| ResizableTall 1 (3/100) (1/2) []
+              ||| Grid))
+
+editorLayout = simpleLayout
+comLayout = simpleLayout
 
 -- The chat layout uses the "IM" layout. We have a roster which takes
 -- up 1/8 of the screen vertically, and the remaining space contains
@@ -161,7 +174,7 @@ defaultLayouts = smartBorders(avoidStruts(
 -- identified using the myIMRosterTitle variable, and by default is
 -- configured for Empathy, so if you're using something else you
 -- will want to modify that variable.
-chatLayout = avoidStruts(withIM (1%7) (Title myIMRosterTitle) Grid)
+-- chatLayout = avoidStruts(withIM (1%7) (Title myIMRosterTitle) Grid)
 
 -- The GIMP layout uses the ThreeColMid layout. The traditional GIMP
 -- floating panels approach is a bit of a challenge to handle with xmonad;
@@ -171,20 +184,15 @@ chatLayout = avoidStruts(withIM (1%7) (Title myIMRosterTitle) Grid)
 -- can use single-window mode and avoid this issue.
 gimpLayout = smartBorders(avoidStruts(ThreeColMid 1 (3/100) (3/4)))
 
--- For the incommunicado workspace, have a plain fullscreen and don't show the
--- status bar at top.
-comLayout = smartBorders(noBorders Full)
-
 -- For skype we use a three column layout.
 skypeLayout = smartBorders(avoidStruts(ThreeColMid 1 (3/100) (3/4)))
 
 -- Here we combine our default layouts with our specific, workspace-locked
 -- layouts.
 myLayouts =
-  onWorkspace "4:Skype" skypeLayout
-  $ onWorkspace "5:Com" comLayout
-  $ onWorkspace "7:Chat" chatLayout
-  $ onWorkspace "9:Pix" gimpLayout
+  onWorkspace "2:Term" terminalLayout
+  $ onWorkspace "4:Com" comLayout
+  $ onWorkspace "3:Editor" editorLayout
   $ defaultLayouts
 
 {-
@@ -214,13 +222,14 @@ myLayouts =
 myKeyBindings =
   [
     ((myModMask, xK_b), sendMessage ToggleStruts)
-    , ((myModMask, xK_a), sendMessage MirrorShrink)
-    , ((myModMask, xK_z), sendMessage MirrorExpand)
+    --, ((myModMask, xK_a), sendMessage MirrorShrink)
+    --, ((myModMask, xK_z), sendMessage MirrorExpand)
     , ((myModMask, xK_p), spawn "dmenu_run")
-    , ((myModMask, xK_e), spawn "urxvt -e emacsclient -t")
-    , ((myModMask, xK_n), spawn "sudo connman_dmenu")
-    , ((myModMask .|. shiftMask, xK_i), spawn myIncommunicado)
-    , ((myModMask, xK_u), focusUrgent)
+    , ((myModMask, xK_a), runOrRaise myEmail (title =? "GNUS"))
+    , ((myModMask, xK_s), runOrRaise myEditor (title =? "Emacs"))
+    --, ((myModMask, xK_n), spawn "sudo connman_dmenu")
+    --, ((myModMask .|. shiftMask, xK_i), spawn myIncommunicado)
+    --, ((myModMask, xK_u), focusUrgent)
     , ((0, 0x1008FF12), spawn "amixer -q set Master toggle")
     , ((0, 0x1008FF11), spawn "amixer -q set Master 5%-")
     , ((0, 0x1008FF13), spawn "amixer -q set Master 5%+")
@@ -294,11 +303,10 @@ myManageHooks = composeAll . concat $
     , [(className =? x <||> title =? x <||> resource =? x) --> doSink | x <- mySinks]
     , [(className =? x <||> title =? x <||> resource =? x) --> doFullFloat | x <- myFullscreens]
     , [(className =? x <||> title =? x <||> resource =? x) --> doShift "1:Web" | x <- myWebShifts]
-    , [(className =? x <||> title =? x <||> resource =? x) --> doShift "2:Term" | x <- myTermShifts]
-    , [(className =? x <||> title =? x <||> resource =? x) --> doShift "3:Chrome" | x <- myChromeShifts]
-    , [(className =? x <||> title =? x <||> resource =? x) --> doShift "4:Skype" | x <- mySkypeShifts]
-    --, [(className =? x <||> title =? x <||> resource =? x) --> doShift "5:Com" | x <- myComShifts]
-    , [resource =? x --> doShift "5:Com" | x <- myComShifts]
+    , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "2:Term" | x <- myTermShifts]
+    , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "3:Editor" | x <- myEditorShifts]
+    , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "4:Com" | x <- myComShifts]
+    , [(className =? x <||> title =? x <||> resource =? x) --> doShift "5:Skype" | x <- mySkypeShifts]
     , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "6:Hub" | x <- myHubShifts]
     , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "7:Music" | x <- myMusicShifts]
     , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "8:Dbg" | x <- myDbgShifts]
@@ -326,7 +334,8 @@ myManageHooks = composeAll . concat $
     myFullscreens = []
     -- Define default workspaces for some programs
     myWebShifts    = ["Firefox-bin", "Firefox", "firefox", "Firefox Web Browser"]
-    myComShifts    = ["incommunicado", "zeal"]
+    myComShifts    = ["GNUS"]
+    myEditorShifts = ["Emacs"]
     myTermShifts   = ["urxvt"]
     myChromeShifts = ["google-chrome", "Chrome"]
     mySkypeShifts  = ["skype", "skype-wrapper", "Skype"]

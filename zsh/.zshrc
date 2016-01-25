@@ -15,6 +15,8 @@ source $ZSH/functions.zsh
 source $ZSH/completion.zsh
 source $ZSH/bindings.zsh
 source $ZSH/history.zsh
+#FIXME: The executed command gets echoed on the shell.
+#source $ZSH/hooks.zsh
 source $ZSH/grep.zsh
 source $HOME/.aliases
 

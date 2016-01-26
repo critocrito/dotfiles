@@ -1,6 +1,7 @@
 DOTFILEDIR := $(shell pwd)
 TARGET := ~$(USER)
 SYSTEMD_USER := $(TARGET)/.config/systemd/user
+LOCAL_BIN := $(TARGET)/.local/bin
 STOW := stow -t $(TARGET)
 
 all: git mail X xmonad urxvt zsh mpd rtorrent keyring python node tmux emacs irssi android gnupg
@@ -12,7 +13,11 @@ ensurezshd:
 	@[[ -d $(TARGET)/.zsh.d ]] || mkdir $(TARGET)/.zsh.d
 
 ensuresystemd:
-	@[[ -d $(TARGET)/.config/systemd/user ]] || mkdir -p $(TARGET)/.config/systemd/user
+	@[[ -d $(SYSTEMD_USER) ]] || mkdir -p $(SYSTEMD_USER)
+
+ensurebin:
+	@[[ -d $(LOCAL_BIN) ]] || mkdir -p $(LOCAL_BIN)
+
 
 mail: ensuresystemd
 	@echo Installing mail ...

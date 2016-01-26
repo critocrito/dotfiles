@@ -8,3 +8,10 @@ audio/*; mpv %s
 video/*; mpv %s
 
 image/*; sxiv %s
+
+# Office files.
+application/msword; libreoffice '%s'
+application/rtf; libreoffice '%s'
+text/richtext; libreoffice '%s'
+application/vnd.ms-excel; libreoffice '%s'
+application/vnd.ms-powerpoint; libreoffice '%s'

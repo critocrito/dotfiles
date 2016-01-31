@@ -16,15 +16,17 @@ if [[ $ZSH_VERSION != 5.1.1 ]]; then
   done
 fi
 
+# I disabled auto correction for now, it's quite annoying.
 # Corrections
-alias gist='nocorrect gist'
-alias man='nocorrect man'
-alias mkdir='nocorrect mkdir'
-alias mv='nocorrect mv'
-alias mysql='nocorrect mysql'
-alias sudo='nocorrect sudo'
+# alias gist='nocorrect gist'
+# alias man='nocorrect man'
+# alias mkdir='nocorrect mkdir'
+# alias mv='nocorrect mv'
+# alias mysql='nocorrect mysql'
+# alias sudo='nocorrect sudo'
 
-setopt correct_all
+# setopt hash_list_all
+# setopt correct_all
 
 # Set a better default terminal
 export TERM='screen-256color'

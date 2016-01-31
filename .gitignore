@@ -13,3 +13,5 @@ emacs/.emacs.d/savefile/saveplace
 emacs/.emacs.d/savefile/.#.smex-items
 
 irssi/.irssi/config.old
+
+zsh/.zsh/cache/

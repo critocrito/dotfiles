@@ -11,6 +11,11 @@
 # Load X resources (fixes some font issues)
 xrdb -merge ~/.Xresources
 
+# Load the keymap modifications
+if [ -s ~/.Xmodmap ]; then
+  xmodmap ~/.Xmodmap
+fi
+
 # Start compositing to support transparency. You can omit this
 # if you prefer not to use any transparency, but it is likely to cause
 # ugly black fringing with some programs such as synapse that expect

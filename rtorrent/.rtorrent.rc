@@ -20,8 +20,8 @@ directory = /home/crito/.rtorrent/incoming
 session = /home/crito/.rtorrent/session
 
 # We set two variables for the watch scheduler, custom1 defines the target path and custom2 is a flag, its set or not.
-# schedule = watch_directory,5,5,"load_start=/home/crito/Downloads/*.torrent,d.set_custom1=/home/crito/Torrents,d.set_custom2=1"
-schedule = watch_directory,5,5,"load_start=/home/crito/Downloads/*.torrent,d.set_custom1=/home/crito/Torrents"
+# schedule = watch_directory,5,5,"load_start=/home/crito/incoming/*.torrent,d.set_custom1=/home/crito/incoming/Torrents,d.set_custom2=1"
+schedule = watch_directory,5,5,"load_start=/home/crito/incoming/*.torrent,d.set_custom1=/home/crito/incoming/Torrents"
 schedule = untied_directory,5,5,stop_untied=
 schedule = tied_directory,5,5,start_tied=
 

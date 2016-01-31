@@ -22,6 +22,9 @@ macro index,pager \cb |urlview\n 'call urlview to extract URLs out of a message'
 macro index I "<clear-flag>N" "Mark as read"
 macro index U "<set-flag>N" "Mark as unread"
 
+# Mark all messages as read
+macro index <esc>m "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
+
 # mu search:
 macro index / "<enter-command>unset wait_key<enter><shell-escape>read -p'mu query: ' x; \
       mu find --clearlinks --linksdir ~/.mail/mu-search --format links \$x<enter>\

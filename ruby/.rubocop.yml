@@ -1,2 +1,5 @@
 Style/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
+
+Style/SpaceInsideBlockBraces:
+  EnforcedStyle: no_space

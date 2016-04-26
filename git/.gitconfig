@@ -15,21 +15,22 @@
     new = green bold
 [alias]
     p  = pull
+    c  = commit
     d  = diff
     s  = status
     l  = log
+    a  = add
+    m  = merge
+    b  = branch
+    r  = remote
 
-    di = diff
-    br = branch
+    aa = add -A
+    sh = show
     co = checkout
-    st = status
-    mt = mergetool
-    lo = log
-    pu = push
-    pl = pull
-    cp = cherry-pick
     nb = checkout -b
-    re = remote
+    mt = mergetool
+    pu = push
+    cp = cherry-pick
 
     # add
     addp  = add --patch                 # stage commits chunk by chunk
@@ -37,8 +38,6 @@
     branch = branch -v                 # branch (verbose)
     # commit
     amend = commit --amend             # amend your last commit
-    # checkout
-    newbranch = checkout -b            # create and switch to a new branch
     # cherry-pick
     cherry-pick = cherry-pick -x       # grab a change from a branch
     # diff
@@ -80,7 +79,7 @@
     default = tracking
 [core]
     autocrlf = false
-    editor = vim
+    #editor = e
     #excludesfile = ~/.dotfiles/gitignore_global
 [advice]
     statusHints = false
@@ -109,3 +108,7 @@
 	smtpencryption = tls
 	smtpserverport = 587
 	suppresscc = self
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less

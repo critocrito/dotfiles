@@ -37,27 +37,17 @@ alias dmesg='dmesg -H'
 # git
 alias g='git'
 
-# alias gpull='git pull'
-# alias gpush='git push'
-# alias gdiff='git diff'
-# alias gadd='git add'
-# alias gaddp='git addp'
-# alias gcommit='git commit'
-# alias glog='git log'
-# alias gbranch='git branch'
-
-alias gdi='git di'
-alias gbr='git br'
-alias gco='git co'
-alias gst='git st -sb'
-alias glo='git lo'
-alias gnb='git nb'
-alias gpu='git pu'
-alias gpl='git pl'
-alias gre='git re'
-alias gmt='git mt'
-
-alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+# alias gdi='git d'
+# alias gbr='git br'
+# alias gco='git co'
+# alias gst='git s -sb'
+# alias glo='git lo'
+# alias gnb='git nb'
+# alias gpu='git p'
+# alias gpl='git pl'
+# alias gre='git re'
+# alias gmt='git mt'
+# alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 # alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
 
 # commands starting with % for pasting from web

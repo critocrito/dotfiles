@@ -3,6 +3,7 @@ Description=Rebuild MU mail search index
 
 [Service]
 Type=oneshot
+Nice=5
 ExecStart=/usr/bin/mu index --maildir ~/.mail
 
 [Install]

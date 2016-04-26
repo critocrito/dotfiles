@@ -3,6 +3,7 @@ Description=Fetch mail from IMAP
 
 [Service]
 Type=oneshot
+Nice=5
 ExecStart=/bin/bash %h/bin/offlineimap.sh
 
 [Install]

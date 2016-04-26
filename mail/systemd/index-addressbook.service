@@ -3,6 +3,7 @@ Description=Index the address book from the sent mail folders
 
 [Service]
 Type=oneshot
+Nice=5
 ExecStart=/bin/bash %h/bin/refresshaddress.sh
 
 [Install]

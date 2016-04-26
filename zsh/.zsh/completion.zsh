@@ -5,6 +5,7 @@ setopt no_menu_complete
 setopt auto_menu
 
 autoload -U compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 zmodload -i zsh/complist
 
 # case-insensitive, partial-word and then substring completion

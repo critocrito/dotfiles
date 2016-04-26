@@ -15,3 +15,5 @@ application/rtf; libreoffice '%s'
 text/richtext; libreoffice '%s'
 application/vnd.ms-excel; libreoffice '%s'
 application/vnd.ms-powerpoint; libreoffice '%s'
+
+application/pgp-keys; gpg --import --interactive --verbose; needsterminal

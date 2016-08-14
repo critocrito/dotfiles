@@ -227,6 +227,7 @@ myKeyBindings =
     , ((myModMask, xK_p), spawn "dmenu_run")
     , ((myModMask, xK_a), runOrRaise myEmail (title =? "GNUS"))
     , ((myModMask, xK_s), runOrRaise myEditor (title =? "Emacs"))
+    , ((0, xK_Print), spawn "scrot -e 'mv $f ~/img/shots/'")
     --, ((myModMask, xK_n), spawn "sudo connman_dmenu")
     --, ((myModMask .|. shiftMask, xK_i), spawn myIncommunicado)
     --, ((myModMask, xK_u), focusUrgent)

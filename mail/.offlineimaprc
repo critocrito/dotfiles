@@ -14,6 +14,8 @@ localrepository = cryptodrunks-local
 remoterepository = cryptodrunks-remote
 autorefresh = 2
 quick = 0
+newmail_hook = ~/bin/update-mail
+postsynchook = ~/bin/update-mail
 
 [Repository cryptodrunks-local]
 type = Maildir
@@ -39,6 +41,8 @@ localrepository = tacticaltech-local
 remoterepository = tacticaltech-remote
 autorefresh = 2
 quick = 0
+newmail_hook = ~/bin/update-mail
+postsynchook = ~/bin/update-mail
 
 [Repository tacticaltech-local]
 type = Maildir

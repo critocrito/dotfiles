@@ -1,4 +1,4 @@
-application/pdf; evince %s
+application/pdf; evince %s; test=test -n "$DISPLAY";
 application/vnd.oasis.opendocument.text; libreoffice %s
 
 text/html; firefox %s &; test=test -n "$DISPLAY"; needsterminal;

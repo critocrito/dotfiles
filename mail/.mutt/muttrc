@@ -39,7 +39,7 @@ set move = no
 set imap_check_subscribed
 
 # Address lookup using mu
-set query_command="mu cfind --muhome=~/.mu-sent-index --format=mutt-ab '%s'"
+# set query_command="mu cfind --muhome=~/.mu-sent-index --format=mutt-ab '%s'"
 
 # Make the index show number of bytes, since Maildir has no Lines:
 set index_format="%4C %Z %{%b %d} %-15.15L (%5c) %s"

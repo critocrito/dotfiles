@@ -1,0 +1,46 @@
+#!/bin/sh
+basedir="`dirname $0`"
+notmuch="/usr/bin/notmuch"
+afew="/usr/bin/afew"
+
+if [[ -f /usr/local/bin/notmuch ]]; then
+  notmuch="/usr/local/bin/notmuch"
+fi
+
+sendmailcommand="$basedir/msmtp-runqueue.sh"
+
+# Check connection status before sending mail
+if ! ping -c1 www.google.com > /dev/null 2>&1; then
+  # Ping could be firewalled ...
+  # '-O -' will redirect the actual html to stdout and thus to /dev/null
+  if ! wget -O - www.google.com > /dev/null 2>&1; then
+    # Both tests failed. We are probably offline
+    # (or google is offline, i.e. the end has come)
+    exit 1;
+  fi
+fi
+
+# We are online: So let's get mail going first
+# ${sendmailcommand} 2>&1 >> ~/.msmtp.log
+
+# $afew -m -a
+
+$notmuch new #--quiet
+
+$notmuch tag +inbox -- "folder:cryptodrunks/crytodrunks and not tag:inbox"
+$notmuch tag +inbox -- "folder:tacticaltech/tacticaltech and not tag:inbox"
+$notmuch tag +sent -- "folder:cryptodrunks/cryptodrunks.Sent and not tag:sent"
+$notmuch tag +sent -- "folder:tacticaltech/INBOX.Sent and not tag:sent"
+
+$notmuch tag +draft -- "folder:drafts and not tag:draft"
+
+$notmuch tag +ttc -- "folder:tacticaltech/tacticaltech and not tag:ttc"
+$notmuch tag +cdrunks -- "folder:cryptodrunks/cryptodrunks and not tag:cdrunks"
+
+$notmuch tag -inbox +archive -- "folder:cryptodrunks/cryptodrunks.Archive and not tag:archive"
+$notmuch tag -inbox +archive -- "folder:tacticaltech/INBOX.Archive and not tag:archive"
+$notmuch tag -unread +trash -- 'folder:cryptodrunks/cryptodrunks.Trash'
+$notmuch tag -unread +trash -- 'folder:tacticaltech/INBOX.Trash'
+
+# Delete mail marked for deletion
+# notmuch search --output=files tag:deleted | xargs -L 1 rm

@@ -28,10 +28,10 @@ mail: ensuresystemd
 	@$(STOW) --ignore systemd mail
 	@cp -a $(DOTFILEDIR)/mail/systemd/offlineimap.timer $(TARGET)/.config/systemd/user
 	@cp -a $(DOTFILEDIR)/mail/systemd/offlineimap.service $(TARGET)/.config/systemd/user
-	@cp -a $(DOTFILEDIR)/mail/systemd/index-mail.timer $(TARGET)/.config/systemd/user
-	@cp -a $(DOTFILEDIR)/mail/systemd/index-mail.service $(TARGET)/.config/systemd/user
-	@cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.timer $(TARGET)/.config/systemd/user
-	@cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.service $(TARGET)/.config/systemd/user
+	# @cp -a $(DOTFILEDIR)/mail/systemd/index-mail.timer $(TARGET)/.config/systemd/user
+	# @cp -a $(DOTFILEDIR)/mail/systemd/index-mail.service $(TARGET)/.config/systemd/user
+	# @cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.timer $(TARGET)/.config/systemd/user
+	# @cp -a $(DOTFILEDIR)/mail/systemd/index-addressbook.service $(TARGET)/.config/systemd/user
 
 	@systemctl --user --quiet reenable offlineimap.timer
 	@systemctl --user --quiet reenable offlineimap.service

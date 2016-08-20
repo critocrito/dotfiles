@@ -1,3 +1,7 @@
+# systemd
+alias sc='systemctl'
+alias scu='systemctl --user'
+
 # Manage the nexus android device
 alias nexus-connect="go-mtpfs /media/nexus"
 alias nexus-disconnect="sudo umount /media/nexus"

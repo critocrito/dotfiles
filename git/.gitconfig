@@ -25,12 +25,15 @@
     r  = remote
 
     aa = add -A
+    ap = add --patch
     sh = show
     co = checkout
     nb = checkout -b
     mt = mergetool
     pu = push
     cp = cherry-pick
+    st = status --short --branch
+    it = !git init && git commit -m 'Initial commit.' --allow-empty
 
     addp = add --patch                 # stage commits chunk by chunk
     branch = branch -v                 # branch (verbose)
@@ -39,8 +42,14 @@
     diffstaged   = diff --cached       # diff staged changes
     diffunstaged = diff                # complimentary to diffstage, show
                                        # unstaged changes
+
+    stsh    = stash --keep-index        # stash only unstaged changes to tracked files
+    staash  = stash --include-untracked # stash untracked and tracked files
+    staaash = stash --all               # stash ignored, untracked, and tracked files
+
     last         = diff HEAD^          # diff last committed change
     log          = log --decorate --graph --date=short --graph
+    grog         = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'
     stats        = log --stat          # Show log stats
     changes      = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
     short        = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
@@ -58,7 +67,8 @@
 [merge]
     summary = true
     verbosity = 1
-    tool = vimdiff3
+    tool = ediff
+    # tool = vimdiff3
     #tool = fugitive
 [apply]
     whitespace = nowarn
@@ -69,7 +79,6 @@
     # the usual default is to push all branches
     default = tracking
 [core]
-    autocrlf = false
     #editor = e
     #excludesfile = ~/.dotfiles/gitignore_global
 [advice]
@@ -90,6 +99,20 @@
     cmd = vim -f -c \"Gdiff\" \"$MERGED\"
 [mergetool "vimdiff3"]
     cmd = vim -f -d -c 'wincmd J' -c 'resize 22' $MERGED $LOCAL $BASE $REMOTE
+[mergetool.ediff]
+    cmd = emacs --eval \"\
+(progn\
+  (defun ediff-write-merge-buffer ()\
+    (let ((file ediff-merge-store-file))\
+      (set-buffer ediff-buffer-C)\
+      (write-region (point-min) (point-max) file)\
+      (message \\\"Merge buffer saved in: %s\\\" file)\
+      (set-buffer-modified-p nil)\
+      (sit-for 1)))\
+  (setq ediff-quit-hook 'kill-emacs\
+        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
+  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
+                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [grep]
 	extendRegexp = true
 	lineNumber = true

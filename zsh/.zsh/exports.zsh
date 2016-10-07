@@ -28,8 +28,10 @@ fi
 # setopt hash_list_all
 # setopt correct_all
 
-# Set a better default terminal
-export TERM='screen-256color'
+# To make the shell work in emacs, turn off magic bracketed paste mode.
+if [[ $TERM = dumb ]]; then
+  unset zle_bracketed_paste
+fi
 
 # Unset LC_ALL so the LC_COLLATE option in /etc/locale.conf takes precedence
 export LC_ALL=

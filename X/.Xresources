@@ -54,7 +54,7 @@ xterm*multiScroll:        true
 xterm*toolBar:            false
 
 ! urxvt -----------------------------------------------------------------------
-URxvt*font: xft:Source Code Pro:size=10
+URxvt*font: xft:Source Code Pro :size=10
 URxvt*boldFont: xft:Source Code Pro:bold:size=10
 URxvt*italicFont: xft:Source Code Pro:italic:size=10
 URxvt*bolditalicFont: xft:Source Code Pro:bolditalic:size=10
@@ -64,6 +64,7 @@ URxvt*letterSpace:      -1
 URxvt*lineSpace: -2
 URxvt*skipBuiltinGlyphs: true
 URxvt*termName: rxvt-unicode-256color
+URxvt.intensityStyles: false
 URxvt*loginShell: true
 URxvt*matcher.button:   1
 URxvt*cursorBlink:      false

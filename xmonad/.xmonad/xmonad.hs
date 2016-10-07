@@ -226,6 +226,7 @@ myKeyBindings =
     --, ((myModMask, xK_z), sendMessage MirrorExpand)
     , ((myModMask, xK_p), spawn "dmenu_run")
     , ((myModMask .|. shiftMask, xK_p), spawn "passmenu")
+    , ((myModMask, xK_v), spawn "clipmenu -l 20")
     , ((myModMask, xK_a), runOrRaise myEmail (title =? "GNUS"))
     , ((myModMask, xK_s), runOrRaise myEditor (title =? "Emacs"))
     , ((0, xK_Print), spawn "scrot -e 'mv $f ~/img/shots/'")

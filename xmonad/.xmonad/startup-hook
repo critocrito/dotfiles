@@ -45,8 +45,11 @@ if [ -z "$(pgrep -f connman-notify)" ] ; then
 fi
 
 # Use Parcellite to manage copy/paste buffer
-if [ -z "$(pgrep parcellite)" ] ; then
-    parcellite -n &
+# if [ -z "$(pgrep parcellite)" ] ; then
+#     parcellite -n &
+# fi
+if [ -z "$(pgrep clipmenud)"]; then
+  clipmenud &
 fi
 
 # Load dropbox background process

@@ -13,6 +13,7 @@
     frag = magenta bold
     old = red bold
     new = green bold
+    whitespace = red reverse
 [alias]
     p = pull
     c = commit
@@ -56,6 +57,7 @@
     remote = remote -v                 # Be verbose when printing remotes
     unstage  = reset HEAD              # remove files from index (tracking)
     uncommit = reset --soft HEAD^      # go back before last commit, with files
+    patch = !git --no-pager diff --no-color
 
 [format]
     pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
@@ -74,6 +76,7 @@
     # the usual default is to push all branches
     default = tracking
 [core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
     #editor = e
     #excludesfile = ~/.dotfiles/gitignore_global
 [advice]
@@ -118,6 +121,4 @@
 	smtpserverport = 587
 	suppresscc = self
 [pager]
-	log = diff-so-fancy | less
-	show = diff-so-fancy | less
-	diff = diff-so-fancy | less
+    diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '

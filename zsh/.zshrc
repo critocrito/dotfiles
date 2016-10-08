@@ -8,10 +8,10 @@ mkdir -p $ZSH_CACHE_DIR
 # Configure the output format of the history command
 HIST_STAMPS="dd.mm.yyyy"
 
+source $ZSH/functions.zsh
 source $ZSH/colors.zsh
 source $ZSH/setopt.zsh
 source $ZSH/exports.zsh
-source $ZSH/functions.zsh
 source $ZSH/completion.zsh
 source $ZSH/bindings.zsh
 source $ZSH/history.zsh

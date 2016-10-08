@@ -80,7 +80,7 @@ prompt_prompt() {
 ###
 
 # FIXME: How to handle this??
-source $HOME/src/zsh-git-prompt/zshrc.sh
+source $HOME/.zsh-git-prompt/zshrc.sh
 
 RPROMPT=""
 PROMPT='

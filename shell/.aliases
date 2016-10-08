@@ -24,7 +24,11 @@ alias 8='cd -8'
 alias 9='cd -9'
 
 # ls
-alias ls='ls -F --color=auto'
+if is_mac; then
+  alias ls='ls -F -G'
+else
+  alias ls='ls -F --color=auto'
+fi
 
 alias l='ls -lAh'
 alias ll='ls -lh'

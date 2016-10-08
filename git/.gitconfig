@@ -122,3 +122,4 @@
 	suppresscc = self
 [pager]
     diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
+    show = diff-so-fancy | less --tabs=4 -RFX

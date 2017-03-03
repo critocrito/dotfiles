@@ -39,4 +39,5 @@ export LANG=en_US.UTF-8
 
 export LESS='--ignore-case --raw-control-chars'
 export PAGER='most'
-export EDITOR='emacsclient -t -a emacs'
+# export EDITOR='emacsclient -t -a emacs'
+export EDITOR='vim'

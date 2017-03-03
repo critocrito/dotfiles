@@ -3,11 +3,8 @@ autoload -U colors && colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 if is_linux; then
   eval "$(dircolors -b)"
-  # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 else
   export CLICOLOR=1
-  # zstyle ':completion:*:default' list-colors ''
   export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 fi
-# unset LSCOLORS
 setopt prompt_subst

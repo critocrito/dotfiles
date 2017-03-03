@@ -80,12 +80,19 @@ prompt_prompt() {
 ###
 
 # FIXME: How to handle this??
-source $HOME/.zsh-git-prompt/zshrc.sh
-
-RPROMPT=""
-PROMPT='
+case "$TERM" in
+  "dumb")
+    RPROMPT=""
+    PROMPT="> "
+    ;;
+  *)
+    source $HOME/.zsh-git-prompt/zshrc.sh
+    RPROMPT=""
+    PROMPT='
 $(prompt_info)
 $(prompt_prompt) '
+esac
+
 #  PROMPT='
 #$(prompt_time) $(prompt_pwd) $(git_super_status)
 #$(cabal_sandbox_info)$(prompt_virtualenv)$(prompt_char) '

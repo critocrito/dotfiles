@@ -33,6 +33,7 @@
     ds = diff --cached
     it = !git init && git commit -m 'Initial commit.' --allow-empty
     mt = mergetool
+    ms = merge --squash
     nb = checkout -b
     pu = push
     sh = show

@@ -1,0 +1,16 @@
+is_cabal() {
+  local -r cabal_files=(*.cabal(N))
+  local ret=1
+
+  [[ ${#cabal_files} -gt 0 ]] && ret=0
+
+  return ret
+}
+
+is_cabal_sandbox() {
+  local ret=1
+
+  [[ -f cabal.sandbox.config ]] && ret=0
+
+  return ret
+}

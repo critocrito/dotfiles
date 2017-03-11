@@ -1,0 +1,9 @@
+
+man ()
+{
+  if [ "$TERM" == "eterm-color" ]; then
+    emacsclient -t -a emacs -e "(man \"$1\")";
+  else
+    command man "$@";
+  fi
+}

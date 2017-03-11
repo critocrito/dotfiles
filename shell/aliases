@@ -2,6 +2,8 @@
 alias nexus-connect="go-mtpfs /media/nexus"
 alias nexus-disconnect="sudo umount /media/nexus"
 
+alias pwd='pwd | sed -e "s,^$HOME,~,"'
+
 # cd
 alias -g ...='../..'
 alias -g ....='../../..'
@@ -38,6 +40,14 @@ alias po='popd'
 alias dmesg='dmesg -H'
 #alias dmesg='dmesg -T'
 
+# Show history
+case $HIST_STAMPS in
+  "mm/dd/yyyy") alias history='fc -fl 1' ;;
+  "dd.mm.yyyy") alias history='fc -El 1' ;;
+  "yyyy-mm-dd") alias history='fc -il 1' ;;
+  *) alias history='fc -l 1' ;;
+esac
+
 # alias gdi='git d'
 # alias gbr='git br'
 # alias gco='git co'
@@ -54,10 +64,7 @@ alias dmesg='dmesg -H'
 # commands starting with % for pasting from web
 # alias %=' '
 
-alias pp='python -m json.tool'
-# alias pp='pjson'
-
-alias e='emacsclient -t'
+alias pp='pjson'
 
 #alias rtorrent='tmux new -d -s rtorrent -n rtorrent rtorrent; echo "rtorrent started in a tmux session. Attach to it by running: tmux attach -t rtorrent"'
 alias gmount='gvfs-mount -d'
@@ -74,7 +81,6 @@ alias bgem='bexec gem'
 alias binstall="bundle install"
 
 alias clr='clear'
-alias s_http='python -m SimpleHTTPServer' # serve current folder via HTTP
 alias s_smtp='python -m smtpd -n -c DebuggingServer localhost:1025' # SMTP test server, outputs to console
 
 # alias wget='wget --no-check-certificate'

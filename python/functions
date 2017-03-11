@@ -1,7 +1,3 @@
-###
-# Functions
-###
-
 has_python() { _has_cmd python }
 
 is_virtualenv() {
@@ -24,4 +20,10 @@ python_virtualenv() {
   then
     echo $(basename $VIRTUAL_ENV)
   fi
+}
+
+# Start a webserver, optionally specifying a port
+s_http() {
+  local port="${1:-8000}"
+  python -m http.server $port
 }

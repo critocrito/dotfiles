@@ -11,7 +11,7 @@ prompt_host() {
 }
 
 prompt_pwd() {
-  echo "%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}"
+  echo "%{$fg_bold[green]%}$(pwd)%{$reset_color%}"
 }
 
 prompt_machine() {
@@ -74,24 +74,3 @@ prompt_prompt() {
   local -r char="λ"
   echo "Bender do %{$fg_bold[red]%}${char}%{$reset_color%}"
 }
-
-###
-# Configuration
-###
-
-# FIXME: How to handle this??
-case "$TERM" in
-  "dumb")
-    RPROMPT=""
-    PROMPT="> "
-    ;;
-  *)
-    RPROMPT=""
-    PROMPT='
-$(prompt_info)
-$(prompt_prompt) '
-esac
-
-#  PROMPT='
-#$(prompt_time) $(prompt_pwd) $(git_super_status)
-#$(cabal_sandbox_info)$(prompt_virtualenv)$(prompt_char) '

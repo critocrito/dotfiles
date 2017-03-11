@@ -1,3 +1,63 @@
+export BIN_DIR=~/.local/bin
+export CONFIG_DIR=~/.config
+export CACHE_DIR=~/.cache
+export DATA_DIR=~/.local/share
+
+mkdir -p $BIN_DIR
+mkdir -p $CONFIG_DIR
+mkdir -p $CACHE_DIR
+
 fresh freshshell/fresh bin/fresh --bin
 
-fresh git://mx20.cryptodrunks.net:~/git/dotfiles gitconfig --file
+fresh git/config --file
+fresh git/aliases --file
+fresh git/env --file=~/.zshenv
+
+fresh shell/aliases --file
+fresh shell/profile --file
+
+fresh zsh/zprofile --file
+
+fresh systemd/aliases --file
+
+# xmonad
+for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
+fresh xmonad --file=$CONFIG_DIR/xmonad/
+fresh bin/get-volume --bin=$BIN_DIR/get-volume
+
+# Install or upgrade nvm
+NVM_DIR="$HOME/.nvm"
+if [ -d $NVM_DIR ]
+then
+  echo "Upgrading nvm."
+  cd "$NVM_DIR"
+  git fetch origin
+  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
+else
+  echo "Installing nvm."
+  git clone https://github.com/creationix/nvm.git "$NVM_DIR"
+  cd "$NVM_DIR"
+  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
+fi
+cd
+fresh node/env --file=~/.zshenv
+
+# Install or upgrade pyenv
+PYENV_ROOT="$HOME/.pyenv"
+if [ -s $PYENV_ROOT ]
+then
+  echo "Upgrading pyenv."
+  cd $PYENV_ROOT
+  git pull
+  echo "Upgrading pyenv-virtualenv."
+  cd $PYENV_ROOT/plugins/pyenv-virtualenv
+  git pull
+else
+  echo "Installing pyenv."
+  git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
+  echo "Installing pyenv-virtualenv."
+  git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
+fi
+cd
+fresh python/env --file=~/.zshenv
+fresh python/profile --file=~/.profile

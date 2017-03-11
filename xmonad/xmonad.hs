@@ -445,7 +445,7 @@ gnomeRegister2 = io $ do
 -}
 
 main = do
-  xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
+  xmproc <- spawnPipe "xmobar $XDG_CONFIG_HOME/xmonad/xmobarrc"
   -- incommunicado <- spawnPipe myIncommunicado
   -- xmonad $ gnomeConfig $ withUrgencyHook NoUrgencyHook $ defaultConfig {
   xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
@@ -461,7 +461,7 @@ main = do
       setWMName "LG3D"
       -- gnomeRegister2
       windows $ W.greedyView startupWorkspace
-      spawn "~/.xmonad/startup-hook"
+      -- spawn "~/.xmonad/startup-hook"
   , manageHook = manageHook defaultConfig
       <+> myManageHooks
       <+> manageDocks

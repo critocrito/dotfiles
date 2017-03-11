@@ -1,7 +1,3 @@
-# systemd
-alias sc='sudo systemctl'
-alias scu='systemctl --user'
-
 # Manage the nexus android device
 alias nexus-connect="go-mtpfs /media/nexus"
 alias nexus-disconnect="sudo umount /media/nexus"
@@ -41,9 +37,6 @@ alias po='popd'
 # Format kernel log timestamps nicely
 alias dmesg='dmesg -H'
 #alias dmesg='dmesg -T'
-
-# git
-alias g='git'
 
 # alias gdi='git d'
 # alias gbr='git br'

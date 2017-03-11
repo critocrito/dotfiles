@@ -1,2 +1,2 @@
-source ~/.zshenv.d/*.rc
+source ~/.zshenv.d/*.zsh
 systemctl --user import-environment PATH

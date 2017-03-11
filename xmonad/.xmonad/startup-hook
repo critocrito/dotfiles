@@ -9,18 +9,18 @@
 # Repository: https://github.com/davidbrewer/xmonad-ubuntu-conf
 
 # Load X resources (fixes some font issues)
-xrdb -merge ~/.Xresources
+### xrdb -merge ~/.Xresources
 
 # Load the keymap modifications
-if [ -s ~/.Xmodmap ]; then
-  xmodmap ~/.Xmodmap
-fi
+### if [ -s ~/.Xmodmap ]; then
+###   xmodmap ~/.Xmodmap
+### fi
 
 # Start compositing to support transparency. You can omit this
 # if you prefer not to use any transparency, but it is likely to cause
 # ugly black fringing with some programs such as synapse that expect
 # transparency support.
-xcompmgr -n &
+### xcompmgr -n &
 
 # FIXME: This isn't working. I want to control the background color of xmonad.
 #        How do I set it to black???
@@ -36,21 +36,21 @@ xcompmgr -n &
 # when using gnome applications which expect access to the keyring, such
 # as Empathy. This prevents prompts you may otherwise get for invalid
 # certificates and the like.
-eval $(gnome-keyring-daemon --start)
-export SSH_AUTH_SOCK
+### eval $(gnome-keyring-daemon --start)
+### export SSH_AUTH_SOCK
 
 # Enable connman-notify
-if [ -z "$(pgrep -f connman-notify)" ] ; then
-    connman-notify &
-fi
+### if [ -z "$(pgrep -f connman-notify)" ] ; then
+###     connman-notify &
+### fi
 
 # Use Parcellite to manage copy/paste buffer
 # if [ -z "$(pgrep parcellite)" ] ; then
 #     parcellite -n &
 # fi
-if [ -z "$(pgrep clipmenud)"]; then
-  clipmenud &
-fi
+### if [ -z "$(pgrep clipmenud)"]; then
+###   clipmenud &
+### fi
 
 # Load dropbox background process
 #if [ -z "$(pgrep dropbox)" ] ; then

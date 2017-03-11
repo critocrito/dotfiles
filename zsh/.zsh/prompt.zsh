@@ -86,7 +86,6 @@ case "$TERM" in
     PROMPT="> "
     ;;
   *)
-    source $HOME/.zsh-git-prompt/zshrc.sh
     RPROMPT=""
     PROMPT='
 $(prompt_info)

@@ -1,5 +1,5 @@
 # systemd
-alias sc='systemctl'
+alias sc='sudo systemctl'
 alias scu='systemctl --user'
 
 # Manage the nexus android device

@@ -29,6 +29,7 @@
     aa = add -A
     ap = add --patch
     co = checkout
+    cl = clone
     cp = cherry-pick
     ds = diff --cached
     it = !git init && git commit -m 'Initial commit.' --allow-empty

@@ -19,6 +19,11 @@ fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
 for F in aliases env functions; do fresh git/$F --file; done
 
+for F in env rc; do fresh gnupg/$F --file; done
+for F in dirmngr.conf gpg.conf gpg-agent.conf sks-keyservers.netCA.pem; do
+  fresh gnupg/$F --file=$CONFIG_DIR/gnupg/$F
+done
+
 for F in aliases env; do fresh grep/$F --file; done
 
 for F in aliases functions; do fresh emacs/$F --file; done
@@ -26,6 +31,12 @@ for F in aliases functions; do fresh emacs/$F --file; done
 for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
 
 fresh systemd/aliases --file
+mkdir -p $CONFIG_DIR/systemd/user
+
+# xorg
+mkdir -p $CONFIG_DIR/xorg
+for F in xserverrc xinitrc; do fresh xorg/$F --file; done
+for F in resources modmap; do fresh xorg/$F --file=$CONFIG_DIR/xorg/$F; done
 
 # xmonad
 for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done

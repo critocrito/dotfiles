@@ -33,6 +33,8 @@ for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
 fresh systemd/aliases --file
 mkdir -p $CONFIG_DIR/systemd/user
 
+fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
+
 # xorg
 mkdir -p $CONFIG_DIR/xorg
 for F in xserverrc xinitrc; do fresh xorg/$F --file; done

@@ -1,0 +1,1 @@
+alias msmtp='msmtp -C $XDG_CONFIG_DIR/msmtp/msmtprc'

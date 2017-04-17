@@ -5,7 +5,8 @@ ui = ttyui
 # for headless use (cron)
 # ui = silent
 maxsyncaccounts = 5
-pythonfile=~/bin/offlineimap-helpers.py
+metadata = ~/.config/offlineimap/meta
+pythonfile = ~/.config/offlineimap/helpers.py
 socktimeout = 120
 accounts = cryptodrunks,tacticaltech
 
@@ -14,12 +15,12 @@ localrepository = cryptodrunks-local
 remoterepository = cryptodrunks-remote
 autorefresh = 2
 quick = 0
-newmail_hook = ~/bin/update-mail
-postsynchook = ~/bin/update-mail
+newmail_hook = notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in cryptodrunks.'
+postsynchook = ~/.config/offlineimap/mail-hook
 
 [Repository cryptodrunks-local]
 type = Maildir
-localfolders = ~/.mail/cryptodrunks
+localfolders = ~/doc/mail/cryptodrunks
 nametrans = localtransfolder_cryptodrunks
 
 [Repository cryptodrunks-remote]
@@ -29,24 +30,23 @@ cert_fingerprint = fea0bfb0adbe5cd8e168a7340f6999ebe05233cd
 remoteport = 993
 remotehost = mx20.cryptodrunks.net
 remoteuser = crito
+remotepasseval = get_pass('cryptodrunks')
 maxconnections = 3
 nametrans = oimaptransfolder_cryptodrunks
 #keepalive = 60
-
-folderfilter = lambda foldername: foldername in [
-             'INBOX', 'Drafts', 'Sent', 'Trash']
+folderfilter = lambda foldername: foldername in ['INBOX', 'Drafts', 'Sent', 'Trash']
 
 [Account tacticaltech]
 localrepository = tacticaltech-local
 remoterepository = tacticaltech-remote
-autorefresh = 2
-quick = 0
-newmail_hook = ~/bin/update-mail
-postsynchook = ~/bin/update-mail
+autorefresh = 0.5
+quick = 10
+newmail_hook = notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in tacticaltech.'
+postsynchook = ~/.config/offlineimap/mail-hook
 
 [Repository tacticaltech-local]
 type = Maildir
-localfolders = ~/.mail/tacticaltech
+localfolders = ~/doc/mail/tacticaltech
 nametrans = localtransfolder_tacticaltech
 
 [Repository tacticaltech-remote]
@@ -56,9 +56,8 @@ cert_fingerprint = 7a8565825c833baa19e9d6e1f8e2e48484d73b4e
 remoteport = 993
 remotehost = mail.electricembers.net
 remoteuser = christo@tacticaltech.org
+remotepasseval = get_pass('tacticaltech')
 maxconnections = 3
 nametrans = oimaptransfolder_tacticaltech
 #keepalive = 60
-
-folderfilter = lambda foldername: foldername in [
-             'INBOX', 'INBOX.Drafts', 'INBOX.Sent', 'INBOX.Trash']
+folderfilter = lambda foldername: foldername in ['INBOX', 'INBOX.Drafts', 'INBOX.Sent', 'INBOX.Trash']

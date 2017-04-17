@@ -1,0 +1,20 @@
+#!/bin/sh
+basedir="`dirname $0`"
+NOTMUCH="/usr/bin/notmuch"
+
+$NOTMUCH new #--quiet
+
+$NOTMUCH tag +inbox -- "folder:cryptodrunks/crytodrunks and not tag:inbox"
+$NOTMUCH tag +inbox -- "folder:tacticaltech/tacticaltech and not tag:inbox"
+$NOTMUCH tag +sent -- "folder:cryptodrunks/cryptodrunks.Sent and not tag:sent"
+$NOTMUCH tag +sent -- "folder:tacticaltech/INBOX.Sent and not tag:sent"
+$NOTMUCH tag +draft -- "folder:drafts and not tag:draft"
+$NOTMUCH tag +ttc -- "folder:tacticaltech/tacticaltech and not tag:ttc"
+$NOTMUCH tag +cdrunks -- "folder:cryptodrunks/cryptodrunks and not tag:cdrunks"
+$NOTMUCH tag -inbox +archive -- "folder:cryptodrunks/cryptodrunks.Archive and not tag:archive"
+$NOTMUCH tag -inbox +archive -- "folder:tacticaltech/INBOX.Archive and not tag:archive"
+$NOTMUCH tag -unread -inbox +trash -- 'folder:cryptodrunks/cryptodrunks.Trash'
+$NOTMUCH tag -unread -inbox +trash -- 'folder:tacticaltech/INBOX.Trash'
+
+# Delete mail marked for deletion
+# notmuch search --output=files tag:deleted | xargs -L 1 rm

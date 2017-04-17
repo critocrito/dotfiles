@@ -35,6 +35,18 @@ mkdir -p $CONFIG_DIR/systemd/user
 
 fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
 
+# mail setup
+mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
+for F in mailcap aliases env; do fresh mail/$F --file; done
+fresh mail/offlineimaprc --file=$CONFIG_DIR/offlineimap/offlineimaprc
+fresh mail/helpers.py --file=$CONFIG_DIR/offlineimap/helpers.py
+fresh mail/mail-hook --bin=$CONFIG_DIR/offlineimap/mail-hook
+fresh mail/notmuchrc --file=$CONFIG_DIR/notmuch/notmuchrc
+fresh mail/msmtprc --file=$CONFIG_DIR/msmtp/msmtprc
+fresh mail/msmtp-runqueue --bin=$BIN_DIR/msmtp-runqueue
+fresh mail/msmtp-listqueue --bin=$BIN_DIR/msmtp-listqueue
+fresh mail/msmtp-enqueue --bin=$BIN_DIR/msmtp-enqueue
+
 # xorg
 mkdir -p $CONFIG_DIR/xorg
 for F in xserverrc xinitrc; do fresh xorg/$F --file; done

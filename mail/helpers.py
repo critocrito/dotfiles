@@ -1,4 +1,8 @@
 import re
+from subprocess import check_output
+
+def get_pass(account):
+    return check_output("/usr/bin/pass mail/" + account, shell=True).splitlines()[0]
 
 def oimaptransfolder_cryptodrunks(foldername):
     if(foldername == "INBOX"):

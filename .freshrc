@@ -1,7 +1,7 @@
 export BIN_DIR=~/.local/bin
-export CONFIG_DIR=~/.config
-export CACHE_DIR=~/.cache
-export DATA_DIR=~/.local/share
+export CONFIG_DIR=$XDG_CONFIG_HOME
+export CACHE_DIR=$XDG_CACHE_HOME
+export DATA_DIR=$XDG_DATA_HOME
 
 mkdir -p $BIN_DIR
 mkdir -p $CONFIG_DIR
@@ -15,10 +15,12 @@ for F in aliases profile env functions; do fresh shell/$F --file; done
 fresh pam_environment --file
 for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
 
+# git
 fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
 for F in aliases env functions; do fresh git/$F --file; done
 
+# gnupg
 for F in env rc; do fresh gnupg/$F --file; done
 for F in dirmngr.conf gpg.conf gpg-agent.conf sks-keyservers.netCA.pem; do
   fresh gnupg/$F --file=$CONFIG_DIR/gnupg/$F

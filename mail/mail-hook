@@ -16,5 +16,14 @@ $NOTMUCH tag -inbox +archive -- "folder:tacticaltech/INBOX.Archive and not tag:a
 $NOTMUCH tag -unread -inbox +trash -- 'folder:cryptodrunks/cryptodrunks.Trash'
 $NOTMUCH tag -unread -inbox +trash -- 'folder:tacticaltech/INBOX.Trash'
 
+# TTC Mailinglists
+$NOTMUCH tag -inbox +d503 -- "folder:tacticaltech/tacticaltech and to:d-503@lists.tacticaltech.org and tag:inbox"
+$NOTMUCH tag -inbox +berlin -- "folder:tacticaltech/tacticaltech and to:berlin@tacticaltech.org and tag:inbox"
+
+# Haskell mailinglists
+$NOTMUCH tag -inbox +haskell -- "folder:cryptodrunks/cryptodrunks and to:haskell@haskell.org and tag:inbox"
+$NOTMUCH tag -inbox +haskell-beginners -- "folder:cryptodrunks/cryptodrunks and to:beginners@haskell.org and tag:inbox"
+$NOTMUCH tag -inbox +haskell-cafe -- "folder:cryptodrunks/cryptodrunks and to:haskell-cafe@haskell.org and tag:inbox"
+
 # Delete mail marked for deletion
 # notmuch search --output=files tag:deleted | xargs -L 1 rm

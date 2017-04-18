@@ -15,7 +15,7 @@ localrepository = cryptodrunks-local
 remoterepository = cryptodrunks-remote
 autorefresh = 2
 quick = 0
-newmail_hook = notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in cryptodrunks.'
+# newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in cryptodrunks.'")
 postsynchook = ~/.config/offlineimap/mail-hook
 
 [Repository cryptodrunks-local]
@@ -41,7 +41,7 @@ localrepository = tacticaltech-local
 remoterepository = tacticaltech-remote
 autorefresh = 0.5
 quick = 10
-newmail_hook = notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in tacticaltech.'
+# newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in tacticaltech.'")
 postsynchook = ~/.config/offlineimap/mail-hook
 
 [Repository tacticaltech-local]

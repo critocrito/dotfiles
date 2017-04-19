@@ -1,19 +1,47 @@
-export BIN_DIR=~/.local/bin
-export CONFIG_DIR=$XDG_CONFIG_HOME
-export CACHE_DIR=$XDG_CACHE_HOME
-export DATA_DIR=$XDG_DATA_HOME
+# Otherwise $HOME is not recognized in fresh-options
+ROOT=$HOME
+BIN_DIR=$HOME/.local/bin
 
-mkdir -p $BIN_DIR
-mkdir -p $CONFIG_DIR
-mkdir -p $CACHE_DIR
+if [[ "$(uname)" == "Darwin" ]]
+then
+  CONFIG_DIR=$HOME/Library/Preferences/
+  CACHE_DIR=$HOME/Library/Caches/
+  DATA_DIR=$HOME/Library/
+else
+  CONFIG_DIR=$XDG_CONFIG_HOME
+  CACHE_DIR=$XDG_CACHE_HOME
+  DATA_DIR=$XDG_DATA_HOME
+fi
 
-fresh freshshell/fresh bin/fresh --bin
+for D in $BIN_DIR $CONFIG_DIR $CACHE_DIR
+do
+  mkdir -p $D
+done
+
+fresh freshshell/fresh bin/fresh --bin=$BIN_DIR/fresh
 
 # Set up the basic shell. This should be first.
-for F in aliases profile env functions; do fresh shell/$F --file; done
+fresh-options --file=~/.env --ignore-missing
+  fresh shell/env.$(uname)
+  fresh shell/env
+fresh-options
+for F in aliases profile functions; do fresh shell/$F --file; done
 
-fresh pam_environment --file
-for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
+# $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
+if [[ "$(uname)" == "Linux" ]]
+then
+  fresh pam_environment --file
+  for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
+  fresh systemd/aliases --file
+  mkdir -p $CONFIG_DIR/systemd/user
+  fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
+fi
+
+# SSH
+fresh-options --file=~/.env --ignore-missing
+  fresh ssh/env.$(uname)
+  fresh ssh/env
+fresh-options
 
 # git
 fresh git/gitconfig --file
@@ -22,20 +50,20 @@ for F in aliases env functions; do fresh git/$F --file; done
 
 # gnupg
 for F in env rc; do fresh gnupg/$F --file; done
-for F in dirmngr.conf gpg.conf gpg-agent.conf sks-keyservers.netCA.pem; do
-  fresh gnupg/$F --file=$CONFIG_DIR/gnupg/$F
+for F in dirmngr.conf gpg.conf sks-keyservers.netCA.pem
+do
+  fresh gnupg/$F --file=$HOME/.gnupg/$F
 done
+fresh-options --file=$HOME/.gnupg/gpg-agent.conf --ignore-missing
+  fresh gnupg/gpg-agent.conf
+  fresh gnupg/gpg-agent.conf.$(uname)
+fresh-options
 
 for F in aliases env; do fresh grep/$F --file; done
 
 for F in aliases functions; do fresh emacs/$F --file; done
 
 for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
-
-fresh systemd/aliases --file
-mkdir -p $CONFIG_DIR/systemd/user
-
-fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
@@ -50,14 +78,24 @@ fresh mail/msmtp-listqueue --bin=$BIN_DIR/msmtp-listqueue
 fresh mail/msmtp-enqueue --bin=$BIN_DIR/msmtp-enqueue
 
 # xorg
-mkdir -p $CONFIG_DIR/xorg
-for F in xserverrc xinitrc; do fresh xorg/$F --file; done
-for F in resources modmap; do fresh xorg/$F --file=$CONFIG_DIR/xorg/$F; done
+if [[ "$(uname)" == "Linux" ]]
+then
+  mkdir -p $CONFIG_DIR/xorg
+  for F in resources modmap; do fresh xorg/$F --file=$CONFIG_DIR/xorg/$F; done
+  for F in xserverrc xinitrc; do fresh xorg/$F --file; done
+elif [[ "$(uname)" == "Darwin" ]]
+then
+  fresh xorg/resources --file=$HOME/.Xresources
+  fresh xorg/modmap --file=$HOME/.Xmodmap
+fi
 
 # xmonad
-for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
-fresh xmonad --file=$CONFIG_DIR/xmonad/
-fresh bin/get-volume --bin=$BIN_DIR/get-volume
+if [[ "$(uname)" == "Linux" ]]
+then
+  for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
+  fresh xmonad --file=$CONFIG_DIR/xmonad/
+  fresh bin/get-volume --bin=$BIN_DIR/get-volume
+fi
 
 for F in rc profile functions; do fresh haskell/$F --file; done
 
@@ -97,3 +135,26 @@ else
 fi
 cd
 for F in rc profile env functions; do fresh python/$F --file; done
+
+
+# git super status
+GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
+compile_git_super_status() {
+  cd $GIT_SUPER_STATUS_DIR
+  stack setup
+  stack build && stack install
+  cp $GIT_SUPER_STATUS_DIR/src/.bin/gitstatus $BIN_DIR
+  cd -
+}
+if [ -s $GIT_SUPER_STATUS_DIR ]
+then
+  echo "Upgrading git-super-status"
+  cd $GIT_SUPER_STATUS_DIR
+  git pull
+  # FIXME: Only compile if changes got pulled
+  # compile_git_super_status
+else
+  echo "Installing git-super-status"
+  git clone https://github.com/olivierverdier/zsh-git-prompt.git $GIT_SUPER_STATUS_DIR
+  compile_git_super_status
+fi

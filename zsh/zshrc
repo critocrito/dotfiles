@@ -60,7 +60,7 @@ mkdir -p $ZSH_CACHE_DIR
 autoload -U colors && colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # Only GNU coreutils have dircolors, not so on Mac or other BSD's.
-[ is_linux ] && eval "$(dircolors -b)"
+if is_linux; then eval "$(dircolors -b)"; fi
 
 ### History
 # Configure the output format of the history command

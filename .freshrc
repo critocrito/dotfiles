@@ -40,15 +40,30 @@ fresh-options --file=~/.env --ignore-missing --marker
   fresh gnupg/env
 fresh-options
 
+# Configure shell aliases
+fresh-options --file=~/.aliases --ignore-missing --marker
+  fresh shell/aliases
+  fresh shell/aliases.$(uname)
+  fresh git/aliases
+  fresh grep/aliases
+  fresh emacs/aliases
+  fresh mail/aliases
+  fresh ruby/aliases
+  if is_linux
+  then
+    fresh systemd/aliases
+    fresh rtorrent/aliases
+  fi
+fresh-options
+
 # Set up the basic shell. This should be first.
-for F in aliases profile functions; do fresh shell/$F --file; done
+for F in profile functions; do fresh shell/$F --file; done
 
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
 if is_linux
 then
   fresh pam_environment --file
   for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
-  fresh systemd/aliases --file
   mkdir -p $CONFIG_DIR/systemd/user
   fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
 fi
@@ -56,7 +71,7 @@ fi
 # git
 fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
-for F in aliases functions; do fresh git/$F --file; done
+for F in functions; do fresh git/$F --file; done
 
 # gnupg
 fresh gnupg/rc --file
@@ -69,10 +84,8 @@ fresh-options --file=$HOME/.gnupg/gpg-agent.conf --ignore-missing
   fresh gnupg/gpg-agent.conf.$(uname)
 fresh-options
 
-fresh grep/aliases --file
-
 # Emacs
-for F in aliases functions; do fresh emacs/$F --file; done
+for F in functions; do fresh emacs/$F --file; done
 # See https://emacsformacosx.com/tips
 # brew install --with-cocoa --srgb emacs
 # brew services start emacs
@@ -91,7 +104,7 @@ for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
-for F in mailcap aliases; do fresh mail/$F --file; done
+for F in mailcap; do fresh mail/$F --file; done
 for F in offlineimaprc helpers.py mail-hook
 do
   fresh mail/$F --file=$CONFIG_DIR/offlineimap/$F

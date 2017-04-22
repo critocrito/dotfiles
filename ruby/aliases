@@ -1,0 +1,6 @@
+alias bexec="bundle exec"
+alias bcap="bexec cap"
+alias brake="bexec rake"
+alias bgem='bexec gem'
+alias binstall="bundle install"
+alias irb='irb --simple-prompt'

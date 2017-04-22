@@ -48,46 +48,17 @@ case $HIST_STAMPS in
   *) alias history='fc -l 1' ;;
 esac
 
-# alias gdi='git d'
-# alias gbr='git br'
-# alias gco='git co'
-# alias gst='git s -sb'
-# alias glo='git lo'
-# alias gnb='git nb'
-# alias gpu='git p'
-# alias gpl='git pl'
-# alias gre='git re'
-# alias gmt='git mt'
-# alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-# alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
-
 # commands starting with % for pasting from web
 # alias %=' '
 
 alias pp='pjson'
 
-#alias rtorrent='tmux new -d -s rtorrent -n rtorrent rtorrent; echo "rtorrent started in a tmux session. Attach to it by running: tmux attach -t rtorrent"'
-alias gmount='gvfs-mount -d'
-alias gumount='gvfs-mount -u'
-
 # Make jist always open up the gist in a browser
 alias jist="jist -o"
 
-# Ruby helper aliases
-alias bexec="bundle exec"
-alias bcap="bexec cap"
-alias brake="bexec rake"
-alias bgem='bexec gem'
-alias binstall="bundle install"
-
 alias clr='clear'
-alias s_smtp='python -m smtpd -n -c DebuggingServer localhost:1025' # SMTP test server, outputs to console
-
-# alias wget='wget --no-check-certificate'
 
 alias afind='ack -il'
 
 alias _='sudo'
 alias please='sudo'
-
-alias irb='irb --simple-prompt'

@@ -1,0 +1,1 @@
+#alias rtorrent='tmux new -d -s rtorrent -n rtorrent rtorrent; echo "rtorrent started in a tmux session. Attach to it by running: tmux attach -t rtorrent"'

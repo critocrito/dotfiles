@@ -28,6 +28,14 @@ done
 
 fresh freshshell/fresh bin/fresh --bin
 
+fresh-options --file=~/.functions --ignore-missing --marker
+  fresh shell/functions
+  fresh git/functions
+  fresh emacs/functions
+  fresh zsh/functions
+fresh-options
+
+
 # Set all environment variables.
 fresh-options --file=~/.env --ignore-missing --marker
   fresh shell/env.$(uname)
@@ -49,6 +57,7 @@ fresh-options --file=~/.aliases --ignore-missing --marker
   fresh emacs/aliases
   fresh mail/aliases
   fresh ruby/aliases
+
   if is_linux
   then
     fresh systemd/aliases
@@ -57,7 +66,7 @@ fresh-options --file=~/.aliases --ignore-missing --marker
 fresh-options
 
 # Set up the basic shell. This should be first.
-for F in profile functions; do fresh shell/$F --file; done
+fresh shell/profile --file --marker
 
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
 if is_linux
@@ -71,7 +80,6 @@ fi
 # git
 fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
-for F in functions; do fresh git/$F --file; done
 
 # gnupg
 fresh gnupg/rc --file
@@ -85,7 +93,6 @@ fresh-options --file=$HOME/.gnupg/gpg-agent.conf --ignore-missing
 fresh-options
 
 # Emacs
-for F in functions; do fresh emacs/$F --file; done
 # See https://emacsformacosx.com/tips
 # brew install --with-cocoa --srgb emacs
 # brew services start emacs
@@ -100,7 +107,7 @@ then
 fi
 
 # ZSH
-for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
+for F in zprofile zshenv zshrc; do fresh zsh/$F --file; done
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp

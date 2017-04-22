@@ -1,8 +1,11 @@
-# Otherwise $HOME is not recognized in fresh-options
-ROOT=$HOME
-BIN_DIR=$HOME/.local/bin
+# Load all shell functions.
+for F in functions git-super-status
+do
+  source $FRESH_LOCAL/fresh/$F.sh
+done
 
-if [[ "$(uname)" == "Darwin" ]]
+# Configure home.
+if is_mac
 then
   CONFIG_DIR=$HOME/Library/Preferences/
   CACHE_DIR=$HOME/Library/Caches/
@@ -12,23 +15,36 @@ else
   CACHE_DIR=$XDG_CACHE_HOME
   DATA_DIR=$XDG_DATA_HOME
 fi
+FRESH_BIN_PATH=$HOME/.local/bin
+GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
+NVM_DIR=$HOME/.nvm
+PYENV_ROOT=$HOME/.pyenv
 
-for D in $BIN_DIR $CONFIG_DIR $CACHE_DIR
+# Ensure all required directories.
+for D in $FRESH_BIN_PATH $CONFIG_DIR $CACHE_DIR $DATA_DIR
 do
   mkdir -p $D
 done
 
-fresh freshshell/fresh bin/fresh --bin=$BIN_DIR/fresh
+fresh freshshell/fresh bin/fresh --bin
 
-# Set up the basic shell. This should be first.
-fresh-options --file=~/.env --ignore-missing
+# Set all environment variables.
+fresh-options --file=~/.env --ignore-missing --marker
   fresh shell/env.$(uname)
   fresh shell/env
+  fresh ssh/env.$(uname)
+  fresh ssh/env
+  fresh git/env
+  fresh grep/env
+  fresh mail/env
+  fresh gnupg/env
 fresh-options
+
+# Set up the basic shell. This should be first.
 for F in aliases profile functions; do fresh shell/$F --file; done
 
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
-if [[ "$(uname)" == "Linux" ]]
+if is_linux
 then
   fresh pam_environment --file
   for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
@@ -37,19 +53,13 @@ then
   fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
 fi
 
-# SSH
-fresh-options --file=~/.env --ignore-missing
-  fresh ssh/env.$(uname)
-  fresh ssh/env
-fresh-options
-
 # git
 fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
-for F in aliases env functions; do fresh git/$F --file; done
+for F in aliases functions; do fresh git/$F --file; done
 
 # gnupg
-for F in env rc; do fresh gnupg/$F --file; done
+fresh gnupg/rc --file
 for F in dirmngr.conf gpg.conf sks-keyservers.netCA.pem
 do
   fresh gnupg/$F --file=$HOME/.gnupg/$F
@@ -59,48 +69,63 @@ fresh-options --file=$HOME/.gnupg/gpg-agent.conf --ignore-missing
   fresh gnupg/gpg-agent.conf.$(uname)
 fresh-options
 
-for F in aliases env; do fresh grep/$F --file; done
+fresh grep/aliases --file
 
+# Emacs
 for F in aliases functions; do fresh emacs/$F --file; done
+# See https://emacsformacosx.com/tips
+# brew install --with-cocoa --srgb emacs
+# brew services start emacs
+# brew linkapps emacs
+if is_mac
+then
+  ln -sf /Applications/Emacs.app/Contents/MacOS/bin/emacsclient $FRESH_BIN_PATH/emacsclient
+  fresh-options --bin
+    fresh emacs/emacs
+    fresh emacs/ec
+  fresh-options
+fi
 
+# ZSH
 for F in functions zprofile zshenv zshrc; do fresh zsh/$F --file; done
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
-for F in mailcap aliases env; do fresh mail/$F --file; done
-fresh mail/offlineimaprc --file=$CONFIG_DIR/offlineimap/offlineimaprc
-fresh mail/helpers.py --file=$CONFIG_DIR/offlineimap/helpers.py
-fresh mail/mail-hook --bin=$CONFIG_DIR/offlineimap/mail-hook
+for F in mailcap aliases; do fresh mail/$F --file; done
+for F in offlineimaprc helpers.py mail-hook
+do
+  fresh mail/$F --file=$CONFIG_DIR/offlineimap/$F
+done
 fresh mail/notmuchrc --file=$CONFIG_DIR/notmuch/notmuchrc
 fresh mail/msmtprc --file=$CONFIG_DIR/msmtp/msmtprc
-fresh mail/msmtp-runqueue --bin=$BIN_DIR/msmtp-runqueue
-fresh mail/msmtp-listqueue --bin=$BIN_DIR/msmtp-listqueue
-fresh mail/msmtp-enqueue --bin=$BIN_DIR/msmtp-enqueue
+for B in msmtp-runqueue msmtp-listqueue msmtp-enqueue
+do
+  fresh mail/$B --bin
+done
 
 # xorg
-if [[ "$(uname)" == "Linux" ]]
+if is_linux
 then
   mkdir -p $CONFIG_DIR/xorg
   for F in resources modmap; do fresh xorg/$F --file=$CONFIG_DIR/xorg/$F; done
   for F in xserverrc xinitrc; do fresh xorg/$F --file; done
-elif [[ "$(uname)" == "Darwin" ]]
+elif is_mac
 then
   fresh xorg/resources --file=$HOME/.Xresources
   fresh xorg/modmap --file=$HOME/.Xmodmap
 fi
 
 # xmonad
-if [[ "$(uname)" == "Linux" ]]
+if is_linux
 then
   for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
   fresh xmonad --file=$CONFIG_DIR/xmonad/
-  fresh bin/get-volume --bin=$BIN_DIR/get-volume
+  fresh bin/get-volume --bin
 fi
 
 for F in rc profile functions; do fresh haskell/$F --file; done
 
 # Install or upgrade nvm
-NVM_DIR="$HOME/.nvm"
 if [ -d $NVM_DIR ]
 then
   echo "Upgrading nvm."
@@ -116,9 +141,7 @@ fi
 cd
 for F in rc env functions; do fresh node/$F --file; done
 
-
 # Install or upgrade pyenv
-PYENV_ROOT="$HOME/.pyenv"
 if [ -s $PYENV_ROOT ]
 then
   echo "Upgrading pyenv."
@@ -136,25 +159,5 @@ fi
 cd
 for F in rc profile env functions; do fresh python/$F --file; done
 
-
 # git super status
-GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
-compile_git_super_status() {
-  cd $GIT_SUPER_STATUS_DIR
-  stack setup
-  stack build && stack install
-  cp $GIT_SUPER_STATUS_DIR/src/.bin/gitstatus $BIN_DIR
-  cd -
-}
-if [ -s $GIT_SUPER_STATUS_DIR ]
-then
-  echo "Upgrading git-super-status"
-  cd $GIT_SUPER_STATUS_DIR
-  git pull
-  # FIXME: Only compile if changes got pulled
-  # compile_git_super_status
-else
-  echo "Installing git-super-status"
-  git clone https://github.com/olivierverdier/zsh-git-prompt.git $GIT_SUPER_STATUS_DIR
-  compile_git_super_status
-fi
+git_super_status $GIT_SUPER_STATUS_DIR

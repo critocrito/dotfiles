@@ -25,5 +25,8 @@ $NOTMUCH tag -inbox +haskell -- "folder:cryptodrunks/cryptodrunks and to:haskell
 $NOTMUCH tag -inbox +haskell-beginners -- "folder:cryptodrunks/cryptodrunks and to:beginners@haskell.org and tag:inbox"
 $NOTMUCH tag -inbox +haskell-cafe -- "folder:cryptodrunks/cryptodrunks and to:haskell-cafe@haskell.org and tag:inbox"
 
+# The Morning Paper
+$NOTMUCH tag -inbox +morning-paper -- "folder:tacticaltech/tacticaltech and from:the-morning-paper@onelanday.co.uk and tag:inbox"
+
 # Delete mail marked for deletion
 # notmuch search --output=files tag:deleted | xargs -L 1 rm

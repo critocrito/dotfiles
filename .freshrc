@@ -112,10 +112,11 @@ for F in zprofile zshenv zshrc; do fresh zsh/$F --file; done
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
 for F in mailcap; do fresh mail/$F --file; done
-for F in offlineimaprc helpers.py mail-hook
+for F in offlineimaprc helpers.py
 do
   fresh mail/$F --file=$CONFIG_DIR/offlineimap/$F
 done
+fresh mail/mail-hook --bin=$CONFIG_DIR/offlineimap/mail-hook
 fresh mail/notmuchrc --file=$CONFIG_DIR/notmuch/notmuchrc
 fresh mail/msmtprc --file=$CONFIG_DIR/msmtp/msmtprc
 for B in msmtp-runqueue msmtp-listqueue msmtp-enqueue

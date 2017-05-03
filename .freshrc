@@ -116,7 +116,12 @@ for F in offlineimaprc helpers.py
 do
   fresh mail/$F --file=$CONFIG_DIR/offlineimap/$F
 done
-fresh mail/mail-hook --bin=$CONFIG_DIR/offlineimap/mail-hook
+
+for I in cryptodrunks ttc
+do
+  fresh mail/mail-hook-$I --bin=$CONFIG_DIR/offlineimap/mail-hook-$I
+done
+
 fresh mail/notmuchrc --file=$CONFIG_DIR/notmuch/notmuchrc
 fresh mail/msmtprc --file=$CONFIG_DIR/msmtp/msmtprc
 for B in msmtp-runqueue msmtp-listqueue msmtp-enqueue

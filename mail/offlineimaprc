@@ -1,13 +1,14 @@
 # See: http://dev.gentoo.org/~tomka/mail.html
 [general]
 # for interactive use
-ui = ttyui
+# ui = ttyui
 # for headless use (cron)
 # ui = silent
 maxsyncaccounts = 5
 metadata = ~/.config/offlineimap/meta
 pythonfile = ~/.config/offlineimap/helpers.py
 socktimeout = 120
+# maxsyncaccounts = 1
 accounts = cryptodrunks,tacticaltech
 
 [Account cryptodrunks]
@@ -16,7 +17,7 @@ remoterepository = cryptodrunks-remote
 autorefresh = 2
 quick = 0
 # newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in cryptodrunks.'")
-postsynchook = ~/.config/offlineimap/mail-hook
+postsynchook = ~/.config/offlineimap/mail-hook-cryptodrunks
 
 [Repository cryptodrunks-local]
 type = Maildir
@@ -34,15 +35,16 @@ remotepasseval = get_pass('cryptodrunks')
 maxconnections = 3
 nametrans = oimaptransfolder_cryptodrunks
 #keepalive = 60
+holdconnectionopen = yes
 folderfilter = lambda foldername: foldername in ['INBOX', 'Drafts', 'Sent', 'Trash']
 
 [Account tacticaltech]
 localrepository = tacticaltech-local
 remoterepository = tacticaltech-remote
-autorefresh = 0.5
+autorefresh = 1
 quick = 10
 # newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in tacticaltech.'")
-postsynchook = ~/.config/offlineimap/mail-hook
+postsynchook = ~/.config/offlineimap/mail-hook-ttc
 
 [Repository tacticaltech-local]
 type = Maildir
@@ -59,5 +61,6 @@ remoteuser = christo@tacticaltech.org
 remotepasseval = get_pass('tacticaltech')
 maxconnections = 3
 nametrans = oimaptransfolder_tacticaltech
-#keepalive = 60
+# keepalive = 60
+holdconnectionopen = yes
 folderfilter = lambda foldername: foldername in ['INBOX', 'INBOX.Drafts', 'INBOX.Sent', 'INBOX.Trash']

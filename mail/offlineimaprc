@@ -14,7 +14,7 @@ accounts = cryptodrunks,tacticaltech
 [Account cryptodrunks]
 localrepository = cryptodrunks-local
 remoterepository = cryptodrunks-remote
-autorefresh = 2
+autorefresh = 5
 quick = 0
 # newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in cryptodrunks.'")
 postsynchook = ~/.config/offlineimap/mail-hook-cryptodrunks
@@ -42,7 +42,7 @@ folderfilter = lambda foldername: foldername in ['INBOX', 'Drafts', 'Sent', 'Tra
 localrepository = tacticaltech-local
 remoterepository = tacticaltech-remote
 autorefresh = 1
-quick = 10
+quick = 0
 # newmail_hook = lambda: os.system("notify-send -h string:bgcolor:#3579a8 -h string:fgcolor:#d0d0d0 'New Mail in tacticaltech.'")
 postsynchook = ~/.config/offlineimap/mail-hook-ttc
 

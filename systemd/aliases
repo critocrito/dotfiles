@@ -1,2 +1,4 @@
 alias sc='sudo systemctl'
 alias scu='systemctl --user'
+alias jc='sudo journalctl'
+alias jcu='journalctl --user'

@@ -129,6 +129,9 @@ do
   fresh mail/$B --bin
 done
 
+# beets music collection
+fresh beets/config.yaml --file=$CONFIG_DIR/beets/config.yaml
+
 # xorg
 if is_linux
 then

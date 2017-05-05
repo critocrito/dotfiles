@@ -1,0 +1,2 @@
+directory: ~/snd            # The default library root directory.
+library: ~/snd/library.db   # The default library database file to use.

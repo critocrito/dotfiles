@@ -54,7 +54,9 @@ nametrans = localtransfolder_tacticaltech
 [Repository tacticaltech-remote]
 type = IMAP
 ssl = yes
-cert_fingerprint = 7a8565825c833baa19e9d6e1f8e2e48484d73b4e
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# cert_fingerprint = 7a8565825c833baa19e9d6e1f8e2e48484d73b4e
+cert_fingerprint = 4c53c0b44c272e59ae1be6ed18b60f0d9f92d5d3
 remoteport = 993
 remotehost = mail.electricembers.net
 remoteuser = christo@tacticaltech.org

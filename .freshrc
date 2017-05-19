@@ -1,5 +1,5 @@
 # Ensure home directory structure
-for D in bkp doc img old snd spool src tmp vid www; do mkdir $D; done
+for D in bkp doc img old snd spool src tmp vid www; do mkdir -p $D; done
 
 # Load all shell functions.
 for F in functions git-super-status

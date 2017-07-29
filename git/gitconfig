@@ -1,7 +1,7 @@
 [user]
-    name = crito
-    email = crito@cryptodrunks.net
-    signingkey = 1CFA02A2
+    name = Christo
+    email = christo@cryptodrunks.net
+    signingkey = 0x290576A0E6A053E0
 [color]
     ui = true
 [color "branch"]
@@ -19,11 +19,13 @@
     c = commit
     d = diff
     s = status --short --branch
-    l = log
+    l = log --decorate --graph --date=short --format=format:'%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset'
+ 
     a = add
     m = merge
     b = branch -v
     r = remote -v
+    t = tag
     g = grep --break --heading --line-number # in uncommitted state
 
     aa = add -A
@@ -37,8 +39,10 @@
     ms = merge --squash
     nb = checkout -b
     pu = push
+    rh = reset --hard
     sh = show
     st = status
+    tv = tag -v
 
     amend = commit --amend             # amend your last commit
     cherry-pick = cherry-pick -x       # grab a change from a branch
@@ -48,9 +52,8 @@
     staaash = stash --all               # stash ignored, untracked, and tracked files
 
     last         = diff HEAD^          # diff last committed change
-    log          = log --decorate --graph --date=short --graph
     grog         = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'
-    stats        = log --stat          # Show log stats
+    stats        = log --stat --format=format:'%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset' # Show log stats
     changes      = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
     short        = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
     changelog    = log --pretty=format:\" * %s\"
@@ -60,9 +63,8 @@
     unstage  = reset HEAD              # remove files from index (tracking)
     uncommit = reset --soft HEAD^      # go back before last commit, with files
     patch = !git --no-pager diff --no-color
-
-[format]
-    pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+[log]
+    showSignature = true
 [merge]
     summary = true
     verbosity = 1

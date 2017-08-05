@@ -114,13 +114,14 @@ for F in zprofile zshenv zshrc; do fresh zsh/$F --file; done
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
+fresh mail/helpers.py --file=$CONFIG_DIR/offlineimap/helpers.py
 for F in mailcap; do fresh mail/$F --file; done
-for F in offlineimaprc helpers.py
+for M in cryptodrunks cryptodrunks2 ttc
 do
-  fresh mail/$F --file=$CONFIG_DIR/offlineimap/$F
+  fresh mail/offlineimaprc.$M --file=$CONFIG_DIR/offlineimap/offlineimaprc.$M
 done
 
-for I in cryptodrunks ttc
+for I in cryptodrunks cryptodrunks2 ttc
 do
   fresh mail/mail-hook-$I --bin=$CONFIG_DIR/offlineimap/mail-hook-$I
 done

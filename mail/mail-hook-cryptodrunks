@@ -4,12 +4,12 @@ NOTMUCH="/usr/bin/notmuch"
 
 $NOTMUCH new #--quiet
 
-$NOTMUCH tag +inbox -- "folder:cryptodrunks/crytodrunks and not tag:inbox"
-$NOTMUCH tag +sent -- "folder:cryptodrunks/cryptodrunks.Sent and not tag:sent"
+$NOTMUCH tag +inbox -- "folder:crito@cryptodrunks.net/crytodrunks and not tag:inbox"
+$NOTMUCH tag +sent -- "folder:crito@cryptodrunks.net/cryptodrunks.Sent and not tag:sent"
 $NOTMUCH tag +draft -- "folder:drafts and not tag:draft"
-$NOTMUCH tag +cdrunks -- "folder:cryptodrunks/cryptodrunks and not tag:cdrunks"
-$NOTMUCH tag -inbox +archive -- "folder:cryptodrunks/cryptodrunks.Archive and not tag:archive"
-$NOTMUCH tag -unread -inbox +trash -- 'folder:cryptodrunks/cryptodrunks.Trash'
+$NOTMUCH tag +cdrunks -- "folder:crito@cryptodrunks.net/cryptodrunks and not tag:cdrunks"
+$NOTMUCH tag -inbox +archive -- "folder:crito@cryptodrunks.net/cryptodrunks.Archive and not tag:archive"
+$NOTMUCH tag -unread -inbox +trash -- 'folder:crito@cryptodrunks.net/cryptodrunks.Trash'
 
 # Haskell mailinglists
 $NOTMUCH tag -inbox +haskell -- "to:haskell@haskell.org and tag:inbox"

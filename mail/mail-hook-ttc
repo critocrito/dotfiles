@@ -4,12 +4,12 @@ NOTMUCH="/usr/bin/notmuch"
 
 $NOTMUCH new #--quiet
 
-$NOTMUCH tag +inbox -- "folder:tacticaltech/tacticaltech and not tag:inbox"
-$NOTMUCH tag +sent -- "folder:tacticaltech/INBOX.Sent and not tag:sent"
+$NOTMUCH tag +inbox -- "folder:christo@tacticaltech.org/tacticaltech and not tag:inbox"
+$NOTMUCH tag +sent -- "folder:christo@tacticaltech.org/INBOX.Sent and not tag:sent"
 $NOTMUCH tag +draft -- "folder:drafts and not tag:draft"
-$NOTMUCH tag +ttc -- "folder:tacticaltech/tacticaltech and not tag:ttc"
-$NOTMUCH tag -inbox +archive -- "folder:tacticaltech/INBOX.Archive and not tag:archive"
-$NOTMUCH tag -unread -inbox +trash -- 'folder:tacticaltech/INBOX.Trash'
+$NOTMUCH tag +ttc -- "folder:christo@tacticaltech.org/tacticaltech and not tag:ttc"
+$NOTMUCH tag -inbox +archive -- "folder:christo@tacticaltech.org/INBOX.Archive and not tag:archive"
+$NOTMUCH tag -unread -inbox +trash -- 'folder:christo@tacticaltech.org/INBOX.Trash'
 
 # TTC Mailinglists
 $NOTMUCH tag -inbox +d503 -- "to:d-503@lists.tacticaltech.org and tag:inbox"

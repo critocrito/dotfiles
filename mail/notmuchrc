@@ -31,7 +31,7 @@ path=/home/crito/doc/mail
 [user]
 name=crito
 primary_email=crito@cryptodrunks.net
-other_email=christo@tacticaltech.org;
+other_email=christo@tacticaltech.org;christo@cryptodrunks.net;
 
 # Configuration for "notmuch new"
 #

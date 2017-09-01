@@ -19,8 +19,8 @@
     c = commit
     d = diff
     s = status --short --branch
-    l = log --decorate --graph --date=short --format=format:'%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset'
- 
+    l = log --graph --pretty=brief --date=relative
+
     a = add
     m = merge
     b = branch -v
@@ -30,6 +30,8 @@
 
     aa = add -A
     ap = add --patch
+    ca = commit -a -m
+    cm = commit -m
     co = checkout
     cl = clone
     cp = cherry-pick
@@ -44,6 +46,7 @@
     st = status
     tv = tag -v
 
+    wip = "!f() { git add -A; git commit -n -m \"wip $1\"; }; f"
     amend = commit --amend             # amend your last commit
     cherry-pick = cherry-pick -x       # grab a change from a branch
 
@@ -51,20 +54,24 @@
     staash  = stash --include-untracked # stash untracked and tracked files
     staaash = stash --all               # stash ignored, untracked, and tracked files
 
-    last         = diff HEAD^          # diff last committed change
-    grog         = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'
-    stats        = log --stat --format=format:'%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset' # Show log stats
-    changes      = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
-    short        = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-    changelog    = log --pretty=format:\" * %s\"
-    shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
-    filelog      = log -u              # show changes to a file
-    remote = remote -v                 # Be verbose when printing remotes
-    unstage  = reset HEAD              # remove files from index (tracking)
-    uncommit = reset --soft HEAD^      # go back before last commit, with files
-    patch = !git --no-pager diff --no-color
+    last       = diff HEAD^          # diff last committed change
+    stats      = log --stat --pretty=brief
+    changes    = log --name-status --pretty=brief
+    changelog  = log --pretty=changelog
+    short      = log --pretty=short
+    shortnc    = log --pretty=shortnocolor
+    filelog    = log --patch --pretty=brief  # show changes to a file
+    remote     = remote -v           # Be verbose when printing remotes
+    unstage    = reset HEAD          # remove files from index (tracking)
+    uncommit   = reset --soft HEAD^  # go back before last commit, with files
+    patch      = !git --no-pager diff --no-color
+    churn      = !git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}' | column -t
 [log]
     showSignature = true
+[pretty]
+    brief = %Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset
+    short = %h %cr %cn %Cgreen%s%Creset
+    shortnocolor = %h %cr %cn %s
 [merge]
     summary = true
     verbosity = 1
@@ -116,14 +123,27 @@
   (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [grep]
-	extendRegexp = true
-	lineNumber = true
+    extendRegexp = true
+    lineNumber = true
 [sendemail]
-	smtpuser = crito
-	smtpserver = mx20.cryptodrunks.net
-	smtpencryption = tls
-	smtpserverport = 587
-	suppresscc = self
+    smtpuser = crito
+    smtpserver = mx20.cryptodrunks.net
+    smtpencryption = tls
+    smtpserverport = 587
+    suppresscc = self
 [pager]
     diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
     show = diff-so-fancy | less --tabs=4 -RFX
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+
+# URL shorthands
+[url "git@gitlab.com:"]
+    insteadOf = gl:
+[url "git@github.com:"]
+    insteadOf = gh:
+[url "https://gist.github.com/"]
+    insteadOf = gist:
+[url "git@gitlab.com:littlefork/"]
+    insteadOf = lf:

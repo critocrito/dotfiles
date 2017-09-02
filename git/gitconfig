@@ -30,12 +30,14 @@
 
     aa = add -A
     ap = add --patch
+    br = branch -av
     ca = commit -a -m
     cm = commit -m
     co = checkout
     cl = clone
     cp = cherry-pick
     ds = diff --cached
+    fa = fetch --all
     it = !git init && git commit -m 'Initial commit.' --allow-empty
     mt = mergetool
     ms = merge --squash
@@ -58,26 +60,24 @@
     stats      = log --stat --pretty=brief
     changes    = log --name-status --pretty=brief
     changelog  = log --pretty=changelog
-    short      = log --pretty=short
+    short      = log --pretty=shortcolor
     shortnc    = log --pretty=shortnocolor
     filelog    = log --patch --pretty=brief  # show changes to a file
     remote     = remote -v           # Be verbose when printing remotes
     unstage    = reset HEAD          # remove files from index (tracking)
     uncommit   = reset --soft HEAD^  # go back before last commit, with files
     patch      = !git --no-pager diff --no-color
-    churn      = !git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print "count,file"} {print $1 "," $2}' | column -t
+    churn      = !git log --all -M -C --name-only --format='format:' "$@" | grep -v '^$' | sort | uniq -c | sort | awk '{printf(\"%4d %s\\n\", $1, $2)}'
 [log]
-    showSignature = true
+    showSignature = false
 [pretty]
     brief = %Cred%h%Creset %C(yellow)%an%d%Creset %s %Cgreen(%cr)%Creset
-    short = %h %cr %cn %Cgreen%s%Creset
+    shortcolor = %h %cr %cn %Cgreen%s%Creset
     shortnocolor = %h %cr %cn %s
 [merge]
     summary = true
     verbosity = 1
     tool = ediff
-    # tool = vimdiff3
-    #tool = fugitive
 [apply]
     whitespace = nowarn
 [branch]
@@ -104,10 +104,6 @@
     user = crito
 [pull]
     rebase = true
-[mergetool "fugitive"]
-    cmd = vim -f -c \"Gdiff\" \"$MERGED\"
-[mergetool "vimdiff3"]
-    cmd = vim -f -d -c 'wincmd J' -c 'resize 22' $MERGED $LOCAL $BASE $REMOTE
 [mergetool.ediff]
     cmd = emacs --eval \"\
 (progn\

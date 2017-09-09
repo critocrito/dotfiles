@@ -41,7 +41,7 @@ fresh-options
 
 # Set all environment variables.
 fresh-options --file=~/.env --ignore-missing --marker
-for T in shell ssh git grep mail gnupg node python
+for T in shell ssh git grep mail gnupg node python android
 do
   fresh $T/env.$(uname)
   fresh $T/env
@@ -50,8 +50,9 @@ fresh-options
 
 # Setup the shell profile.
 fresh-options --file=~/.profile --ignore-missing --marker
-for T in shell haskell python
+for T in shell haskell python android
 do
+  fresh $T/profile.$(uname)
   fresh $T/profile
 done
 fresh-options

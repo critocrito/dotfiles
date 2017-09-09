@@ -32,44 +32,47 @@ done
 fresh freshshell/fresh bin/fresh --bin
 
 fresh-options --file=~/.functions --ignore-missing --marker
-  fresh shell/functions
-  fresh git/functions
-  fresh emacs/functions
-  fresh zsh/functions
+for T in shell git emacs zsh node python
+do
+  fresh $T/functions.$(uname)
+  fresh $T/functions
+done
 fresh-options
-
 
 # Set all environment variables.
 fresh-options --file=~/.env --ignore-missing --marker
-  fresh shell/env.$(uname)
-  fresh shell/env
-  fresh ssh/env.$(uname)
-  fresh ssh/env
-  fresh git/env
-  fresh grep/env
-  fresh mail/env
-  fresh gnupg/env
+for T in shell ssh git grep mail gnupg node python
+do
+  fresh $T/env.$(uname)
+  fresh $T/env
+done
+fresh-options
+
+# Setup the shell profile.
+fresh-options --file=~/.profile --ignore-missing --marker
+for T in shell haskell python
+do
+  fresh $T/profile
+done
 fresh-options
 
 # Configure shell aliases
 fresh-options --file=~/.aliases --ignore-missing --marker
-  fresh shell/aliases
-  fresh shell/aliases.$(uname)
-  fresh git/aliases
-  fresh grep/aliases
-  fresh emacs/aliases
-  fresh mail/aliases
-  fresh ruby/aliases
+for T in shell git grep emacs mail ruby node
+do
+  fresh $T/aliases.$(uname)
+  fresh $T/aliases
+done
 
-  if is_linux
-  then
-    fresh systemd/aliases
-    fresh rtorrent/aliases
-  fi
+if is_linux
+then
+  for T in systemd rtorrent
+  do
+    fresh $T/aliases.$(uname)
+    fresh $T/aliases
+  done
+fi
 fresh-options
-
-# Set up the basic shell. This should be first.
-fresh shell/profile --file --marker
 
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
 if is_linux
@@ -156,7 +159,7 @@ then
   fresh bin/get-volume --bin
 fi
 
-for F in rc profile functions; do fresh haskell/$F --file; done
+for F in rc functions; do fresh haskell/$F --file; done
 
 # Install or upgrade nvm
 if [ -d $NVM_DIR ]
@@ -172,7 +175,7 @@ else
   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
 fi
 cd
-for F in rc env functions; do fresh node/$F --file; done
+for F in npmrc rc; do fresh node/$F --file; done
 
 # Install or upgrade pyenv
 if [ -s $PYENV_ROOT ]

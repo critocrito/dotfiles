@@ -152,6 +152,14 @@ then
   fresh xorg/modmap --file=$HOME/.Xmodmap
 fi
 
+# clojure
+for F in boot lein
+do
+  fresh clojure/$F --bin
+done
+fresh clojure/profile.boot --file=$HOME/.boot/profile.boot
+fresh clojure/profiles.clj --file=$HOME/.lein/profiles.clj
+
 # xmonad
 if is_linux
 then

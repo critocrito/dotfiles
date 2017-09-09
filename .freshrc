@@ -75,6 +75,15 @@ then
 fi
 fresh-options
 
+# Configure shell snippets
+fresh-options --file=~/.rc --ignore-missing --marker
+for T in node python gnupg
+do
+  fresh $T/rc.$(uname)
+  fresh $T/rc
+done
+fresh-options
+
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
 if is_linux
 then
@@ -89,7 +98,6 @@ fresh git/gitconfig --file
 fresh git/git-prompt.rc --file
 
 # gnupg
-fresh gnupg/rc --file
 for F in dirmngr.conf gpg.conf sks-keyservers.netCA.pem
 do
   fresh gnupg/$F --file=$HOME/.gnupg/$F
@@ -184,7 +192,7 @@ else
   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
 fi
 cd
-for F in npmrc rc; do fresh node/$F --file; done
+for F in npmrc; do fresh node/$F --file; done
 
 # Install or upgrade pyenv
 if [ -s $PYENV_ROOT ]
@@ -202,7 +210,6 @@ else
   git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
 fi
 cd
-for F in rc profile env functions; do fresh python/$F --file; done
 
 # git super status
 git_super_status $GIT_SUPER_STATUS_DIR

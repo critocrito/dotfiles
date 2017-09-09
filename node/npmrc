@@ -1,1 +1,6 @@
 sign-git-tag=true
+init.author.name=Christo
+init.author.email="christo@cryptodrunks.net"
+init.author.url="https://cryptodrunks.net/~christo"
+init.license="GPL-3.0"
+init.version="0.0.0"

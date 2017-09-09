@@ -22,6 +22,7 @@ FRESH_BIN_PATH=$HOME/.local/bin
 GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
 NVM_DIR=$HOME/.nvm
 PYENV_ROOT=$HOME/.pyenv
+RBENV_ROOT=$HOME/.rbenv
 
 # Ensure all required directories.
 for D in $FRESH_BIN_PATH $CONFIG_DIR $CACHE_DIR $DATA_DIR
@@ -32,7 +33,7 @@ done
 fresh freshshell/fresh bin/fresh --bin
 
 fresh-options --file=~/.functions --ignore-missing --marker
-for T in shell git emacs zsh node python
+for T in shell git emacs zsh node python haskell
 do
   fresh $T/functions.$(uname)
   fresh $T/functions
@@ -77,7 +78,7 @@ fresh-options
 
 # Configure shell snippets
 fresh-options --file=~/.rc --ignore-missing --marker
-for T in node python gnupg
+for T in haskell node python ruby gnupg
 do
   fresh $T/rc.$(uname)
   fresh $T/rc
@@ -168,6 +169,9 @@ done
 fresh clojure/profile.boot --file=$HOME/.boot/profile.boot
 fresh clojure/profiles.clj --file=$HOME/.lein/profiles.clj
 
+# nodejs
+fresh node/npmrc --file
+
 # xmonad
 if is_linux
 then
@@ -175,8 +179,6 @@ then
   fresh xmonad --file=$CONFIG_DIR/xmonad/
   fresh bin/get-volume --bin
 fi
-
-for F in rc functions; do fresh haskell/$F --file; done
 
 # Install or upgrade nvm
 if [ -d $NVM_DIR ]
@@ -192,7 +194,6 @@ else
   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
 fi
 cd
-for F in npmrc; do fresh node/$F --file; done
 
 # Install or upgrade pyenv
 if [ -s $PYENV_ROOT ]
@@ -203,13 +204,30 @@ then
   echo "Upgrading pyenv-virtualenv."
   cd $PYENV_ROOT/plugins/pyenv-virtualenv
   git pull
+  cd
 else
   echo "Installing pyenv."
   git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
   echo "Installing pyenv-virtualenv."
   git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
 fi
-cd
+
+# Install rbenv
+if [ -s $RBENV_ROOT ]
+then
+  echo "Upgrading rbenv"
+  cd $RBENV_ROOT
+  git pull
+  echo "Upgrading ruby-build"
+  cd $RBENV_ROOT/plugins/ruby-build
+  git pull
+  cd
+else
+  echo "Installing rbenv"
+  git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT
+  echo "Installing ruby-build"
+  git clone https://github.com/rbenv/ruby-build.git $RBENV_ROOT/plugins/ruby-build
+fi
 
 # git super status
 git_super_status $GIT_SUPER_STATUS_DIR

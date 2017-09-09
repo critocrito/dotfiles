@@ -4,7 +4,7 @@ NOTMUCH="/usr/bin/notmuch"
 
 $NOTMUCH new #--quiet
 
-$NOTMUCH tag +inbox -- "folder:christo@cryptodrunks.net/crytodrunks and not tag:inbox"
+$NOTMUCH tag +inbox -- "folder:christo@cryptodrunks.net/cryptodrunks and not tag:inbox"
 $NOTMUCH tag +sent -- "folder:christo@cryptodrunks.net/cryptodrunks.Sent and not tag:sent"
 $NOTMUCH tag +draft -- "folder:drafts and not tag:draft"
 $NOTMUCH tag +cdrunks2 -- "folder:christo@cryptodrunks.net/cryptodrunks and not tag:cdrunks2"

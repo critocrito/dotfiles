@@ -29,9 +29,9 @@ path=/home/crito/doc/mail
 # address to which the original email was addressed.
 #
 [user]
-name=crito
-primary_email=crito@cryptodrunks.net
-other_email=christo@tacticaltech.org;christo@cryptodrunks.net;
+name=Christo
+primary_email=christo@cryptodrunks.net
+other_email=christo@tacticaltech.org;crito@cryptodrunks.net;
 
 # Configuration for "notmuch new"
 #

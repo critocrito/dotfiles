@@ -32,6 +32,7 @@ done
 
 fresh freshshell/fresh bin/fresh --bin
 
+# Setup all shell functions
 fresh-options --file=~/.functions --ignore-missing --marker
 for T in shell git emacs zsh node python haskell
 do
@@ -60,20 +61,11 @@ fresh-options
 
 # Configure shell aliases
 fresh-options --file=~/.aliases --ignore-missing --marker
-for T in shell git grep emacs mail ruby node
+for T in shell git grep emacs mail ruby node systemd rtorrent
 do
   fresh $T/aliases.$(uname)
   fresh $T/aliases
 done
-
-if is_linux
-then
-  for T in systemd rtorrent
-  do
-    fresh $T/aliases.$(uname)
-    fresh $T/aliases
-  done
-fi
 fresh-options
 
 # Configure shell snippets

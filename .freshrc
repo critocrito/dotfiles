@@ -32,50 +32,18 @@ done
 
 fresh freshshell/fresh bin/fresh --bin
 
-# Setup all shell functions
-fresh-options --file=~/.functions --ignore-missing --marker
-for T in shell git emacs zsh node python haskell
+# Configure shell environment
+for F in functions env aliases profile rc
 do
-  fresh $T/functions.$(uname)
-  fresh $T/functions
+  fresh-options --file=~/.$F --ignore-missing --marker
+  for T in shell zsh ssh git grep mail gnupg emacs systemd rtorrent \
+           node python haskell android ruby
+  do
+    fresh $T/$F.$(uname)
+    fresh $T/$F
+  done
+  fresh-options
 done
-fresh-options
-
-# Set all environment variables.
-fresh-options --file=~/.env --ignore-missing --marker
-for T in shell ssh git grep mail gnupg node python android
-do
-  fresh $T/env.$(uname)
-  fresh $T/env
-done
-fresh-options
-
-# Setup the shell profile.
-fresh-options --file=~/.profile --ignore-missing --marker
-for T in shell haskell python android
-do
-  fresh $T/profile.$(uname)
-  fresh $T/profile
-done
-fresh-options
-
-# Configure shell aliases
-fresh-options --file=~/.aliases --ignore-missing --marker
-for T in shell git grep emacs mail ruby node systemd rtorrent
-do
-  fresh $T/aliases.$(uname)
-  fresh $T/aliases
-done
-fresh-options
-
-# Configure shell snippets
-fresh-options --file=~/.rc --ignore-missing --marker
-for T in haskell node python ruby gnupg
-do
-  fresh $T/rc.$(uname)
-  fresh $T/rc
-done
-fresh-options
 
 # $HOME/.pam_environment, systemd and xdg user dirs exist on Linux.
 if is_linux

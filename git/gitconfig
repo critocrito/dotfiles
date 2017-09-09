@@ -130,9 +130,9 @@
 [pager]
     diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
     show = diff-so-fancy | less --tabs=4 -RFX
-[branch "master"]
-    remote = origin
-    merge = refs/heads/master
+# [branch "master"]
+#     remote = origin
+#     merge = refs/heads/master
 
 # URL shorthands
 [url "git@gitlab.com:"]

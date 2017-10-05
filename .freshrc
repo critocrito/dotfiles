@@ -140,6 +140,9 @@ then
   fresh bin/get-volume --bin
 fi
 
+# tmux
+fresh tmux/tmux.conf --file
+
 # Install or upgrade nvm
 if [ -d $NVM_DIR ]
 then

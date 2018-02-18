@@ -130,7 +130,7 @@ fresh clojure/profile.boot --file=$HOME/.boot/profile.boot
 fresh clojure/profiles.clj --file=$HOME/.lein/profiles.clj
 
 # nodejs
-fresh node/npmrc --file
+# fresh node/npmrc --file
 
 # xmonad
 if is_linux

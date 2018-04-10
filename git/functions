@@ -9,3 +9,29 @@ log() {
                 echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
+
+scaffold() {
+  # Scaffold project based on repo
+  # $1 - $GITREMOTE
+  # $2 - $FOLDER_NAME
+  GITREMOTE=$1
+  # Handle username/reponame case
+  if [[ "$1" =~ ^[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$ ]]
+  then
+    GITREMOTE="https://github.com/$1.git"
+  fi
+  # capture PROJECT_NAME part of git link (right before .git)
+  REGEX="([A-Za-z0-9_-]+).git$"
+  [[ "$GITREMOTE" =~ $REGEX  ]];
+  PROJECT_NAME="${match}"
+  # use provided folder name with fallback to project name
+  FOLDER_NAME="${2:-$PROJECT_NAME}"
+  git clone --depth 1 $GITREMOTE $FOLDER_NAME
+  cd $_
+  rm -rf .git
+  git init
+  git commit -m "Initial commit." --allow-empty
+  find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' "s/$PROJECT_NAME/$FOLDER_NAME/g"
+  git add -A
+  git commit -m "Initial import."
+}

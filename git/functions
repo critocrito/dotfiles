@@ -10,6 +10,8 @@ log() {
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
 
+# Use: scaffold critocrito/elisp-lib-scaffold ava.el
+#      scaffold critocrito/nodejs-lib-scaffold rrb-trees
 scaffold() {
   # Scaffold project based on repo
   # $1 - $GITREMOTE
@@ -23,15 +25,22 @@ scaffold() {
   # capture PROJECT_NAME part of git link (right before .git)
   REGEX="([A-Za-z0-9_-]+).git$"
   [[ "$GITREMOTE" =~ $REGEX  ]];
-  PROJECT_NAME="${match}"
+  SCAFFOLD_NAME="${match}"
   # use provided folder name with fallback to project name
-  FOLDER_NAME="${2:-$PROJECT_NAME}"
+  FOLDER_NAME="${2:-$SCAFFOLD_NAME}"
+  PROJECT_NAME="${FOLDER_NAME%.*}"
   git clone --depth 1 $GITREMOTE $FOLDER_NAME
   cd $_
   rm -rf .git
   git init
   git commit -m "Initial commit." --allow-empty
-  find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' "s/$PROJECT_NAME/$FOLDER_NAME/g"
+  find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' "s/$SCAFFOLD_NAME/$PROJECT_NAME/g"
+  find . -type f -name "*elisp-lib-scaffold*" -print0 |
+    while IFS= read -r -d $'\0' line; do
+      target=$(echo $line | sed -e "s/$SCAFFOLD_NAME/$PROJECT_NAME/")
+      mv $line $target
+    done
   git add -A
   git commit -m "Initial import."
+  git remote add origin gh:critocrito/${FOLDER_NAME}.git
 }

@@ -1,6 +1,3 @@
-# Ensure home directory structure
-for D in bkp doc img old snd spool src tmp vid www; do mkdir -p $HOME/$D; done
-
 # Load all shell functions.
 for F in functions git-super-status
 do
@@ -29,6 +26,12 @@ for D in $FRESH_BIN_PATH $CONFIG_DIR $CACHE_DIR $DATA_DIR
 do
   mkdir -p $D
 done
+
+# Ensure home directory structure
+if is_linux
+then
+  for D in bkp doc img old snd spool src tmp vid www; do mkdir -p $HOME/$D; done
+fi
 
 fresh freshshell/fresh bin/fresh --bin
 

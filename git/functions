@@ -34,7 +34,14 @@ scaffold() {
   rm -rf .git
   git init
   git commit -m "Initial commit." --allow-empty
-  find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' "s/$SCAFFOLD_NAME/$PROJECT_NAME/g"
+  if is_mac
+  then
+    find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' -e "s/$SCAFFOLD_NAME/$PROJECT_NAME/g"
+  fi
+  if is_linux
+  then
+    find . -type f | grep -v "^\.\/\.git" | xargs sed -i -e "s/$SCAFFOLD_NAME/$PROJECT_NAME/g"
+  fi
   GLOB_SCAFFOLD_NAME="*${SCAFFOLD_NAME}*"
   find . -type f -name $GLOB_SCAFFOLD_NAME -print0 |
     while IFS= read -r -d $'\0' line; do

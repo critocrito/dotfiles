@@ -35,7 +35,8 @@ scaffold() {
   git init
   git commit -m "Initial commit." --allow-empty
   find . -type f | grep -v "^\.\/\.git" | xargs sed -i '' "s/$SCAFFOLD_NAME/$PROJECT_NAME/g"
-  find . -type f -name "*elisp-lib-scaffold*" -print0 |
+  GLOB_SCAFFOLD_NAME="*${SCAFFOLD_NAME}*"
+  find . -type f -name $GLOB_SCAFFOLD_NAME -print0 |
     while IFS= read -r -d $'\0' line; do
       target=$(echo $line | sed -e "s/$SCAFFOLD_NAME/$PROJECT_NAME/")
       mv $line $target

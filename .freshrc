@@ -40,7 +40,7 @@ for F in functions env aliases profile rc
 do
   fresh-options --file=~/.$F --ignore-missing --marker
   for T in shell zsh ssh git grep mail gnupg emacs systemd rtorrent \
-           node python haskell android ruby
+           node python haskell android ruby fzf
   do
     fresh $T/$F.$(uname)
     fresh $T/$F

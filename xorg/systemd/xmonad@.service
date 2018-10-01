@@ -1,0 +1,12 @@
+[Unit]
+Description=Xmonad window manager (on display %i)
+Documentation=man:xmonad(1)
+After=xorg@%i.target
+Requires=xorg@%i.target
+
+[Service]
+Environment=DISPLAY=%I
+ExecStart=/usr/bin/env bash -c 'exec 8>%t/xorg-wm@%I; exec %h/.local/bin/xmonad'
+
+[Install]
+RequiredBy=xorg@.target

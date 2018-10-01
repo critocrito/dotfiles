@@ -1,0 +1,14 @@
+[Unit]
+Description=Load XModMap keyboard map on X display %I
+Documentation=man:xmodmap(1)
+After=xorg@%i.target
+Requisite=xorg@%i.target
+
+[Service]
+Environment=DISPLAY=%I
+
+Type=oneshot
+ExecStart=-/usr/bin/env xmodmap ${XDG_CONFIG_HOME}/xorg/modmap
+
+[Install]
+WantedBy=xorg@%i.target

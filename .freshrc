@@ -1,21 +1,23 @@
 # Load all shell functions.
-for F in functions git-super-status
+for F in functions git git-super-status
 do
   source $FRESH_LOCAL/fresh/$F.sh
 done
 
-# Configure home.
+# Configure home. Export variables that need to be accessible in erb templates.
 if is_mac
 then
   CONFIG_DIR=$HOME/Library/Preferences/
   CACHE_DIR=$HOME/Library/Caches/
   DATA_DIR=$HOME/Library/
 else
-  CONFIG_DIR=$XDG_CONFIG_HOME
+  export CONFIG_DIR=$XDG_CONFIG_HOME
   CACHE_DIR=$XDG_CACHE_HOME
   DATA_DIR=$XDG_DATA_HOME
 fi
+export DOTFILE_DIR=$FRESH_LOCAL
 FRESH_BIN_PATH=$HOME/.local/bin
+SYSTEMD_DIR=$CONFIG_DIR/systemd/user
 GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
 NVM_DIR=$HOME/.nvm
 PYENV_ROOT=$HOME/.pyenv
@@ -31,6 +33,7 @@ done
 if is_linux
 then
   for D in bkp doc img old snd spool src tmp vid www; do mkdir -p $HOME/$D; done
+  mkdir -p $SYSTEMD_DIR
 fi
 
 fresh freshshell/fresh bin/fresh --bin
@@ -54,7 +57,7 @@ then
   fresh pam_environment --file
   for MOD in ssh dbus; do fresh $MOD/pam_environment --file; done
   mkdir -p $CONFIG_DIR/systemd/user
-  fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
+  # fresh xdg/user-dirs.dirs --file=$CONFIG_DIR/user-dirs.dirs
 fi
 
 # git
@@ -119,6 +122,22 @@ then
   mkdir -p $CONFIG_DIR/xorg
   for F in resources modmap; do fresh xorg/$F --file=$CONFIG_DIR/xorg/$F; done
   for F in xserverrc xinitrc; do fresh xorg/$F --file; done
+
+  mkdir -p $SYSTEMD_DIR/xorg@.target.{requires,wants}
+
+  for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service; do
+    fresh xorg/systemd/$F --file=$SYSTEMD_DIR/$F;
+  done
+  ln -sf $SYSTEMD_DIR/xmonad@.service $SYSTEMD_DIR/xorg@.target.requires/
+  ln -sf $SYSTEMD_DIR/xresources@.service $SYSTEMD_DIR/xorg@.target.wants/
+  ln -sf $SYSTEMD_DIR/xmodmap@.service $SYSTEMD_DIR/xorg@.target.wants/
+  systemctl --user daemon-reload
+
+  # xmonad
+  for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
+  fresh xmonad/build.erb --bin=$CONFIG_DIR/xmonad/build --filter=erb
+  for F in xmobarrc; do fresh xmonad/$F --file=$CONFIG_DIR/xmonad/$F; done
+  fresh bin/get-volume --bin
 elif is_mac
 then
   fresh xorg/resources --file=$HOME/.Xresources
@@ -136,65 +155,21 @@ fresh clojure/profiles.clj --file=$HOME/.lein/profiles.clj
 # nodejs
 # fresh node/npmrc --file
 
-# xmonad
-if is_linux
-then
-  for DIR in $CACHE_DIR $DATA_DIR; do mkdir -p $DIR/xmonad; done
-  fresh xmonad --file=$CONFIG_DIR/xmonad/
-  fresh bin/get-volume --bin
-fi
-
 # tmux
 fresh tmux/tmux.conf --file
 
-# Install or upgrade nvm
-if [ -d $NVM_DIR ]
-then
-  echo "Upgrading nvm."
-  cd "$NVM_DIR"
-  git fetch origin
-  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
-else
-  echo "Installing nvm."
-  git clone https://github.com/creationix/nvm.git "$NVM_DIR"
-  cd "$NVM_DIR"
-  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
-fi
-cd
+# External dependencies
+git_clone_or_pull_tag https://github.com/creationix/nvm.git $NVM_DIR
+git_clone_or_pull_tag https://github.com/pyenv/pyenv.git $PYENV_ROOT
+git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
+git_clone_or_pull_tag https://github.com/rbenv/rbenv.git $RBENV_ROOT
+git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git $RBENV_ROOT/plugins/ruby-build
 
-# Install or upgrade pyenv
-if [ -s $PYENV_ROOT ]
+git_has_pullable_master $GIT_SUPER_STATUS_DIR
+retval=$?
+echo $retval
+if [ "$retval" = 0 ];
 then
-  echo "Upgrading pyenv."
-  cd $PYENV_ROOT
-  git pull
-  echo "Upgrading pyenv-virtualenv."
-  cd $PYENV_ROOT/plugins/pyenv-virtualenv
-  git pull
-  cd
-else
-  echo "Installing pyenv."
-  git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
-  echo "Installing pyenv-virtualenv."
-  git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
+  git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git $GIT_SUPER_STATUS_DIR
+  compile_git_super_status $GIT_SUPER_STATUS_DIR
 fi
-
-# Install rbenv
-if [ -s $RBENV_ROOT ]
-then
-  echo "Upgrading rbenv"
-  cd $RBENV_ROOT
-  git pull
-  echo "Upgrading ruby-build"
-  cd $RBENV_ROOT/plugins/ruby-build
-  git pull
-  cd
-else
-  echo "Installing rbenv"
-  git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT
-  echo "Installing ruby-build"
-  git clone https://github.com/rbenv/ruby-build.git $RBENV_ROOT/plugins/ruby-build
-fi
-
-# git super status
-git_super_status $GIT_SUPER_STATUS_DIR

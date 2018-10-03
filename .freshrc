@@ -22,6 +22,7 @@ GIT_SUPER_STATUS_DIR=$HOME/.git-super-status
 NVM_DIR=$HOME/.nvm
 PYENV_ROOT=$HOME/.pyenv
 RBENV_ROOT=$HOME/.rbenv
+DEV_DIR=$HOME/dev
 
 # Ensure all required directories.
 for D in $FRESH_BIN_PATH $CONFIG_DIR $CACHE_DIR $DATA_DIR
@@ -32,9 +33,12 @@ done
 # Ensure home directory structure
 if is_linux
 then
-  for D in bkp doc img old snd spool src tmp vid www; do mkdir -p $HOME/$D; done
+  for D in bkp doc img old snd spool dev tmp vid www; do mkdir -p $HOME/$D; done
   mkdir -p $SYSTEMD_DIR
 fi
+
+# Ensure dev structure
+for D in abandoned data doc forks private scaffolds src work; do mkdir -p $DEV_DIR/$D; done
 
 fresh freshshell/fresh bin/fresh --bin
 
@@ -43,7 +47,7 @@ for F in functions env aliases profile rc
 do
   fresh-options --file=~/.$F --ignore-missing --marker
   for T in shell zsh ssh git grep mail gnupg emacs systemd rtorrent \
-           node python haskell android ruby fzf
+                 node python haskell android ruby fzf rust
   do
     fresh $T/$F.$(uname)
     fresh $T/$F
@@ -91,6 +95,9 @@ fi
 
 # ZSH
 for F in zprofile zshenv zshrc; do fresh zsh/$F --file; done
+
+# tmux
+fresh tmux/tmux.conf --file
 
 # mail setup
 mkdir -p $CONFIG_DIR/offlineimap $CACHE_DIR/msmtp $DATA_DIR/msmtp
@@ -155,8 +162,16 @@ fresh clojure/profiles.clj --file=$HOME/.lein/profiles.clj
 # nodejs
 # fresh node/npmrc --file
 
-# tmux
-fresh tmux/tmux.conf --file
+# rust
+if [ ! -f $HOME/.cargo/bin/rustup ];
+then
+  echo "Installing rustup."
+  curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
+  /bin/sh /tmp/rustup-init -y --no-modify-path
+  rm /tmp/rustup-init
+else
+  echo "Not installing rustup."
+fi
 
 # External dependencies
 git_clone_or_pull_tag https://github.com/creationix/nvm.git $NVM_DIR

@@ -167,7 +167,7 @@ if [ ! -f $HOME/.cargo/bin/rustup ];
 then
   echo "Installing rustup."
   curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
-  /bin/sh /tmp/rustup-init -y --no-modify-path
+  /bin/sh /tmp/rustup-init.sh -y --no-modify-path
   rm /tmp/rustup-init
 else
   echo "Not installing rustup."

@@ -182,6 +182,14 @@ else
   echo "Not installing rustup."
 fi
 
+# MIME types
+if is_linux
+then
+  mkdir -p ~/.local/share/applications
+  fresh mime-types/org-protocol.desktop --file=$HOME/.local/share/applications/
+  update-desktop-database ~/.local/share/applications/
+fi
+
 # External dependencies
 git_clone_or_pull_tag https://github.com/creationix/nvm.git $NVM_DIR
 git_clone_or_pull_tag https://github.com/pyenv/pyenv.git $PYENV_ROOT

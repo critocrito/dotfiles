@@ -1,0 +1,9 @@
+[Unit]
+Description=handle clipboards
+
+[Service]
+Environment=DISPLAY=%I
+ExecStart=/usr/bin/parcellite -d -n
+
+[Install]
+WantedBy=xorg@$i.target

@@ -132,10 +132,13 @@ then
 
   mkdir -p $SYSTEMD_DIR/xorg@.target.{requires,wants}
 
-  for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service; do
+  for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service xss-lock@.service; do
     fresh xorg/systemd/$F --file=$SYSTEMD_DIR/$F;
   done
+  cp xorg/systemd/parcellite@.service $SYSTEMD_DIR
   ln -sf $SYSTEMD_DIR/xmonad@.service $SYSTEMD_DIR/xorg@.target.requires/
+  ln -sf $SYSTEMD_DIR/xss-lock@.service $SYSTEMD_DIR/xorg@.target.requires/
+  ln -sf $SYSTEMD_DIR/parcellite@.service $SYSTEMD_DIR/xorg@.target.wants/
   ln -sf $SYSTEMD_DIR/xresources@.service $SYSTEMD_DIR/xorg@.target.wants/
   ln -sf $SYSTEMD_DIR/xmodmap@.service $SYSTEMD_DIR/xorg@.target.wants/
   systemctl --user daemon-reload

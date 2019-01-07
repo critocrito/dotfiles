@@ -1,0 +1,10 @@
+[Unit]
+Description=Screen locker (for X and TTY)
+After=xorg@%i.target
+Requires=xorg@%i.target
+[Service]
+Environment=DISPLAY=%I
+ExecStart=/usr/bin/env xss-lock -- physlock
+
+[Install]
+WantedBy=xorg@%i.target

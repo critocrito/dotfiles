@@ -1,0 +1,9 @@
+[Unit]
+Description=Automount Disks
+After=dbus.socket
+
+[Service]
+ExecStart=/usr/bin/udiskie --no-tray --no-notify --no-file-manager --use-udisks2
+
+[Install]
+WantedBy=default.target

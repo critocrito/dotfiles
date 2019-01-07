@@ -151,6 +151,15 @@ then
   fresh xorg/modmap --file=$HOME/.Xmodmap
 fi
 
+# udiskie
+if is_linux
+then
+  # fresh udiskie/systemd/udiskie.service --file=$SYSTEMD_DIR/udiskie.service;
+  cp udiskie/systemd/udiskie.service ~/.config/systemd/user
+  systemctl --user daemon-reload
+  systemctl --user enable udiskie.service
+fi
+
 # clojure
 for F in boot lein
 do

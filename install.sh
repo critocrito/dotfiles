@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BUILD_DIR="$(mktemp -d -p .)"
+BUILD_DIR="$(mktemp -d)"
 DOTFILE_DIR="$(pwd)"
 
 echo "Building dotfiles from $DOTFILE_DIR in $BUILD_DIR."
@@ -8,34 +8,127 @@ echo "Building dotfiles from $DOTFILE_DIR in $BUILD_DIR."
 _is_os() {
   [ "$(uname)" = "$1" ]
 }
-
 is_mac() {
   _is_os "Darwin"
 }
-
 is_linux() {
   _is_os "Linux"
 }
-
 is_freebsd() {
   _is_os "FreeBSD"
 }
-
 is_openbsd() {
   _is_os "OpenBSD"
 }
-
 is_bsd() {
   is_freebsd || is_openbsd
 }
+is_not_mac() {
+  ! is_mac
+}
+is_not_linux() {
+  ! is_linux
+}
+
+git_has_pullable_tag() {
+  TARGET="$1"
+  RETVAL=1
+
+  if [ ! -d "$TARGET" ]
+  then
+    RETVAL=0
+  else
+    cd "$TARGET" || exit
+
+    git fetch origin 1> /dev/null
+    LATEST_TAG="$(git describe --abbrev=0 --tags --match 'v[0-9]*' origin)"
+
+    if [ "$(git rev-parse @)" != "$(git rev-parse @\{"$LATEST_TAG"\} 2> /dev/null)" ]
+    then
+      RETVAL=0
+    fi
+    cd - 1> /dev/null || exit
+  fi
+
+  return "$RETVAL"
+}
+
+git_has_pullable_master() {
+  TARGET="$1"
+  RETVAL=1
+
+  if [ ! -d "$TARGET" ]
+  then
+    RETVAL=0
+  else
+    cd "$TARGET" || exit
+
+    git fetch origin 1> /dev/null
+
+    if [ "$(git rev-parse @)" != "$(git rev-parse @\{u\} 2> /dev/null)" ]
+    then
+      RETVAL=0
+    fi
+
+    cd - 1> /dev/null || exit
+  fi
+
+  return "$RETVAL"
+}
+
+git_clone_or_pull_tag() {
+  GIT_URL="$1"
+  TARGET="$2"
+
+  if [ ! -d "$TARGET" ]
+  then
+    echo "Installing $GIT_URL."
+    git clone "$GIT_URL" "$TARGET" 1> /dev/null
+  fi
+
+  cd "$TARGET" || exit
+
+  git fetch --tags origin 1> /dev/null
+  LATEST_TAG="$(git describe --abbrev=0 --tags --match 'v[0-9]*' origin)"
+
+  if [ "$(git rev-parse @)" != "$(git rev-parse @\{$LATEST_TAG\} 2> /dev/null)" ]
+  then
+    echo "Upgrading $TARGET to $LATEST_TAG"
+    git checkout "$LATEST_TAG" 2> /dev/null
+  fi
+
+  cd - 1> /dev/null || exit
+}
+
+git_clone_or_pull_master() {
+  GIT_URL="$1"
+  TARGET="$2"
+
+  if [ ! -d "$TARGET" ]
+  then
+    echo "Installing $GIT_URL."
+    git clone "$GIT_URL" "$TARGET" 1> /dev/null
+  else
+    cd "$TARGET" || exit
+
+    git fetch origin 1> /dev/null
+
+    if [ "$(git rev-parse @)" != "$(git rev-parse @\{u\} 2> /dev/null)" ]
+    then
+      echo "Upgrading $TARGET to latest master"
+      git checkout master 2> /dev/null
+    fi
+
+    cd - 1> /dev/null || exit
+  fi
+}
 
 get_var_or() {
-  if [ -z "$1" ];
-  then
-    echo "$2"
-  else
-    echo "$1"
-  fi
+  [ -z "$1" ] && echo "$2" || echo "$1"
+}
+
+ensure_build_dir() {
+  mkdir -p "$BUILD_DIR/$1"
 }
 
 append_to_file() {
@@ -44,20 +137,26 @@ append_to_file() {
   # $3 -> alternate output file name
   source="$DOTFILE_DIR/$1/$2"
   source_os="$source.$(uname)"
-  [ -z "$3" ] && target="$BUILD_DIR/.$2" || target="$BUILD_DIR/.$3"
+  [ -z "$3" ] && target="$BUILD_DIR/.${2#.}" || target="$BUILD_DIR/.${3#.}"
 
   if [ -f "$source" ];
   then
-    { echo ""; echo "# $1/$2"; cat "$source"; } >> "$target"
+    {
+      echo "";
+      echo "# ${source#$DOTFILE_DIR}";
+      cat "$source";
+    } >> "$target"
   fi
-
-  if [ -f "$source_os" ];
-  then
-    { echo ""; echo "# $1/$2.$(uname)"; cat "$source_os"; } >> "$target"
+  if [ -f "$source_os" ]; then
+    {
+      echo "";
+      echo "# ${source_os#$DOTFILE_DIR}.$(uname)";
+      cat "$source_os";
+    } >> "$target"
   fi
 }
 
-# Configure home. Export variables that need to be accessible in erb templates.
+# Configure home. Export variables that need to be accessible later on.
 if is_mac
 then
   CONFIG_DIR="$HOME/Library/Preferences/"
@@ -70,18 +169,19 @@ else
 fi
 
 SYSTEMD_DIR="$CONFIG_DIR/systemd/user"
-GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
-NVM_DIR="$HOME/.nvm"
-PYENV_ROOT="$HOME/.pyenv"
-RBENV_ROOT="$HOME/.rbenv"
+BIN_DIR="$HOME/.local/bin"
+BUILD_CONFIG_DIR="${CONFIG_DIR#$HOME/}"
+BUILD_CACHE_DIR="${CACHE_DIR#$HOME/}"
+BUILD_DATA_DIR="${DATA_DIR#$HOME/}"
+BUILD_SYSTEMD_DIR="${SYSTEMD_DIR#$HOME/}"
+BUILD_BIN_DIR="${BIN_DIR#$HOME/}"
 
-# Create directory structure.
-for e in "$CONFIG_DIR" "$CACHE_DIR" "$DATA_DIR"; do mkdir -p "$e"; done
-if is_linux; then mkdir -p "$SYSTEMD_DIR"; fi
-if is_bsd || is_linux;
-then
-  for D in bkp doc img old snd spool tmp vid www; do mkdir -p "$HOME/$D"; done
-fi
+# Create build directory structure.
+for e in "$BUILD_CONFIG_DIR" "$BUILD_CACHE_DIR" "$BUILD_DATA_DIR" "$BUILD_BIN_DIR";
+do
+  ensure_build_dir "$e"
+done
+is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 
 # Setup shell related configurations.
 for F in functions env aliases profile rc
@@ -98,16 +198,92 @@ for F in zprofile zshenv zshrc; do
   append_to_file "zsh" "$F"
 done
 
+# Git.
+append_to_file "git" "gitconfig"
+append_to_file "git" "gitignore"
+append_to_file "git" "git-prompt.rc"
+
 # TMUX
 append_to_file "tmux" "tmux.conf"
 
+# XDG
+is_not_mac && append_to_file "xdg" "user-dirs.dirs" "$BUILD_CONFIG_DIR/user-dirs.dirs"
+
 # Xorg
-if is_bsd || is_linux;
+   if is_bsd || is_linux;
+   then
+     D="$BUILD_CONFIG_DIR/xorg"
+     ensure_build_dir "$D"
+     for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
+     for F in xserverrc xinitrc; do append_to_file "xorg" "$F"; done
+   fi
+   if is_linux;
+   then
+     for D in requires wants; do ensure_build_dir "$BUILD_SYSTEMD_DIR/xorg@.target.$D"; done
+     for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service xss-lock@.service parcellite@.service;
+     do
+       append_to_file "xorg/systemd" "$F" "$BUILD_SYSTEMD_DIR/$F"
+     done
+
+     cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.requires" || exit
+     for F in xmonad@.service xss-lock@.service; do ln -s "../$F" .; done
+     cd - || exit
+
+     cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.wants" || exit
+     for F in xmodmap@.service xresources@.service parcellite@.service; do ln -s "../$F" .; done
+     cd - || exit
+fi
+if is_mac;
 then
-  mkdir -p "$CONFIG_DIR/xorg"
   append_to_file "xorg" "resources" "Xresources"
+  append_to_file "xorg" "modmap" "Xmodmap"
 fi
 
 [ -d "$DOTFILE_DIR/build.bkp" ] && rm -rf "$DOTFILE_DIR/build.bkp";
 [ -d "$DOTFILE_DIR/build" ] && mv "$DOTFILE_DIR/build" "$DOTFILE_DIR/build.bkp";
 mv "$BUILD_DIR" "$DOTFILE_DIR/build"
+
+echo "Built the following dotfiles dir"
+tree -a build
+
+while true; do
+  echo "Do you wish to install those dotfiles? Answer y or n."
+  read -r yn
+  case $yn in
+    [Yy]* )
+      find build | while read -r F; do
+        [ -f "$F" ] && install -D -C -m 0644 "$F" "$HOME/${F#build/}"
+        [ -L "$F" ] && cp -P "$F" "$HOME/${F#build/}"
+      done
+      break
+      ;;
+    [Nn]* ) exit;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
+
+echo "haha"
+
+is_linux && systemctl --user daemon-reload
+
+# External dependencies
+GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
+NVM_DIR="$HOME/.nvm"
+PYENV_ROOT="$HOME/.pyenv"
+RBENV_ROOT="$HOME/.rbenv"
+
+git_clone_or_pull_tag https://github.com/creationix/nvm.git "$NVM_DIR"
+git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
+git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
+git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
+
+if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
+then
+  git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git "$GIT_SUPER_STATUS_DIR"
+  cd "$GIT_SUPER_STATUS_DIR" || exit
+  stack clean
+  stack setup
+  stack build && stack install
+  cd - || exit
+fi

@@ -262,8 +262,6 @@ while true; do
   esac
 done
 
-echo "haha"
-
 is_linux && systemctl --user daemon-reload
 
 # External dependencies

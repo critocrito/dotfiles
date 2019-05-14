@@ -33,12 +33,9 @@ done
 # Ensure home directory structure
 if is_linux
 then
-  for D in bkp doc img old snd spool dev tmp vid www; do mkdir -p $HOME/$D; done
+  for D in prj bkp doc img old snd spool tmp vid www; do mkdir -p $HOME/$D; done
   mkdir -p $SYSTEMD_DIR
 fi
-
-# Ensure dev structure
-for D in abandoned data doc forks private scaffolds src work; do mkdir -p $DEV_DIR/$D; done
 
 fresh freshshell/fresh bin/fresh --bin
 

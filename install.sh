@@ -142,15 +142,15 @@ append_to_file() {
   if [ -f "$source" ];
   then
     {
-      echo "";
-      echo "# ${source#$DOTFILE_DIR}";
+      [ "$2" != "modmap" ] && echo "";
+      [ "$2" != "modmap" ] && echo "# ${source#$DOTFILE_DIR/}";
       cat "$source";
     } >> "$target"
   fi
   if [ -f "$source_os" ]; then
     {
-      echo "";
-      echo "# ${source_os#$DOTFILE_DIR}.$(uname)";
+      [ "$2" != "modmap" ] && echo "";
+      [ "$2" != "modmap" ] && echo "# ${source_os#$DOTFILE_DIR/}";
       cat "$source_os";
     } >> "$target"
   fi
@@ -256,6 +256,10 @@ then
   append_to_file "xorg" "resources" "Xresources"
   append_to_file "xorg" "modmap" "Xmodmap"
 fi
+
+# Alacritty terminal
+ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
+append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
 
 # Udiskie on Linux
 if is_linux;

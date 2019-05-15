@@ -186,7 +186,7 @@ is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 # Setup shell related configurations.
 for F in functions env aliases profile rc
 do
-  for T in shell zsh ssh git gnupg \
+  for T in shell zsh ssh git gnupg xdg \
                  grep fzf emacs systemd firefox \
                  node python haskell ruby rust
   do
@@ -198,6 +198,13 @@ done
 for F in zprofile zshenv zshrc; do
   append_to_file "zsh" "$F"
 done
+
+# PAM environment
+if is_linux;
+then
+  append_to_file "pam" "pam_environment"
+  for T in ssh dbus; do append_to_file "$T" "pam_environment"; done
+fi
 
 # Git.
 append_to_file "git" "gitconfig"
@@ -250,6 +257,13 @@ then
   append_to_file "xorg" "modmap" "Xmodmap"
 fi
 
+# Udiskie on Linux
+if is_linux;
+then
+  ensure_build_dir "$BUILD_SYSTEMD_DIR"
+  append_to_file "udiskie/systemd" "udiskie.service" "$BUILD_SYSTEMD_DIR/udiskie.service"
+fi
+
 [ -d "$DOTFILE_DIR/build.bkp" ] && rm -rf "$DOTFILE_DIR/build.bkp";
 [ -d "$DOTFILE_DIR/build" ] && mv "$DOTFILE_DIR/build" "$DOTFILE_DIR/build.bkp";
 mv "$BUILD_DIR" "$DOTFILE_DIR/build"
@@ -273,7 +287,11 @@ while true; do
   esac
 done
 
-is_linux && systemctl --user daemon-reload
+if is_linux;
+then
+  systemctl --user daemon-reload
+  systemctl --user enable udiskie.service
+fi
 
 # External dependencies
 GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
@@ -286,6 +304,14 @@ git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
 git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
 git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
+
+# rust
+if [ ! -f $HOME/.cargo/bin/rustup ];
+then
+  curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
+  /bin/sh /tmp/rustup-init.sh -y --no-modify-path
+  rm /tmp/rustup-init
+fi
 
 if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
 then

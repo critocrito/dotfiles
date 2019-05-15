@@ -206,33 +206,43 @@ append_to_file "git" "git-prompt.rc"
 # TMUX
 append_to_file "tmux" "tmux.conf"
 
+# GnuPG
+ensure_build_dir ".gnupg"
+for F in dirmngr.conf gpg.conf sks-keyserver.netCA.pem
+do
+  append_to_file "gnupg" "$F" ".gnupg/$F"
+done
+append_to_file "gnupg" "gpg-agent.conf" ".gnupg/gpg-agent.conf"
+
 # XDG
 is_not_mac && append_to_file "xdg" "user-dirs.dirs" "$BUILD_CONFIG_DIR/user-dirs.dirs"
 
 # Xorg
-   if is_bsd || is_linux;
-   then
-     D="$BUILD_CONFIG_DIR/xorg"
-     ensure_build_dir "$D"
-     for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
-     for F in xserverrc xinitrc; do append_to_file "xorg" "$F"; done
-   fi
-   if is_linux;
-   then
-     for D in requires wants; do ensure_build_dir "$BUILD_SYSTEMD_DIR/xorg@.target.$D"; done
-     for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service xss-lock@.service parcellite@.service;
-     do
-       append_to_file "xorg/systemd" "$F" "$BUILD_SYSTEMD_DIR/$F"
-     done
-
-     cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.requires" || exit
-     for F in xmonad@.service xss-lock@.service; do ln -s "../$F" .; done
-     cd - || exit
-
-     cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.wants" || exit
-     for F in xmodmap@.service xresources@.service parcellite@.service; do ln -s "../$F" .; done
-     cd - || exit
+if is_bsd || is_linux;
+then
+  D="$BUILD_CONFIG_DIR/xorg"
+  ensure_build_dir "$D"
+  for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
 fi
+
+if is_linux;
+then
+  for F in xserverrc xinitrc; do append_to_file "xorg" "$F"; done
+  for D in requires wants; do ensure_build_dir "$BUILD_SYSTEMD_DIR/xorg@.target.$D"; done
+  for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service xss-lock@.service parcellite@.service;
+  do
+    append_to_file "xorg/systemd" "$F" "$BUILD_SYSTEMD_DIR/$F"
+  done
+
+  cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.requires" || exit
+  for F in xmonad@.service xss-lock@.service; do ln -s "../$F" .; done
+  cd - || exit
+
+  cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.wants" || exit
+  for F in xmodmap@.service xresources@.service parcellite@.service; do ln -s "../$F" .; done
+  cd - || exit
+fi
+
 if is_mac;
 then
   append_to_file "xorg" "resources" "Xresources"

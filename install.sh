@@ -186,8 +186,9 @@ is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 # Setup shell related configurations.
 for F in functions env aliases profile rc
 do
-  for T in shell zsh ssh git grep mail gnupg emacs systemd rtorrent node python \
-                 haskell ruby fzf rust firefox
+  for T in shell zsh ssh git gnupg \
+                 grep fzf emacs systemd firefox \
+                 node python haskell ruby rust
   do
     append_to_file $T $F
   done

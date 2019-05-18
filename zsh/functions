@@ -14,10 +14,14 @@ prompt_pwd() {
   echo "%{$fg_bold[green]%}$(pwd)%{$reset_color%}"
 }
 
+prompt_os() {
+  echo "%{$fg[yellow]%]$(uname)%{$reset_color%}"
+}
+
 prompt_machine() {
   if [[ -n $SSH_CONNECTION ]];
   then
-    echo "$(prompt_username) at $(prompt_host) in $(prompt_pwd)"
+    echo "$(prompt_username) at $(prompt_host) running $(prompt_os) in $(prompt_pwd)"
   else
     echo "$(prompt_pwd)"
   fi

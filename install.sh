@@ -350,7 +350,7 @@ git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/
 git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"
 
 # rust
-if [ ! -f $HOME/.cargo/bin/rustup ];
+if [ ! -f "$HOME/.cargo/bin/rustup" ];
 then
   curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
   /bin/sh /tmp/rustup-init.sh -y --no-modify-path

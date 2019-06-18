@@ -269,9 +269,9 @@ fi
 if is_not_mac
 then
   ensure_build_dir ".xmonad"
-  for F in xmonad.hs xmobarrc stack.yml build.sh
+  for F in xmonad.hs xmobarrc stack.yaml build.sh
   do
-    append_to_file "xmonad" ".xmonad/$F"
+    append_to_file "xmonad" "$F" ".xmonad/$F"
   done
 fi
 
@@ -332,9 +332,9 @@ git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
 
 # Xmonad
-git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad.git"
-git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib.git"
-git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar.git"
+git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad.git" "$XMONAD_DIR/xmonad-git"
+git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib.git" "$XMONAD_DIR/xmonad-contrib-git"
+git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar.git" "$XMONAD_DIR/xmobar-git"
 
 # rust
 if [ ! -f $HOME/.cargo/bin/rustup ];

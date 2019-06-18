@@ -265,6 +265,16 @@ then
   append_to_file "xorg" "modmap" "Xmodmap"
 fi
 
+# Xmonad
+if is_not_mac
+then
+  ensure_build_dir ".xmonad"
+  for F in xmonad.hs xmobarrc stack.yml build.sh
+  do
+    append_to_file "xmonad" ".xmonad/$F"
+  done
+fi
+
 # Alacritty terminal
 ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
 append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
@@ -291,6 +301,8 @@ while true; do
       find build/ | while read -r F; do
         [ -d "$F" ] && mkdir -p "$HOME/${F#build/}"
         [ -f "$F" ] && install -D -C -m 0644 "$F" "$HOME/${F#build/}"
+        # FIXME: cp -P doesn't work on *BSD, this will instead copy the file
+        #        and not the link.
         [ -L "$F" ] && cp -P "$F" "$HOME/${F#build/}"
       done
       break
@@ -311,12 +323,18 @@ GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
 NVM_DIR="$HOME/.nvm"
 PYENV_ROOT="$HOME/.pyenv"
 RBENV_ROOT="$HOME/.rbenv"
+XMONAD_DIR="$HOME/.xmonad"
 
 git_clone_or_pull_tag https://github.com/creationix/nvm.git "$NVM_DIR"
 git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
 git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
 git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
+
+# Xmonad
+git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad.git"
+git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib.git"
+git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar.git"
 
 # rust
 if [ ! -f $HOME/.cargo/bin/rustup ];
@@ -330,8 +348,14 @@ if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
 then
   git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git "$GIT_SUPER_STATUS_DIR"
   cd "$GIT_SUPER_STATUS_DIR" || exit
+  # The right resolver is not available on FreeBSD.
+  if is_freebsd
+  then
+    sed -i '' -e 's/resolver: lts-5.0/resolver: lts-13.11/g' stack.yaml
+  fi
   stack clean
   stack setup
-  stack build && stack install
+  stack build
+  cp src/.bin/gitstatus ~/.local/bin
   cd - || exit
 fi

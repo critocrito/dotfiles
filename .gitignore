@@ -21,4 +21,5 @@ irssi/.irssi/config.old
 zsh/.zsh/cache/
 build
 build.bkp
+!xmonad/build
 tmp.*

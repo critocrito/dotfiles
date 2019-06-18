@@ -183,6 +183,15 @@ do
 done
 is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 
+# Directory layout
+if is_not_mac
+then
+  for D in prj doc spool bkp img vid tmp snd
+  do
+    ensure_build_dir "$D"
+  done
+fi
+
 # Setup shell related configurations.
 for F in functions env aliases profile rc
 do
@@ -269,7 +278,7 @@ fi
 if is_not_mac
 then
   ensure_build_dir ".xmonad"
-  for F in xmonad.hs xmobarrc stack.yaml build.sh
+  for F in xmonad.hs xmobarrc stack.yaml build
   do
     append_to_file "xmonad" "$F" ".xmonad/$F"
   done
@@ -305,6 +314,10 @@ while true; do
         #        and not the link.
         [ -L "$F" ] && cp -P "$F" "$HOME/${F#build/}"
       done
+      # FIXME: Fix up some permissions. Is there a better way to use the
+      #        install command?
+      [ -d "$HOME/.gnupg" ] && chmod 0700 "$HOME/.gnupg"
+      [ -f "$HOME/.xmonad/build" ] && chmod +x "$HOME/.xmonad/build"
       break
       ;;
     [Nn]* ) exit;;
@@ -332,9 +345,9 @@ git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
 git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
 
 # Xmonad
-git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad.git" "$XMONAD_DIR/xmonad-git"
-git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib.git" "$XMONAD_DIR/xmonad-contrib-git"
-git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar.git" "$XMONAD_DIR/xmobar-git"
+git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad-git"
+git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib-git"
+git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"
 
 # rust
 if [ ! -f $HOME/.cargo/bin/rustup ];

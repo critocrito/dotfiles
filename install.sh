@@ -186,7 +186,7 @@ is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 # Setup shell related configurations.
 for F in functions env aliases profile rc
 do
-  for T in shell zsh ssh git gnupg xdg \
+  for T in shell zsh ssh git gnupg xdg xorg \
                  grep fzf emacs systemd firefox \
                  node python haskell ruby rust
   do
@@ -231,6 +231,14 @@ then
   D="$BUILD_CONFIG_DIR/xorg"
   ensure_build_dir "$D"
   for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
+fi
+
+if is_freebsd
+then
+  append_to_file "xorg" "xinitrc"
+  cd "$BUILD_DIR" || exit
+  ln -s .xinitrc .xsession
+  cd - || exit
 fi
 
 if is_linux;
@@ -280,7 +288,8 @@ while true; do
   read -r yn
   case $yn in
     [Yy]* )
-      find build | while read -r F; do
+      find build/ | while read -r F; do
+        [ -d "$F" ] && mkdir -p "$HOME/${F#build/}"
         [ -f "$F" ] && install -D -C -m 0644 "$F" "$HOME/${F#build/}"
         [ -L "$F" ] && cp -P "$F" "$HOME/${F#build/}"
       done

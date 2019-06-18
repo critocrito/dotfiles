@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export LC_ALL=en_US.UTF-8
+
+/usr/local/bin/parcellite &
+/usr/bin/env flock /tmp/xrdb-merge -c '/usr/local/bin/xrdb -merge ~/.config/xorg/ressources' &
+/usr/local/bin/xmodmap ~/.config/xorg/modmap &
+exec xmonad

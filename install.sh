@@ -139,21 +139,8 @@ append_to_file() {
   source_os="$source.$(uname)"
   [ -z "$3" ] && target="$BUILD_DIR/.${2#.}" || target="$BUILD_DIR/.${3#.}"
 
-  if [ -f "$source" ];
-  then
-    {
-      [ "$2" != "modmap" ] && echo "";
-      [ "$2" != "modmap" ] && echo "# ${source#$DOTFILE_DIR/}";
-      cat "$source";
-    } >> "$target"
-  fi
-  if [ -f "$source_os" ]; then
-    {
-      [ "$2" != "modmap" ] && echo "";
-      [ "$2" != "modmap" ] && echo "# ${source_os#$DOTFILE_DIR/}";
-      cat "$source_os";
-    } >> "$target"
-  fi
+  [ -f "$source" ] && cat "$source" >> "$target"
+  [ -f "$source_os" ] && cat "$source_os" >> "$target"
 }
 
 # Configure home. Export variables that need to be accessible later on.

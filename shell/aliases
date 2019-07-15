@@ -28,9 +28,9 @@ else
   alias ls='ls -F --color=auto'
 fi
 
-alias l='ls -lAh'
-alias ll='ls -lh'
-alias lt='l -t'
+# alias l='ls -lAh'
+# alias ll='ls -lh'
+# alias lt='l -t'
 
 # Push and pop directories on directory stack
 alias pu='pushd'

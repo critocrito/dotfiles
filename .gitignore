@@ -19,3 +19,7 @@ emacs/.emacs.d/savefile/.#.smex-items
 irssi/.irssi/config.old
 
 zsh/.zsh/cache/
+build
+build.bkp
+!xmonad/build
+tmp.*

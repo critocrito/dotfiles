@@ -1,15 +1,12 @@
 #!/bin/sh
 
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-    printf "XDG_RUNTIME_DIR isn't set\n" >&2
-    exit 6
-fi
+export LC_ALL=en_US.UTF-8
 
-_DISPLAY="$(systemd-escape -- "$DISPLAY")"
-trap "rm -f $(printf '%q' "${XDG_RUNTIME_DIR}/xorg-wm@${_DISPLAY}")" EXIT
-mkfifo "${XDG_RUNTIME_DIR}/xorg-wm@${_DISPLAY}"
+/usr/bin/env xss-lock -- physlock &
+/usr/bin/env udiskie --no-tray --no-notify --no-file-manager --use-udisks2 &
+/usr/bin/env parcellite &
+/usr/bin/env flock /tmp/xrdb-merge -c '/usr/bin/xrdb -merge ~/.config/xorg/ressources' &
+/usr/bin/env xmodmap ~/.config/xorg/modmap &
+/usr/bin/env redshift -l 52.52437:13.41053 -g 0.9 &
 
-cat < "${XDG_RUNTIME_DIR}/xorg-wm@${_DISPLAY}" &
-systemctl --user start "xorg@${_DISPLAY}.target" &
-wait
-systemctl --user stop "xorg@${_DISPLAY}.target"
+exec xmonad

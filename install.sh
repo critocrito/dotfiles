@@ -229,29 +229,11 @@ then
   for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
 fi
 
-if is_freebsd
+if is_linux || is_freebsd
 then
   append_to_file "xorg" "xinitrc"
   cd "$BUILD_DIR" || exit
   ln -s .xinitrc .xsession
-  cd - || exit
-fi
-
-if is_linux;
-then
-  for F in xserverrc xinitrc; do append_to_file "xorg" "$F"; done
-  for D in requires wants; do ensure_build_dir "$BUILD_SYSTEMD_DIR/xorg@.target.$D"; done
-  for F in xmodmap@.service xmonad@.service xorg@.target xresources@.service xss-lock@.service parcellite@.service;
-  do
-    append_to_file "xorg/systemd" "$F" "$BUILD_SYSTEMD_DIR/$F"
-  done
-
-  cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.requires" || exit
-  for F in xmonad@.service xss-lock@.service; do ln -s "../$F" .; done
-  cd - || exit
-
-  cd "$BUILD_DIR/$BUILD_SYSTEMD_DIR/xorg@.target.wants" || exit
-  for F in xmodmap@.service xresources@.service parcellite@.service; do ln -s "../$F" .; done
   cd - || exit
 fi
 
@@ -274,13 +256,6 @@ fi
 # Alacritty terminal
 ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
 append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
-
-# Udiskie on Linux
-if is_linux;
-then
-  ensure_build_dir "$BUILD_SYSTEMD_DIR"
-  append_to_file "udiskie/systemd" "udiskie.service" "$BUILD_SYSTEMD_DIR/udiskie.service"
-fi
 
 [ -d "$DOTFILE_DIR/build.bkp" ] && rm -rf "$DOTFILE_DIR/build.bkp";
 [ -d "$DOTFILE_DIR/build" ] && mv "$DOTFILE_DIR/build" "$DOTFILE_DIR/build.bkp";
@@ -311,12 +286,6 @@ while true; do
     * ) echo "Please answer yes or no.";;
   esac
 done
-
-if is_linux;
-then
-  systemctl --user daemon-reload
-  systemctl --user enable udiskie.service
-fi
 
 # External dependencies
 GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"

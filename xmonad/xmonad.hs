@@ -445,7 +445,7 @@ gnomeRegister2 = io $ do
 -}
 
 main = do
-  xmproc <- spawnPipe "xmobar $XDG_CONFIG_HOME/xmonad/xmobarrc"
+  xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   -- incommunicado <- spawnPipe myIncommunicado
   -- xmonad $ gnomeConfig $ withUrgencyHook NoUrgencyHook $ defaultConfig {
   xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {

@@ -143,6 +143,17 @@ append_to_file() {
   [ -f "$source_os" ] && cat "$source_os" >> "$target"
 }
 
+install_binary() {
+  # $1 -> type
+  # $2 -> file
+  source="$DOTFILE_DIR/$1/$2"
+  source_os="$source.$(uname)"
+  target="$BUILD_DIR/.local/bin/${2#.}"
+
+  [ -f "$source" ] && cp "$source" "$target"
+  [ -f "$source_os" ] && cp "$source_os" "$target"
+}
+
 # Configure home. Export variables that need to be accessible later on.
 if is_mac
 then
@@ -229,6 +240,8 @@ then
   for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
 fi
 
+is_linux && install_binary "bin" "get-volume"
+
 if is_linux || is_freebsd
 then
   append_to_file "xorg" "xinitrc"
@@ -280,6 +293,7 @@ while true; do
       #        install command?
       [ -d "$HOME/.gnupg" ] && chmod 0700 "$HOME/.gnupg"
       [ -f "$HOME/.xmonad/build" ] && chmod +x "$HOME/.xmonad/build"
+      for f in ~/.local/bin/*; do chmod +x "$f"; done
       break
       ;;
     [Nn]* ) exit;;

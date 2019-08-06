@@ -241,6 +241,7 @@ then
 fi
 
 is_linux && install_binary "bin" "get-volume"
+install_binary "bin" "regularly-commit.sh"
 
 if is_linux || is_freebsd
 then

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-emacsclient "${1#*:}"
+/usr/local/bin/emacsclient -n "${1#*://}"

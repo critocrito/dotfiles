@@ -154,6 +154,18 @@ install_binary() {
   [ -f "$source_os" ] && cp "$source_os" "$target"
 }
 
+install_directory() {
+  # $1 -> type
+  # $2 -> source
+  # $3 -> target
+  source="$DOTFILE_DIR/$1/$2"
+  target="$BUILD_DIR/$3"
+
+  mkdir -p $target
+
+  [ -d "$source" ] && cp -a "$source" "$target"
+}
+
 # Configure home. Export variables that need to be accessible later on.
 if is_mac
 then
@@ -211,6 +223,12 @@ if is_linux;
 then
   append_to_file "pam" "pam_environment"
   for T in ssh dbus; do append_to_file "$T" "pam_environment"; done
+fi
+
+# Emacs integration
+if is_mac;
+then
+  install_directory "emacs" "OrgRoamProtocolHandler.app" "Applications"
 fi
 
 # Git.
@@ -286,7 +304,7 @@ while true; do
     [Yy]* )
       find build/ | while read -r F; do
         [ -d "$F" ] && mkdir -p "$HOME/${F#build/}"
-        [ -f "$F" ] && install -D -C -m 0644 "$F" "$HOME/${F#build/}"
+        [ -f "$F" ] && install -C -m 0644 "$F" "$HOME/${F#build/}"
         # FIXME: cp -P doesn't work on *BSD, this will instead copy the file
         #        and not the link.
         [ -L "$F" ] && cp -P "$F" "$HOME/${F#build/}"

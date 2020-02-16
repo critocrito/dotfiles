@@ -242,6 +242,7 @@ fi
 
 is_linux && install_binary "bin" "get-volume"
 install_binary "bin" "regularly-commit.sh"
+install_binary "bin" "launch_emacs"
 
 if is_linux || is_freebsd
 then

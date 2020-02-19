@@ -1,0 +1,67 @@
+#!/usr/bin/env sh
+#
+# sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap.sh)
+
+set -e
+
+export DOTFILES=~/.dotfiles
+
+is_mac() {
+  [ "$(uname)" = "Darwin" ]
+}
+is_freebsd() {
+  [ "$(uname)" = "FreeBSD" ]
+}
+is_linux() {
+  [ "$(uname)" = "Linux" ]
+}
+msg() {
+  printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
+}
+uncallable() {
+  ! command -v "$1" >/dev/null
+}
+
+if is_mac && uncallable brew;
+then
+  msg "Setup Homebrew."
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+if uncallable zsh || uncallable git;
+then
+  # NOTE Macos has both already
+  msg "Installing git and/or zsh"
+
+  if is_freebsd;
+  then
+    sudo pkg bootstrap
+    sudo pkg install git zsh
+  fi
+
+  if is_linux;
+  then
+    if [[ -f /etc/arch-release ]]; then
+      sudo pacman --needed --noconfirm -S git zsh
+    elif [[ -f /etc/debian_version ]]; then
+      sudo apt-get update && sudo apt-get install -y git zsh
+    fi
+  fi
+fi
+
+if [[ ! -d ~/.dotfiles ]]; then
+  msg "Deploying dotfiles repository..."
+  if [[ $USER == crito ]]; then
+    dfrepo=git@github.com:critocrito/dotfiles.git
+  else
+    dfrepo=https://github.com/critocrito/dotfiles
+  fi
+  git clone --recursive "$dfrepo" "$DOTFILES"
+fi
+
+#
+msg
+msg "And done!"
+msg
+msg "Use $DOTFILES/deploy to install your dotfiles, I suggest you begin"
+msg "with \`deploy core\`."

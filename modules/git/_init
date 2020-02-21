@@ -1,0 +1,10 @@
+_deps() {
+  ensure_pkg "git"
+}
+
+# FIXME: How do I deal with gitstatus???
+_install() {
+  append_to_file "modules/git" "gitconfig"
+  append_to_file "modules/git" "gitignore"
+  append_to_file "modules/git" "git-prompt.rc"
+}

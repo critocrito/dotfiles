@@ -30,6 +30,10 @@ is_not_linux() {
   ! is_linux
 }
 
+msg() {
+  printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
+}
+
 git_has_pullable_tag() {
   TARGET="$1"
   RETVAL=1
@@ -166,12 +170,40 @@ install_directory() {
   [ -d "$source" ] && cp -a "$source" "$target"
 }
 
+uncallable() {
+  ! command -v "$1" >/dev/null
+}
+
+install_pkg() {
+  # $1 -> pkg name
+  if is_mac;
+  then
+    brew install "$1"
+  fi
+  if is_freebsd;
+  then
+    sudo pkg install "$i"
+  fi
+  # FIXME: Add support for Debian
+}
+
+ensure_pkg() {
+  # $1 -> cmd
+  # $2 -> optional package name
+  cmd="$1"
+  [ -z "$2" ] && pkg_name="$1" || pkg_name="$2"
+  if uncallable "$cmd";
+  then
+    install_pkg "$pkg_name"
+  fi
+}
+
 # Configure home. Export variables that need to be accessible later on.
 if is_mac
 then
-  CONFIG_DIR="$HOME/Library/Preferences/"
-  CACHE_DIR="$HOME/Library/Caches/"
-  DATA_DIR="$HOME/Library/"
+  CONFIG_DIR=$(get_var_or "$XDG_CONFIG_HOME" "$HOME/Library/Preferences/")
+  CACHE_DIR=$(get_var_or "$XDG_CACHE_HOME" "$HOME/Library/Caches/")
+  DATA_DIR=$(get_var_or "$XDG_DATA_HOME" "$HOME/Library/")
 else
   CONFIG_DIR=$(get_var_or "$XDG_CONFIG_HOME" "$HOME/.config")
   CACHE_DIR=$(get_var_or "$XDG_CACHE_HOME" "$HOME/.cache")
@@ -193,102 +225,112 @@ do
 done
 is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 
+basics() {
+  # $1 -> module name
+  module="$1"
+  for F in functions env aliases profile rc;
+  do
+    append_to_file "$module" "$F"
+  done
+}
+
 # Directory layout
 if is_not_mac
 then
-  for D in prj doc spool bkp img vid tmp snd
+  for D in prj doc spool bkp tmp
   do
     ensure_build_dir "$D"
   done
 fi
 
+for MODULE in "core" "zsh" "git" "emacs" "gnupg" "ssh" "fzf"
+do
+  msg "Preparing module $MODULE"
+  
+  # shellcheck source=modules/core/_init
+  . "modules/$MODULE/_init" 2> /dev/null
+  
+  basics "modules/$T"
+
+  for FUNC in "_deps" "_install"; do
+    if type "$FUNC" 2> /dev/null | grep -q function;
+    then
+      "$FUNC"
+      unset -f "$FUNC"
+    fi
+  done
+done
+
+# Modules:
+#
+# Server profile: core, git, zsh??, tmux-server, fzf, exa
+#
+# Desktop profile: core, git, zsh, tmux, fzf, exa, gnupg, clojure, nodejs,
+# python, rust, ruby, alacritty, mail, xorg, haskell, grep, firefox
+
 # Setup shell related configurations.
-for F in functions env aliases profile rc
-do
-  for T in shell zsh ssh git gnupg xdg xorg \
-                 grep exa fzf emacs systemd firefox \
-                 node python haskell ruby rust
-  do
-    append_to_file $T $F
-  done
-done
+# for F in functions env aliases profile rc
+# do
+#   for T in shell zsh ssh git gnupg xdg xorg \
+#            grep exa fzf emacs systemd firefox \
+#            node python haskell ruby rust
+#   do
+#     append_to_file $T $F
+#   done
+# done
 
-# ZSH.
-for F in zprofile zshenv zshrc; do
-  append_to_file "zsh" "$F"
-done
+# # PAM environment
+# if is_linux;
+# then
+#   append_to_file "pam" "pam_environment"
+#   for T in ssh dbus; do append_to_file "$T" "pam_environment"; done
+# fi
 
-# PAM environment
-if is_linux;
-then
-  append_to_file "pam" "pam_environment"
-  for T in ssh dbus; do append_to_file "$T" "pam_environment"; done
-fi
+# # TMUX
+# append_to_file "tmux" "tmux.conf"
 
-# Emacs integration
-if is_mac;
-then
-  install_directory "emacs" "OrgRoamProtocolHandler.app" "Applications"
-fi
+# # XDG
+# is_not_mac && append_to_file "xdg" "user-dirs.dirs" "$BUILD_CONFIG_DIR/user-dirs.dirs"
 
-# Git.
-append_to_file "git" "gitconfig"
-append_to_file "git" "gitignore"
-append_to_file "git" "git-prompt.rc"
+# # Xorg
+# if is_bsd || is_linux;
+# then
+#   D="$BUILD_CONFIG_DIR/xorg"
+#   ensure_build_dir "$D"
+#   for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
+# fi
 
-# TMUX
-append_to_file "tmux" "tmux.conf"
+# is_linux && install_binary "bin" "get-volume"
+# install_binary "bin" "regularly-commit.sh"
+# install_binary "bin" "launch_emacs"
 
-# GnuPG
-ensure_build_dir ".gnupg"
-for F in dirmngr.conf gpg.conf sks-keyserver.netCA.pem
-do
-  append_to_file "gnupg" "$F" ".gnupg/$F"
-done
-append_to_file "gnupg" "gpg-agent.conf" ".gnupg/gpg-agent.conf"
+# if is_linux || is_freebsd
+# then
+#   append_to_file "xorg" "xinitrc"
+#   cd "$BUILD_DIR" || exit
+#   ln -s .xinitrc .xsession
+#   cd - || exit
+# fi
 
-# XDG
-is_not_mac && append_to_file "xdg" "user-dirs.dirs" "$BUILD_CONFIG_DIR/user-dirs.dirs"
+# if is_mac;
+# then
+#   append_to_file "xorg" "resources" "Xresources"
+#   append_to_file "xorg" "modmap" "Xmodmap"
+# fi
 
-# Xorg
-if is_bsd || is_linux;
-then
-  D="$BUILD_CONFIG_DIR/xorg"
-  ensure_build_dir "$D"
-  for F in resources modmap; do append_to_file "xorg" "$F" "$D/$F"; done
-fi
+# # Xmonad
+# if is_not_mac
+# then
+#   ensure_build_dir ".xmonad"
+#   for F in xmonad.hs xmobarrc stack.yaml build
+#   do
+#     append_to_file "xmonad" "$F" ".xmonad/$F"
+#   done
+# fi
 
-is_linux && install_binary "bin" "get-volume"
-install_binary "bin" "regularly-commit.sh"
-install_binary "bin" "launch_emacs"
-
-if is_linux || is_freebsd
-then
-  append_to_file "xorg" "xinitrc"
-  cd "$BUILD_DIR" || exit
-  ln -s .xinitrc .xsession
-  cd - || exit
-fi
-
-if is_mac;
-then
-  append_to_file "xorg" "resources" "Xresources"
-  append_to_file "xorg" "modmap" "Xmodmap"
-fi
-
-# Xmonad
-if is_not_mac
-then
-  ensure_build_dir ".xmonad"
-  for F in xmonad.hs xmobarrc stack.yaml build
-  do
-    append_to_file "xmonad" "$F" ".xmonad/$F"
-  done
-fi
-
-# Alacritty terminal
-ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
-append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
+# # Alacritty terminal
+# ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
+# append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
 
 [ -d "$DOTFILE_DIR/build.bkp" ] && rm -rf "$DOTFILE_DIR/build.bkp";
 [ -d "$DOTFILE_DIR/build" ] && mv "$DOTFILE_DIR/build" "$DOTFILE_DIR/build.bkp";
@@ -321,44 +363,44 @@ while true; do
   esac
 done
 
-# External dependencies
-GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
-NVM_DIR="$HOME/.nvm"
-PYENV_ROOT="$HOME/.pyenv"
-RBENV_ROOT="$HOME/.rbenv"
-XMONAD_DIR="$HOME/.xmonad"
+# # External dependencies
+# GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
+# NVM_DIR="$HOME/.nvm"
+# PYENV_ROOT="$HOME/.pyenv"
+# RBENV_ROOT="$HOME/.rbenv"
+# XMONAD_DIR="$HOME/.xmonad"
 
-git_clone_or_pull_tag https://github.com/creationix/nvm.git "$NVM_DIR"
-git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
-git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
-git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
-git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
+# git_clone_or_pull_tag https://github.com/creationix/nvm.git "$NVM_DIR"
+# git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
+# git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+# git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
+# git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
 
-# Xmonad
-git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad-git"
-git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib-git"
-git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"
+# # Xmonad
+# git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad-git"
+# git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib-git"
+# git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"
 
-# rust
-if [ ! -f "$HOME/.cargo/bin/rustup" ];
-then
-  curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
-  /bin/sh /tmp/rustup-init.sh -y --no-modify-path
-  rm /tmp/rustup-init
-fi
+# # rust
+# if [ ! -f "$HOME/.cargo/bin/rustup" ];
+# then
+#   curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
+#   /bin/sh /tmp/rustup-init.sh -y --no-modify-path
+#   rm /tmp/rustup-init
+# fi
 
-if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
-then
-  git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git "$GIT_SUPER_STATUS_DIR"
-  cd "$GIT_SUPER_STATUS_DIR" || exit
-  # The right resolver is not available on FreeBSD.
-  if is_freebsd
-  then
-    sed -i '' -e 's/resolver: lts-5.0/resolver: lts-13.11/g' stack.yaml
-  fi
-  stack clean
-  stack setup
-  stack build
-  cp src/.bin/gitstatus ~/.local/bin
-  cd - || exit
-fi
+# if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
+# then
+#   git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git "$GIT_SUPER_STATUS_DIR"
+#   cd "$GIT_SUPER_STATUS_DIR" || exit
+#   # The right resolver is not available on FreeBSD.
+#   if is_freebsd
+#   then
+#     sed -i '' -e 's/resolver: lts-5.0/resolver: lts-13.11/g' stack.yaml
+#   fi
+#   stack clean
+#   stack setup
+#   stack build
+#   cp src/.bin/gitstatus ~/.local/bin
+#   cd - || exit
+# fi

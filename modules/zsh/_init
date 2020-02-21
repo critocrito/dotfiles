@@ -1,0 +1,5 @@
+_install() {
+  for F in zprofile zshenv zshrc; do
+    append_to_file "modules/zsh" "$F"
+  done
+}

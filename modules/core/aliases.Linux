@@ -1,0 +1,4 @@
+alias gmount='udiskie-mount'
+alias gumount='udiskie-umount'
+alias ls='ls -F --color=auto'
+alias dmesg='dmesg -H'

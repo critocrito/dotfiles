@@ -1,0 +1,15 @@
+.DS_Store
+
+# Ruby rbenv configuration files
+.rbenv-version
+.ruby-version
+.rbenv-vars
+
+# Python pyenv configuration files
+.python-version
+
+# Haskell Stack
+.stack-work
+
+# Annoying npm error logs
+npm-debug.log

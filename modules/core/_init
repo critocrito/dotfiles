@@ -1,0 +1,7 @@
+deps() {
+  ensure_pkg "bat"
+  ensure_pkg "rg" "ripgrep"
+  ensure_pkg "exa"
+  ensure_pkg "htop"
+  ensure_pkg "xsv"
+}

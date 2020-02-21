@@ -1,0 +1,17 @@
+_deps() {
+    ensure_pkg "gpg" "gnupg"
+    if is_mac;
+    then
+        ensure_pkg "pinentry"
+        ensure_pkg "pinentry-mac"
+    fi
+}
+
+_install() {
+    ensure_build_dir ".gnupg"
+    for F in dirmngr.conf gpg.conf sks-keyserver.netCA.pem
+    do
+        append_to_file "modules/gnupg" "$F" ".gnupg/$F"
+    done
+    append_to_file "modules/gnupg" "gpg-agent.conf" ".gnupg/gpg-agent.conf"
+}

@@ -3,7 +3,17 @@
 BUILD_DIR="$(mktemp -d)"
 DOTFILE_DIR="$(pwd)"
 
-echo "Building dotfiles from $DOTFILE_DIR in $BUILD_DIR."
+usage() {
+  echo "Usage: $0 [server|desktop]"
+  exit 2
+}
+
+except() {
+  # $1 -> reason
+  reason=$1
+  echo "Error: $reason"
+  usage
+}
 
 _is_os() {
   [ "$(uname)" = "$1" ]
@@ -150,12 +160,23 @@ append_to_file() {
 install_binary() {
   # $1 -> type
   # $2 -> file
-  source="$DOTFILE_DIR/$1/$2"
+  source="$DOTFILE_DIR/$1/bin/$2"
   source_os="$source.$(uname)"
   target="$BUILD_DIR/.local/bin/${2#.}"
 
   [ -f "$source" ] && cp "$source" "$target"
   [ -f "$source_os" ] && cp "$source_os" "$target"
+}
+
+install_binaries() {
+  # $1 -> type
+  [ -d "$1/bin" ] && for BIN in "$1"/bin/*; do
+    source="$DOTFILE_DIR/$BIN"
+    bin_name="$(basename $BIN)"
+    target="$BUILD_DIR/.local/bin/${bin_name#.}"
+    cp "$source" "$target"
+    chmod +x "$target"
+  done
 }
 
 install_directory() {
@@ -171,7 +192,11 @@ install_directory() {
 }
 
 uncallable() {
-  ! command -v "$1" >/dev/null
+  ! command -v "$1" > /dev/null
+}
+
+uncallable_mac() {
+  ! open -Ra "$cmd" 2> /dev/null
 }
 
 install_pkg() {
@@ -192,11 +217,36 @@ ensure_pkg() {
   # $2 -> optional package name
   cmd="$1"
   [ -z "$2" ] && pkg_name="$1" || pkg_name="$2"
-  if uncallable "$cmd";
+
+  if is_mac;
   then
-    install_pkg "$pkg_name"
+    if uncallable_mac "$cmd" && uncallable "$cmd";
+    then
+      install_pkg "$pkg_name"
+    fi
+  else
+    if uncallable "$cmd";
+    then
+      install_pkg "$pkg_name"
+    fi
   fi
 }
+
+###
+# Parse command line options
+###
+PROFILE="$1"
+PROFILEFILE="profiles/$PROFILE"
+
+if [ ! -f "$PROFILEFILE" ];
+then
+  except "Unknown profile"
+fi
+
+###
+# Prepare build directory
+###
+msg "Building dotfiles in $BUILD_DIR."
 
 # Configure home. Export variables that need to be accessible later on.
 if is_mac
@@ -225,17 +275,8 @@ do
 done
 is_linux && ensure_build_dir "$BUILD_SYSTEMD_DIR"
 
-basics() {
-  # $1 -> module name
-  module="$1"
-  for F in functions env aliases profile rc;
-  do
-    append_to_file "$module" "$F"
-  done
-}
-
 # Directory layout
-if is_not_mac
+if [ "$PROFILE" = "desktop" ] && is_not_mac
 then
   for D in prj doc spool bkp tmp
   do
@@ -243,14 +284,28 @@ then
   done
 fi
 
-for MODULE in "core" "zsh" "git" "emacs" "gnupg" "ssh" "fzf"
+if [ "$PROFILE" = "desktop" ] && is_mac
+then
+  for D in Projects Backups Temp
+  do
+    ensure_build_dir "$D"
+  done
+fi
+
+# Install all modules for the chosen profile
+while read -r MODULE;
 do
   msg "Preparing module $MODULE"
   
   # shellcheck source=modules/core/_init
   . "modules/$MODULE/_init" 2> /dev/null
-  
-  basics "modules/$T"
+
+  for F in functions env aliases profile rc;
+  do
+    append_to_file "modules/$MODULE" "$F"
+  done
+
+  install_binaries "modules/$MODULE"
 
   for FUNC in "_deps" "_install"; do
     if type "$FUNC" 2> /dev/null | grep -q function;
@@ -259,7 +314,7 @@ do
       unset -f "$FUNC"
     fi
   done
-done
+done < "$PROFILEFILE"
 
 # Modules:
 #
@@ -285,9 +340,6 @@ done
 #   append_to_file "pam" "pam_environment"
 #   for T in ssh dbus; do append_to_file "$T" "pam_environment"; done
 # fi
-
-# # TMUX
-# append_to_file "tmux" "tmux.conf"
 
 # # XDG
 # is_not_mac && append_to_file "xdg" "user-dirs.dirs" "$BUILD_CONFIG_DIR/user-dirs.dirs"
@@ -328,15 +380,12 @@ done
 #   done
 # fi
 
-# # Alacritty terminal
-# ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
-# append_to_file "alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
-
 [ -d "$DOTFILE_DIR/build.bkp" ] && rm -rf "$DOTFILE_DIR/build.bkp";
 [ -d "$DOTFILE_DIR/build" ] && mv "$DOTFILE_DIR/build" "$DOTFILE_DIR/build.bkp";
 mv "$BUILD_DIR" "$DOTFILE_DIR/build"
 
-echo "Built the following dotfiles dir"
+msg "Built the following dotfiles dir:"
+echo ""
 tree -a build
 
 while true; do

@@ -63,5 +63,5 @@ fi
 msg
 msg "And done!"
 msg
-msg "Use $DOTFILES/deploy to install your dotfiles, I suggest you begin"
-msg "with \`deploy core\`."
+msg "Use $DOTFILES/dot to install your dotfiles, I suggest you begin"
+msg "with \`dot server\` or \`dot desktop\`."

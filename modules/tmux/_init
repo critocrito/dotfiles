@@ -1,0 +1,7 @@
+_deps() {
+  ensure_pkg "tmux"
+}
+
+_install() {
+  append_to_file "modules/tmux" "tmux.conf"
+}

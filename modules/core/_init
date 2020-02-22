@@ -1,0 +1,41 @@
+_deps() {
+  ensure_pkg "rg" "ripgrep"
+  ensure_pkg "exa"
+  ensure_pkg "htop"
+  ensure_pkg "jq"
+
+  if is_not_linux;
+  then
+    ensure_pkg "bat"
+  fi
+
+  if is_freebsd;
+  then
+    ensure_pkg "fd" "fd-find"
+    ensure_pkg "xsv" "xsv-rs"
+  fi
+
+  if is_linux;
+  then
+    ensure_pkg "fd" "fd-find"
+    sudo curl -sL https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz | tar xzv -C /usr/local/bin
+    sudo chmod +x /usr/local/bin/xsv
+    curl -sLO https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb
+    sudo dpkg -i bat_0.12.1_amd64.deb
+    rm bat_0.12.1_amd64.deb
+  fi
+  # On mac install GNU tooling
+  if is_mac;
+  then
+    ensure_pkg "xsv"
+    ensure_pkg "fd"
+    ensure_pkg "gls" "coreutils"
+    ensure_pkg "ged" "ed"
+    ensure_pkg "gfind" "findutils"
+    ensure_pkg "gawk"
+    ensure_pkg "gsed" "gnu-sed"
+    ensure_pkg "gtar" "gnu-tar"
+    ensure_pkg "gegrep" "grep"
+    ensure_pkg "gmake" "make"
+  fi
+}

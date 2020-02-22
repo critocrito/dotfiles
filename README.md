@@ -1,28 +1,24 @@
-# Requirements
+# `dotfiles`
 
-- `make`
-- `stow`
+These are my dotfiles, that I use those to setup servers as well as desktops.
+Several operating systems are supported: macOS, Linux and FreeBSD.
 
-# ZSH
+## Bootstrap
 
-    curl -L http://install.ohmyz.sh | sh
+To get started you need `curl` and `sudo` installed. The user that installs
+dotfiles requires sudo privileges.
 
-NOTE: oh-my-zsh must be installed manually. The installer creates a
-new ~/.zshrc. Run make zsh again.
+``` sh
+sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap.sh)
+```
 
-    rm ~/.zshrc
-    make zsh
+## Deploy
 
-# Mail Setup
+There are two profiles available in [~./profiles~](./profiles), one for a server
+setup, and one for the desktop. To use either of one run:
 
-    sudo pacman -S \
-      postfix \
-      offlineimap \
-      mutt \
-      notmuch
+``` sh
+./dot server
+./dot desktop
+```
 
-    notmuch setup
-
-## References
-
-- http://dev.gentoo.org/~tomka/mail.html

@@ -1,0 +1,4 @@
+_install() {
+  git_clone_or_pull_tag https://github.com/creationix/nvm.git "$HOME/.nvm"
+  append_to_file "modules/node" "npmrc"
+}

@@ -1,0 +1,13 @@
+_deps() {
+  if is_mac;
+  then
+    ensure_pkg "Alacritty" "alacritty"
+  else
+    ensure_pkg "alacritty"
+  fi
+}
+
+_install() {
+  ensure_build_dir ".config/alacritty"
+  append_to_file "modules/alacritty" "alacritty.yml" ".config/alacritty/alacritty.yml"
+}

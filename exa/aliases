@@ -1,3 +1,0 @@
-alias l='exa -l'
-alias la='exa -la'
-alias lt='exa -l -snew'

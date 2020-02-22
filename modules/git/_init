@@ -1,0 +1,19 @@
+_deps() {
+  ensure_pkg "git"
+
+  if is_mac || is_freebsd;
+  then
+    ensure_pkg "diff-so-fancy"
+  fi
+  if is_debian_linux;
+  then
+    sudo curl -sL https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy > /usr/local/bin/diff-so-fancy
+    chmod +x /usr/local/bin/diff-so-fancy
+  fi
+}
+
+_install() {
+  append_to_file "modules/git" "gitconfig"
+  append_to_file "modules/git" "gitignore"
+  git_clone_or_pull_tag "https://github.com/zsh-git-prompt/zsh-git-prompt.git" "$HOME/.zsh-git-prompt"
+}

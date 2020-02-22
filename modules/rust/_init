@@ -1,0 +1,8 @@
+_install() {
+  if [ ! -f "$HOME/.cargo/bin/rustup" ];
+  then
+    curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
+    /bin/sh /tmp/rustup-init.sh -y --no-modify-path
+    rm /tmp/rustup-init
+  fi
+}

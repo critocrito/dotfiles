@@ -2,9 +2,8 @@ _deps() {
   ensure_pkg "git"
 }
 
-# FIXME: How do I deal with gitstatus???
 _install() {
   append_to_file "modules/git" "gitconfig"
   append_to_file "modules/git" "gitignore"
-  append_to_file "modules/git" "git-prompt.rc"
+  git_clone_or_pull_tag "https://github.com/zsh-git-prompt/zsh-git-prompt.git" "$HOME/.zsh-git-prompt"
 }

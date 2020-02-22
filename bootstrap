@@ -26,6 +26,7 @@ if is_mac && uncallable brew;
 then
   msg "Setup Homebrew."
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew analytics off
 fi
 
 if uncallable zsh || uncallable git;
@@ -41,17 +42,17 @@ then
 
   if is_linux;
   then
-    if [[ -f /etc/arch-release ]]; then
+    if [ -f /etc/arch-release ]; then
       sudo pacman --needed --noconfirm -S git zsh
-    elif [[ -f /etc/debian_version ]]; then
+    elif [ -f /etc/debian_version ]; then
       sudo apt-get update && sudo apt-get install -y git zsh
     fi
   fi
 fi
 
-if [[ ! -d ~/.dotfiles ]]; then
+if [ ! -d ~/.dotfiles ]; then
   msg "Deploying dotfiles repository..."
-  if [[ $USER == crito ]]; then
+  if [ "$USER" = crito ]; then
     dfrepo=git@github.com:critocrito/dotfiles.git
   else
     dfrepo=https://github.com/critocrito/dotfiles

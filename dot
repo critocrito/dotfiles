@@ -96,8 +96,8 @@ git_clone_or_pull_tag() {
 
   if [ ! -d "$TARGET" ]
   then
-    echo "Installing $GIT_URL."
-    git clone "$GIT_URL" "$TARGET" 1> /dev/null
+    msg "Installing $GIT_URL."
+    git clone "$GIT_URL" "$TARGET" 2> /dev/null
   fi
 
   cd "$TARGET" || exit
@@ -107,7 +107,7 @@ git_clone_or_pull_tag() {
 
   if [ "$(git rev-parse @)" != "$(git rev-parse @\{$LATEST_TAG\} 2> /dev/null)" ]
   then
-    echo "Upgrading $TARGET to $LATEST_TAG"
+    msg "Upgrading $TARGET to $LATEST_TAG"
     git checkout "$LATEST_TAG" 2> /dev/null
   fi
 
@@ -120,8 +120,8 @@ git_clone_or_pull_master() {
 
   if [ ! -d "$TARGET" ]
   then
-    echo "Installing $GIT_URL."
-    git clone "$GIT_URL" "$TARGET" 1> /dev/null
+    msg "Installing $GIT_URL."
+    git clone "$GIT_URL" "$TARGET" 2> /dev/null
   else
     cd "$TARGET" || exit
 
@@ -129,7 +129,7 @@ git_clone_or_pull_master() {
 
     if [ "$(git rev-parse @)" != "$(git rev-parse @\{u\} 2> /dev/null)" ]
     then
-      echo "Upgrading $TARGET to latest master"
+      msg "Upgrading $TARGET to latest master"
       git checkout master 2> /dev/null
     fi
 
@@ -169,10 +169,10 @@ install_binary() {
 }
 
 install_binaries() {
-  # $1 -> type
+  # $1 -> module
   [ -d "$1/bin" ] && for BIN in "$1"/bin/*; do
     source="$DOTFILE_DIR/$BIN"
-    bin_name="$(basename $BIN)"
+    bin_name="$(basename "$BIN")"
     target="$BUILD_DIR/.local/bin/${bin_name#.}"
     cp "$source" "$target"
     chmod +x "$target"
@@ -186,7 +186,7 @@ install_directory() {
   source="$DOTFILE_DIR/$1/$2"
   target="$BUILD_DIR/$3"
 
-  mkdir -p $target
+  mkdir -p "$target"
 
   [ -d "$source" ] && cp -a "$source" "$target"
 }
@@ -196,7 +196,7 @@ uncallable() {
 }
 
 uncallable_mac() {
-  ! open -Ra "$cmd" 2> /dev/null
+  ! open -Ra "$1" 2> /dev/null
 }
 
 install_pkg() {
@@ -207,7 +207,7 @@ install_pkg() {
   fi
   if is_freebsd;
   then
-    sudo pkg install "$i"
+    sudo pkg install "$1"
   fi
   # FIXME: Add support for Debian
 }
@@ -215,17 +215,16 @@ install_pkg() {
 ensure_pkg() {
   # $1 -> cmd
   # $2 -> optional package name
-  cmd="$1"
   [ -z "$2" ] && pkg_name="$1" || pkg_name="$2"
 
   if is_mac;
   then
-    if uncallable_mac "$cmd" && uncallable "$cmd";
+    if uncallable_mac "$1" && uncallable "$1";
     then
       install_pkg "$pkg_name"
     fi
   else
-    if uncallable "$cmd";
+    if uncallable "$1";
     then
       install_pkg "$pkg_name"
     fi

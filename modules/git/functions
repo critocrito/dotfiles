@@ -1,5 +1,3 @@
-source ~/.git-prompt.rc
-
 # Git commmit browser
 log() {
   git log --graph --color=always \

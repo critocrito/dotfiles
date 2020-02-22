@@ -15,6 +15,12 @@ is_freebsd() {
 is_linux() {
   [ "$(uname)" = "Linux" ]
 }
+is_debian_linux() {
+  is_linux && [ -f /etc/debian_version ]
+}
+is_arch_linux() {
+  is_linux && [ -f /etc/arch-release ]
+}
 msg() {
   printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
 }
@@ -36,17 +42,18 @@ then
 
   if is_freebsd;
   then
-    sudo pkg bootstrap
-    sudo pkg install git zsh
+    sudo env ASSUME_ALWAYS_YES=yes pkg bootstrap
+    sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh
   fi
 
-  if is_linux;
+  if is_debian_linux;
   then
-    if [ -f /etc/arch-release ]; then
-      sudo pacman --needed --noconfirm -S git zsh
-    elif [ -f /etc/debian_version ]; then
-      sudo apt-get update && sudo apt-get install -y git zsh
-    fi
+    sudo apt-get update && sudo apt-get install -y git zsh
+  fi
+
+  if is_arch_linux;
+  then
+    sudo pacman --needed --noconfirm -S git zsh
   fi
 fi
 

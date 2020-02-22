@@ -39,6 +39,12 @@ is_not_mac() {
 is_not_linux() {
   ! is_linux
 }
+is_debian_linux() {
+  is_linux && [ -f /etc/debian_version ]
+}
+is_arch_linux() {
+  is_linux && [ -f /etc/arch-release ]
+}
 
 msg() {
   printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
@@ -207,7 +213,7 @@ install_pkg() {
   fi
   if is_freebsd;
   then
-    sudo pkg install "$1"
+    sudo env ASSUME_ALWAYS_YES=yes pkg install "$1"
   fi
   # FIXME: Add support for Debian
 }

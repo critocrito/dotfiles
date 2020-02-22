@@ -1,3 +1,4 @@
 install() {
   ensure_pkg "fzf"
+  ensure_pkg "fasd"
 }

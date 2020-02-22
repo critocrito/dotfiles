@@ -26,8 +26,5 @@ unalias md
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.theme.zsh ]] && source ~/.theme.zsh
 
-# FIXME: Move this to its own module
-eval "$(fasd --init auto)"
-
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && source ~/.localrc

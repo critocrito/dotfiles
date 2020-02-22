@@ -1,0 +1,4 @@
+_install() {
+  git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$HOME/.pyenv"
+  git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$HOME/.pyenv/plugins/pyenv-virtualenv"
+}

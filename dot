@@ -331,17 +331,6 @@ done < "$PROFILEFILE"
 # Desktop profile: core, git, zsh, tmux, fzf, exa, gnupg, clojure, nodejs,
 # python, rust, ruby, alacritty, mail, xorg, haskell, grep, firefox
 
-# Setup shell related configurations.
-# for F in functions env aliases profile rc
-# do
-#   for T in shell zsh ssh git gnupg xdg xorg \
-#            grep exa fzf emacs systemd firefox \
-#            node python haskell ruby rust
-#   do
-#     append_to_file $T $F
-#   done
-# done
-
 # # PAM environment
 # if is_linux;
 # then
@@ -362,7 +351,6 @@ done < "$PROFILEFILE"
 
 # is_linux && install_binary "bin" "get-volume"
 # install_binary "bin" "regularly-commit.sh"
-# install_binary "bin" "launch_emacs"
 
 # if is_linux || is_freebsd
 # then
@@ -420,44 +408,7 @@ while true; do
   esac
 done
 
-# # External dependencies
-# GIT_SUPER_STATUS_DIR="$HOME/.git-super-status"
-# NVM_DIR="$HOME/.nvm"
-# PYENV_ROOT="$HOME/.pyenv"
-# RBENV_ROOT="$HOME/.rbenv"
-# XMONAD_DIR="$HOME/.xmonad"
-
-# git_clone_or_pull_tag https://github.com/creationix/nvm.git "$NVM_DIR"
-# git_clone_or_pull_tag https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
-# git_clone_or_pull_tag https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
-# git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$RBENV_ROOT"
-# git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$RBENV_ROOT/plugins/ruby-build"
-
 # # Xmonad
 # git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad-git"
 # git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib-git"
 # git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"
-
-# # rust
-# if [ ! -f "$HOME/.cargo/bin/rustup" ];
-# then
-#   curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
-#   /bin/sh /tmp/rustup-init.sh -y --no-modify-path
-#   rm /tmp/rustup-init
-# fi
-
-# if git_has_pullable_master "$GIT_SUPER_STATUS_DIR";
-# then
-#   git_clone_or_pull_master https://github.com/olivierverdier/zsh-git-prompt.git "$GIT_SUPER_STATUS_DIR"
-#   cd "$GIT_SUPER_STATUS_DIR" || exit
-#   # The right resolver is not available on FreeBSD.
-#   if is_freebsd
-#   then
-#     sed -i '' -e 's/resolver: lts-5.0/resolver: lts-13.11/g' stack.yaml
-#   fi
-#   stack clean
-#   stack setup
-#   stack build
-#   cp src/.bin/gitstatus ~/.local/bin
-#   cd - || exit
-# fi

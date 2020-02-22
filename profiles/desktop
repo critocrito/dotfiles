@@ -6,4 +6,9 @@ gnupg
 ssh
 tmux
 emacs
+haskell
+rust
+node
+python
+ruby
 alacritty

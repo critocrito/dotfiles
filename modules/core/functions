@@ -13,7 +13,8 @@ has_pacman() { _has_cmd pacman }
 has_function() { whence -w $1 >/dev/null }
 
 # Create a new directory and enter it.
-# md() { mkdir -p "$@" && cd "$@" }
+md() { mkdir -p "$@" && cd "$@" }
 
+# FIXME: f is an alias defined by fasd
 # Shorthand for find
-f() { find . -name "$1" 2>&1 | grep -v 'Permission denied' }
+# f() { find . -name "$1" 2>&1 | grep -v 'Permission denied' }

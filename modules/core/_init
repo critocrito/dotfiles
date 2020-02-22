@@ -18,11 +18,20 @@ _deps() {
   if is_linux;
   then
     ensure_pkg "fd" "fd-find"
-    sudo curl -sL https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz | tar xzv -C /usr/local/bin
-    sudo chmod +x /usr/local/bin/xsv
-    curl -sLO https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb
-    sudo dpkg -i bat_0.12.1_amd64.deb
-    rm bat_0.12.1_amd64.deb
+
+    if uncallable xsv;
+    then
+      curl -sL https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz | sudo tar xzv -C /usr/local/bin 1> /dev/null
+      sudo chmod +x /usr/local/bin/xsv
+      sudo chown root:root /usr/local/bin/xsv
+    fi
+
+    if uncallable bat;
+    then
+      curl -sLO https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb
+      sudo dpkg -i bat_0.12.1_amd64.deb
+      rm bat_0.12.1_amd64.deb
+    fi
   fi
   # On mac install GNU tooling
   if is_mac;

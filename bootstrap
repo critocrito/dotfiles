@@ -35,25 +35,30 @@ then
   brew analytics off
 fi
 
-if uncallable zsh || uncallable git;
+if uncallable zsh || uncallable git || uncallable tree;
 then
-  # NOTE Macos has both already
-  msg "Installing git and/or zsh"
+  msg "Installing: git/zsh/tree"
+  
+  # NOTE Macos has git and zsh already
+  if is_mac
+  then
+    brew install tree
+  fi
 
   if is_freebsd;
   then
     sudo env ASSUME_ALWAYS_YES=yes pkg bootstrap
-    sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh
+    sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh tree
   fi
 
   if is_debian_linux;
   then
-    sudo apt update && sudo apt install -y git zsh
+    sudo apt update && sudo apt install -y git zsh tree
   fi
 
   if is_arch_linux;
   then
-    sudo pacman --needed --noconfirm -S git zsh
+    sudo pacman --needed --noconfirm -S git zsh tree
   fi
 fi
 

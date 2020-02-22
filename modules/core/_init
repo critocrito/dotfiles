@@ -4,4 +4,18 @@ deps() {
   ensure_pkg "exa"
   ensure_pkg "htop"
   ensure_pkg "xsv"
+  ensure_pkg "jq"
+  ensure_pkg "fd"
+  # On mac install GNU tooling
+  if is_mac;
+  then
+      ensure_pkg "coreutils"
+      ensure_pkg "ed"
+      ensure_pkg "findutils"
+      ensure_pkg "gawk"
+      ensure_pkg "gnu-sed"
+      ensure_pkg "gnu-tar"
+      ensure_pkg "grep"
+      ensure_pkg "make"
+  fi
 }

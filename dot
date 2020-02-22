@@ -215,7 +215,10 @@ install_pkg() {
   then
     sudo env ASSUME_ALWAYS_YES=yes pkg install "$1"
   fi
-  # FIXME: Add support for Debian
+  if is_debian_linux;
+  then
+    sudo apt install -y "$1"
+  fi
 }
 
 ensure_pkg() {

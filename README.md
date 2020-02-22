@@ -1,8 +1,7 @@
 # `dotfiles`
 
-These are my dotfiles, that I use for all my machines. I use those to setup
-servers as well as desktops, and several operating systems, macOS, Linux and
-FreeBSD.
+These are my dotfiles, that I use those to setup servers as well as desktops.
+Several operating systems are supported: macOS, Linux and FreeBSD.
 
 ## Bootstrap
 
@@ -11,5 +10,15 @@ dotfiles requires sudo privileges.
 
 ``` sh
 sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap.sh)
+```
+
+## Deploy
+
+There are two profiles available in [~./profiles~](./profiles), one for a server
+setup, and one for the desktop. To use either of one run:
+
+``` sh
+./dot server
+./dot desktop
 ```
 

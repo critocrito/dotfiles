@@ -1,4 +1,4 @@
-deps() {
+_deps() {
   if is_mac;
   then
     ensure_pkg "Alacritty" "alacritty"
@@ -7,7 +7,7 @@ deps() {
   fi
 }
 
-install() {
-  ensure_build_dir "$BUILD_CONFIG_DIR/alacritty"
-  append_to_file "modules/alacritty" "alacritty.yml" "$BUILD_CONFIG_DIR/alacritty/alacritty.yml"
+_install() {
+  ensure_build_dir ".config/alacritty"
+  append_to_file "modules/alacritty" "alacritty.yml" ".config/alacritty/alacritty.yml"
 }

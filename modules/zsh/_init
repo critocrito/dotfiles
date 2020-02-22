@@ -1,7 +1,8 @@
 _install() {
-  for F in zprofile zshenv zshrc; do
+  for F in theme.zsh zprofile zshenv zshrc; do
     append_to_file "modules/zsh" "$F"
   done
 
   curl -Ls git.io/antigen > "$BUILD_DIR"/.antigen.zsh
+  sudo chsh -s `which zsh` "$USER"
 }

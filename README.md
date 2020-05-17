@@ -9,7 +9,7 @@ To get started you need `curl` and `sudo` installed. The user that installs
 dotfiles requires sudo privileges.
 
 ``` sh
-sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap.sh)
+sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap)
 ```
 
 ## Deploy

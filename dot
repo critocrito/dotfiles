@@ -399,7 +399,9 @@ while true; do
       #        install command?
       [ -d "$HOME/.gnupg" ] && chmod 0700 "$HOME/.gnupg"
       [ -f "$HOME/.xmonad/build" ] && chmod +x "$HOME/.xmonad/build"
-      for f in ~/.local/bin/*; do chmod +x "$f"; done
+      # File globbing throws an error if the directory is empty. Test if
+      # $BIN_DIR has any files before expanding the directory.
+      [ -n "$(ls -A $BIN_DIR)" ] && for f in "$BIN_DIR"/*; do chmod +x "$f"; done
       break
       ;;
     [Nn]* ) exit;;

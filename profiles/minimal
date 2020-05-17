@@ -2,8 +2,3 @@ core
 zsh
 git
 shell-goodies
-gnupg
-ssh
-tmux
-rust
-node

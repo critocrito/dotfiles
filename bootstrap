@@ -1,74 +1,72 @@
 #!/usr/bin/env sh
-#
-# sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap.sh)
-
 set -e
+
+# sh <(curl -s https://raw.githubusercontent.com/critocrito/dotfiles/master/bootstrap)
 
 DOTFILES="$HOME/.dotfiles"
 
 is_mac() {
-  [ "$(uname)" = "Darwin" ]
-}
-is_freebsd() {
-  [ "$(uname)" = "FreeBSD" ]
-}
-is_linux() {
-  [ "$(uname)" = "Linux" ]
-}
-is_debian_linux() {
-  is_linux && [ -f /etc/debian_version ]
-}
-is_arch_linux() {
-  is_linux && [ -f /etc/arch-release ]
-}
-msg() {
-  printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
-}
-uncallable() {
-  ! command -v "$1" >/dev/null
+	[ "$(uname)" = "Darwin" ]
 }
 
-if is_mac && uncallable brew;
-then
-  msg "Setup Homebrew."
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew analytics off
+is_freebsd() {
+	[ "$(uname)" = "FreeBSD" ]
+}
+
+is_linux() {
+	[ "$(uname)" = "Linux" ]
+}
+
+is_debian_linux() {
+	is_linux && [ -f /etc/debian_version ]
+}
+
+is_arch_linux() {
+	is_linux && [ -f /etc/arch-release ]
+}
+
+msg() {
+	printf "\r\033[2K\033[0;32m[ .. ] %s\033[0m\n" "$*"
+}
+
+uncallable() {
+	! command -v "$1" >/dev/null
+}
+
+if is_mac && uncallable brew; then
+	msg "Setup Homebrew."
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	brew analytics off
 fi
 
-if uncallable zsh || uncallable git || uncallable tree;
-then
-  msg "Installing: git/zsh/tree"
-  
-  # NOTE Macos has git and zsh already
-  if is_mac
-  then
-    brew install tree
-  fi
+if uncallable zsh || uncallable git || uncallable tree; then
+	msg "Installing: git/zsh/tree"
 
-  if is_freebsd;
-  then
-    sudo env ASSUME_ALWAYS_YES=yes pkg bootstrap
-    sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh tree
-  fi
+	# NOTE: Macos has git and zsh already installed
+	if is_mac; then
+		brew install tree
+	fi
 
-  if is_debian_linux;
-  then
-    sudo apt update && sudo apt install -y git zsh tree
-  fi
+	if is_freebsd; then
+		sudo env ASSUME_ALWAYS_YES=yes pkg bootstrap
+		sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh tree
+	fi
 
-  if is_arch_linux;
-  then
-    sudo pacman --needed --noconfirm -S git zsh tree
-  fi
+	if is_debian_linux; then
+		sudo apt update && sudo apt install -y git zsh tree
+	fi
+
+	if is_arch_linux; then
+		sudo pacman --needed --noconfirm -S git zsh tree
+	fi
 fi
 
 if [ ! -d "$DOTFILES" ]; then
-  msg "Deploying dotfiles repository..."
-  dfrepo=https://github.com/critocrito/dotfiles
-  git clone --recursive "$dfrepo" "$DOTFILES"
+	msg "Deploying dotfiles repository..."
+	dfrepo=https://github.com/critocrito/dotfiles
+	git clone --recursive "$dfrepo" "$DOTFILES"
 fi
 
-#
 msg
 msg "And done!"
 msg

@@ -11,6 +11,11 @@ _deps() {
     sudo chmod +x /usr/local/bin/diff-so-fancy
     sudo chown root:root /usr/local/bin/diff-so-fancy
   fi
+
+  if is_openbsd;
+  then
+    git_clone_or_pull_tag "https://github.com/so-fancy/diff-so-fancy.git" "$HOME/.diff-so-fancy"
+  fi
 }
 
 _install() {

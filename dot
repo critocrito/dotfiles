@@ -202,13 +202,16 @@ install_pkg() {
 		brew install "$1"
 	fi
 	if is_freebsd; then
-		sudo env ASSUME_ALWAYS_YES=yes pkg install "$1"
+		"$SUDO" env ASSUME_ALWAYS_YES=yes pkg install "$1"
+	fi
+	if is_openbsd; then
+		"$SUDO" pkg_add "$1"
 	fi
 	if is_debian_linux; then
-		sudo apt install -y "$1"
+		"$SUDO" apt install -y "$1"
 	fi
 	if is_arch_linux; then
-		sudo pacman -S --noconfirm "$1"
+		"$SUDO" pacman -S --noconfirm "$1"
 	fi
 }
 
@@ -237,6 +240,9 @@ PROFILEFILE="profiles/$PROFILE"
 if [ ! -f "$PROFILEFILE" ]; then
 	except "Unknown profile"
 fi
+
+SUDO=sudo
+if is_openbsd; then SUDO=doas; fi
 
 ###
 # Prepare build directory

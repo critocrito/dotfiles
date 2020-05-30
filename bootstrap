@@ -13,6 +13,10 @@ is_freebsd() {
 	[ "$(uname)" = "FreeBSD" ]
 }
 
+is_openbsd() {
+	[ "$(uname)" = "OpenBSD" ]
+}
+
 is_linux() {
 	[ "$(uname)" = "Linux" ]
 }
@@ -50,6 +54,10 @@ if uncallable zsh || uncallable git || uncallable tree; then
 	if is_freebsd; then
 		sudo env ASSUME_ALWAYS_YES=yes pkg bootstrap
 		sudo env ASSUME_ALWAYS_YES=yes pkg install git zsh tree
+	fi
+
+	if is_openbsd; then
+		doas pkg_add git zsh tree
 	fi
 
 	if is_debian_linux; then

@@ -1,9 +1,14 @@
 _deps() {
-    ensure_pkg "gpg" "gnupg"
+    if ! is_openbsd; then ensure_pkg "gpg" "gnupg"; fi
     if is_mac;
     then
         ensure_pkg "pinentry"
         ensure_pkg "pinentry-mac"
+    fi
+    if is_openbsd;
+    then
+        ensure_pkg "pinentry"
+        ensure_pkg "pinentry-gtk2"
     fi
 }
 

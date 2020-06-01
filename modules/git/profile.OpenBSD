@@ -1,1 +1,1 @@
-export PATH="${PATH}:~/.diff-so-fancy"
+export PATH="${HOME}/.diff-so-fancy:${PATH}"

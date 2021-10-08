@@ -2,6 +2,8 @@
     name = Christo
     email = christo@cryptodrunks.net
     signingkey = 0x290576A0E6A053E0
+[init]
+    defaultBranch = main
 [color]
     ui = true
 [color "branch"]

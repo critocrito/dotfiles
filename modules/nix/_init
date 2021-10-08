@@ -1,0 +1,8 @@
+_install() {
+  if is_mac;
+  then
+    [ ! -d "$HOME/.nix-profile" ] && curl -sSL https://nixos.org/nix/install | bash -s -- --darwin-use-unencrypted-nix-store-volume
+  else
+    [ ! -d "$HOME/.nix-profile" ] && curl -sSL https://nixos.org/nix/install | bash -s -- --daemon
+  fi
+}

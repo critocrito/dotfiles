@@ -5,4 +5,10 @@ _install() {
     /bin/sh /tmp/rustup-init.sh -y --no-modify-path
     rm /tmp/rustup-init
   fi
+
+  if is_mac;
+  then
+    brew_bundle "rust/Brewfile"
+    append_to_file "modules/rust" "cargo_config" ".cargo/config"
+  fi
 }

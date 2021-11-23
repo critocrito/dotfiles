@@ -40,6 +40,7 @@ uncallable() {
 if is_mac && uncallable brew; then
 	msg "Setup Homebrew."
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	eval "$(homebrew/bin/brew shellenv)"
 	brew analytics off
 fi
 

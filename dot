@@ -295,6 +295,12 @@ if [ "$PROFILE" = "desktop" ] && is_mac; then
 	done
 fi
 
+# Ensure Homebrew on macOS.
+if is_mac;
+then
+	eval "$(homebrew/bin/brew shellenv)"
+fi
+
 # Install all modules for the chosen profile
 while read -r MODULE; do
 	msg "Preparing module $MODULE"

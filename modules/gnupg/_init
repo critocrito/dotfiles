@@ -1,10 +1,13 @@
 _deps() {
-    if ! is_openbsd; then ensure_pkg "gpg" "gnupg"; fi
+    if is_linux || is_freebsd; then
+        ensure_pkg "gpg" "gnupg"
+    fi
+
     if is_mac;
     then
-        ensure_pkg "pinentry"
-        ensure_pkg "pinentry-mac"
+        brew_bundle "gnupg/Brewfile"
     fi
+
     if is_openbsd;
     then
         ensure_pkg "pinentry"

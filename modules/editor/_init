@@ -1,7 +1,7 @@
 _deps() {
   if is_mac;
   then
-      ensure_pkg "emacs" "emacs-plus"
+      brew_bundle "editor/Brewfile"
   fi
 }
 

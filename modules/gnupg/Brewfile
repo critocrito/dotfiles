@@ -1,0 +1,3 @@
+brew "gnupg"
+brew "pinentry"
+brew "pinentry-mac"

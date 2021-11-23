@@ -1,0 +1,6 @@
+deps() {
+  if is_mac;
+  then
+    brew_bundle "clojure/Brewfile"
+  fi
+}

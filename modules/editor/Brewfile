@@ -1,0 +1,5 @@
+tap "d12frosted/emacs-plus"
+
+brew "neovim"
+brew "pandoc"
+brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-modern-nuvola-icon"]

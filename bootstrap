@@ -49,7 +49,7 @@ if uncallable zsh || uncallable git || uncallable tree; then
 
 	# NOTE: Macos has git and zsh already installed
 	if is_mac; then
-		brew bundle install --file Brewfile
+		brew install tree
 	fi
 
 	if is_freebsd; then

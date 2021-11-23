@@ -1,3 +1,5 @@
+brew "aria2"
+
 cask "alfred", greedy: true
 cask "devonthink", greedy: true
 

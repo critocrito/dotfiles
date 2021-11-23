@@ -40,7 +40,7 @@ uncallable() {
 if is_mac && uncallable brew; then
 	msg "Setup Homebrew."
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	eval "$(homebrew/bin/brew shellenv)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
 	brew analytics off
 fi
 
@@ -49,7 +49,7 @@ if uncallable zsh || uncallable git || uncallable tree; then
 
 	# NOTE: Macos has git and zsh already installed
 	if is_mac; then
-		brew bundle install --file Brewfile.core
+		brew bundle install --file Brewfile
 	fi
 
 	if is_freebsd; then

@@ -1,8 +1,11 @@
 _deps() {
-  ensure_pkg "rg" "ripgrep"
-  ensure_pkg "htop"
-  ensure_pkg "jq"
-  ensure_pkg "exa"
+  if is_freebsd || is_linux;
+  then
+    ensure_pkg "rg" "ripgrep"
+    ensure_pkg "htop"
+    ensure_pkg "jq"
+    ensure_pkg "exa"
+  fi
 
   if is_freebsd;
   then
@@ -33,16 +36,6 @@ _deps() {
   # On mac install GNU tooling
   if is_mac;
   then
-    ensure_pkg "xsv"
-    ensure_pkg "bat"
-    ensure_pkg "fd"
-    ensure_pkg "gls" "coreutils"
-    ensure_pkg "ged" "ed"
-    ensure_pkg "gfind" "findutils"
-    ensure_pkg "gawk"
-    ensure_pkg "gsed" "gnu-sed"
-    ensure_pkg "gtar" "gnu-tar"
-    ensure_pkg "gegrep" "grep"
-    ensure_pkg "gmake" "make"
+    brew_bundle "core/Brewfile"
   fi
 }

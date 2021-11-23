@@ -1,10 +1,21 @@
 _deps() {
-  ensure_pkg "git"
 
-  if is_mac || is_freebsd;
+  if is_mac;
   then
+    brew_bundle "git/Brewfile"
+  fi
+
+  if is_freebsd;
+  then
+    ensure_pkg "git"
     ensure_pkg "diff-so-fancy"
   fi
+
+  if is_linux;
+  then
+    ensure_pkg "git"
+  fi
+
   if is_debian_linux && uncallable diff-so-fancy;
   then
     sudo curl -o /usr/local/bin/diff-so-fancy -sL https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
@@ -14,6 +25,7 @@ _deps() {
 
   if is_openbsd;
   then
+    ensure_pkg "git"
     git_clone_or_pull_tag "https://github.com/so-fancy/diff-so-fancy.git" "$HOME/.diff-so-fancy"
   fi
 }

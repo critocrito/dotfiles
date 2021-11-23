@@ -1,4 +1,12 @@
 _install() {
-  ensure_pkg "fzf"
-  ensure_pkg "fasd"
+  if is_not_mac;
+  then
+    ensure_pkg "fzf"
+    ensure_pkg "fasd"
+  fi
+
+  if is_mac;
+  then
+    brew_bundle "shell-goodies/Brewfile"
+  fi
 }

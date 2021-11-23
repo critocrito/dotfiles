@@ -4,7 +4,7 @@ BUILD_DIR="$(mktemp -d)"
 DOTFILE_DIR="$(pwd)"
 
 usage() {
-	echo "Usage: $0 [server|desktop]"
+	echo "Usage: $0 [minimal|server|desktop]"
 	exit 2
 }
 
@@ -228,6 +228,14 @@ ensure_pkg() {
 		if uncallable "$1"; then
 			install_pkg "$pkg_name"
 		fi
+	fi
+}
+
+brew_bundle() {
+	# $1 -> Brewfile
+
+	if is_mac; then
+		brew bundle install --file "$(pwd)/modules/$1"
 	fi
 }
 

@@ -4,11 +4,13 @@ _install() {
     curl -Ss https://sh.rustup.rs > /tmp/rustup-init.sh
     /bin/sh /tmp/rustup-init.sh -y --no-modify-path
     rm /tmp/rustup-init
+    cargo install cargo-watch
+    cargo install cargo-edit
   fi
 
   if is_mac;
   then
     brew_bundle "rust/Brewfile"
-    append_to_file "modules/rust" "cargo_config" ".cargo/config"
+    # append_to_file "modules/rust" "cargo_config" ".cargo/config"
   fi
 }

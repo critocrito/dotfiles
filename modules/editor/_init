@@ -1,13 +1,8 @@
-_deps() {
-  if is_mac;
-  then
-      brew_bundle "editor/Brewfile"
-  fi
-}
-
 _install() {
     if is_mac;
     then
+        brew_bundle "editor/Brewfile"
+        ln -sf /opt/homebrew/opt/emacs-plus@28/Emacs.app /Applications
         install_directory "emacs" "OrgRoamProtocolHandler.app" "Applications"
     fi
 }

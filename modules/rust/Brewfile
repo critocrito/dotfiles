@@ -2,5 +2,6 @@ tap "michaeleisel/zld"
 tap "sergiobenitez/osxct"
 tap "filosottile/musl-cross"
 
-brew "filosottile/musl-cross/musl-cross"
+# https://github.com/FiloSottile/homebrew-musl-cross/issues/23
+# brew "filosottile/musl-cross/musl-cross"
 brew "michaeleisel/zld/zld"

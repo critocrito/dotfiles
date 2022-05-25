@@ -4,10 +4,12 @@ _install() {
   done
 
   curl -Ls git.io/antigen > "$BUILD_DIR"/.antigen.zsh
+
   if is_openbsd;
   then
     doas chsh -s `which zsh` "$USER"
-  else
+  elif is_not_mac;
+  then
     sudo chsh -s `which zsh` "$USER"
   fi
 }

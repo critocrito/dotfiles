@@ -2,4 +2,7 @@ tap "d12frosted/emacs-plus"
 
 brew "neovim"
 brew "pandoc"
+brew "gnutls"
+brew "librsvg"
+brew "libxml2"
 brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-modern-nuvola-icon"]

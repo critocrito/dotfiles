@@ -1,7 +1,9 @@
 brew "aria2"
 
+cask "bartender", greedy: true
 cask "alfred", greedy: true
 cask "devonthink", greedy: true
+cask "transmission", greedy: true
 
 mas "Adaptivity", id: 1054670022, greedy: true
 mas "Ulysses", id: 1225570693, greedy: true
@@ -20,6 +22,6 @@ mas "GoodNotes", id: 1444383602, greedy: true
 mas "Slack", id: 803453959, greedy: true
 mas "Developer", id: 640199958, greedy: true
 mas "MindNode", id: 1289197285, greedy: true
-mas "Anybuffer", id: 1330815414, greedy: true
+# mas "Anybuffer", id: 1330815414, greedy: true
 mas "Keynote", id: 409183694, greedy: true
-mas "Monodraw", id: 920404675, greedy: true
+# mas "Monodraw", id: 920404675, greedy: true

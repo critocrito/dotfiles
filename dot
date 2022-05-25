@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -Eeo pipefail
+
 BUILD_DIR="$(mktemp -d)"
 DOTFILE_DIR="$(pwd)"
 
@@ -105,9 +107,12 @@ git_clone_or_pull_tag() {
 	git fetch --tags origin 1>/dev/null
 	LATEST_TAG="$(git describe --abbrev=0 --tags --match 'v[0-9]*' origin)"
 
-	if [ "$(git rev-parse @)" != "$(git rev-parse @\{$LATEST_TAG\} 2>/dev/null)" ]; then
-		msg "Upgrading $TARGET to $LATEST_TAG"
-		git checkout "$LATEST_TAG" 2>/dev/null
+	if [ ! -z "$LATEST_TAG" ];
+	then
+		if [ "$(git rev-parse @)" != "$(git rev-parse @\{$LATEST_TAG\} 2>/dev/null)" ]; then
+			msg "Upgrading $TARGET to $LATEST_TAG"
+			git checkout "$LATEST_TAG" 2>/dev/null
+		fi
 	fi
 
 	cd - 1>/dev/null || exit
@@ -148,10 +153,18 @@ append_to_file() {
 	# $3 -> alternate output file name
 	source="$DOTFILE_DIR/$1/$2"
 	source_os="$source.$(uname)"
-	[ -z "$3" ] && target="$BUILD_DIR/.${2#.}" || target="$BUILD_DIR/.${3#.}"
+	target="$BUILD_DIR/.${2#.}"
+	[ -z "$3" ] || target="$BUILD_DIR/.${3#.}"
 
-	[ -f "$source" ] && cat "$source" >>"$target"
-	[ -f "$source_os" ] && cat "$source_os" >>"$target"
+	if [ -f "$source" ];
+	then
+		cat "$source" >>"$target"
+	fi
+
+	if [ -f "$source_os" ];
+	then
+		cat "$source_os" >>"$target"
+	fi
 }
 
 install_binary() {
@@ -161,19 +174,29 @@ install_binary() {
 	source_os="$source.$(uname)"
 	target="$BUILD_DIR/.local/bin/${2#.}"
 
-	[ -f "$source" ] && cp "$source" "$target"
-	[ -f "$source_os" ] && cp "$source_os" "$target"
+	if [ -f "$source" ];
+	then
+		cp "$source" "$target"
+	fi
+
+	if [ -f "$source_os" ];
+	then
+		cp "$source_os" "$target"
+	fi
 }
 
 install_binaries() {
 	# $1 -> module
-	[ -d "$1/bin" ] && for BIN in "$1"/bin/*; do
-		source="$DOTFILE_DIR/$BIN"
-		bin_name="$(basename "$BIN")"
-		target="$BUILD_DIR/.local/bin/${bin_name#.}"
-		cp "$source" "$target"
-		chmod +x "$target"
-	done
+	if [ -d "$1/bin" ];
+	then
+		for BIN in "$1"/bin/*; do
+			source="$DOTFILE_DIR/$BIN"
+			bin_name="$(basename "$BIN")"
+			target="$BUILD_DIR/.local/bin/${bin_name#.}"
+			cp "$source" "$target"
+			chmod +x "$target"
+		done
+	fi
 }
 
 install_directory() {
@@ -185,7 +208,10 @@ install_directory() {
 
 	mkdir -p "$target"
 
-	[ -d "$source" ] && cp -a "$source" "$target"
+	if [ -d "$source" ];
+	then
+		cp -a "$source" "$target"
+	fi
 }
 
 uncallable() {
@@ -298,7 +324,7 @@ fi
 # Ensure Homebrew on macOS.
 if is_mac;
 then
-	eval "$(homebrew/bin/brew shellenv)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Install all modules for the chosen profile
@@ -320,7 +346,7 @@ while read -r MODULE; do
 			unset -f "$FUNC"
 		fi
 	done
-done <"$PROFILEFILE"
+done < "$PROFILEFILE"
 
 # Modules:
 #
@@ -407,8 +433,3 @@ while true; do
 	*) echo "Please answer yes or no." ;;
 	esac
 done
-
-# # Xmonad
-# git_clone_or_pull_tag https://github.com/xmonad/xmonad.git "$XMONAD_DIR/xmonad-git"
-# git_clone_or_pull_tag https://github.com/xmonad/xmonad-contrib.git "$XMONAD_DIR/xmonad-contrib-git"
-# git_clone_or_pull_tag https://github.com/jaor/xmobar.git "$XMONAD_DIR/xmobar-git"

@@ -1,5 +1,5 @@
 _install() {
   ensure_pkg "pass"
 
-  git_clone_or_pull_tag christo@conspire:~/repos/password-store "$HOME/.password-store"
+  git_clone_or_pull_master christo@conspire:~/repos/password-store "$HOME/.password-store"
 }

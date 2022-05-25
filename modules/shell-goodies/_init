@@ -1,4 +1,4 @@
-_install() {
+_deps() {
   if is_not_mac;
   then
     ensure_pkg "fzf"
@@ -8,5 +8,12 @@ _install() {
   if is_mac;
   then
     brew_bundle "shell-goodies/Brewfile"
+  fi
+}
+
+_install() {
+  if is_mac;
+  then
+    /opt/homebrew/opt/fzf/install  --key-bindings --completion --no-update-rc
   fi
 }

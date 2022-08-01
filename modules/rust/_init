@@ -5,7 +5,7 @@ _install() {
     /bin/sh /tmp/rustup-init.sh -y --no-modify-path
     rm /tmp/rustup-init
     cargo install cargo-watch
-    cargo install cargo-edit
+    # cargo install cargo-edit
   fi
 
   if is_mac;

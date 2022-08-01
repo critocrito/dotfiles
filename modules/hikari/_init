@@ -1,0 +1,11 @@
+_deps() {
+  if is_freebsd;
+  then
+    ensure_pkg "hikari"
+  fi
+}
+
+_install() {
+  ensure_build_dir ".config/hikari"
+  append_to_file "modules/hikari" "hikari.conf" ".config/hikari/hikari.conf"
+}

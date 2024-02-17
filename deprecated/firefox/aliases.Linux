@@ -1,1 +1,0 @@
-alias fx='firefox --new-instance --profile $(mktemp -d)'

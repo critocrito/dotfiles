@@ -1,7 +1,0 @@
-_deps() {
-  if is_mac;
-  then
-    ensure_pkg "bat"
-  fi
-}
-

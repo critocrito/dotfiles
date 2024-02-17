@@ -1,2 +1,0 @@
-alias msmtp='msmtp -C $XDG_CONFIG_HOME/msmtp/msmtprc'
-alias offlineimap='offlineimap -c $XDG_CONFIG_HOME/offlineimap/offlineimaprc'

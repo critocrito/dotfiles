@@ -1,4 +1,0 @@
-tap "homebrew/cask"
-
-cask "firefox", greedy: true
-cask "google-chrome", greedy: true

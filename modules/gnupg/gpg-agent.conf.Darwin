@@ -1,3 +1,0 @@
-use-standard-socket
-# brew install gnupg pinentry-mac
-pinentry-program /opt/homebrew/bin/pinentry-mac

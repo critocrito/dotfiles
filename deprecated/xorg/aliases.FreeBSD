@@ -1,1 +1,0 @@
-alias x="xinit ~/.xinitrc -- -dpi 75 -nolisten tcp"

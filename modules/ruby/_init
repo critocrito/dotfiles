@@ -1,4 +1,0 @@
-_install() {
-  git_clone_or_pull_tag https://github.com/rbenv/rbenv.git "$HOME/.rbenv"
-  git_clone_or_pull_tag https://github.com/rbenv/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
-}

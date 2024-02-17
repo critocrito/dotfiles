@@ -1,6 +1,0 @@
-_deps() {
-  if is_mac;
-  then
-    brew_bundle "browser/Brewfile"
-  fi
-}

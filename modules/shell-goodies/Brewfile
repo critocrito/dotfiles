@@ -1,5 +1,0 @@
-tap "homebrew/cask"
-
-brew "fasd"
-brew "fzf"
-cask "iterm2"

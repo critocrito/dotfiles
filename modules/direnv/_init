@@ -1,3 +1,0 @@
-_deps() {
-  ensure_pkg "direnv"
-}

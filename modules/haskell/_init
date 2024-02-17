@@ -1,3 +1,0 @@
-_install() {
-  [ ! -d "$HOME/.stack" ] && curl -sSL https://get.haskellstack.org/ | sh
-}

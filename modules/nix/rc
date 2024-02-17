@@ -1,1 +1,0 @@
-[ -s "$NIX_DIR/etc/profile.d/nix.sh" ] && . $NIX_DIR/etc/profile.d/nix.sh

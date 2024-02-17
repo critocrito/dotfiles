@@ -1,4 +1,0 @@
-brew "cloc"
-brew "hyperfine"
-brew "create-dmg"
-cask "vagrant"

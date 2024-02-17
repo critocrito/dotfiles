@@ -1,8 +1,0 @@
-! modify CapsLock to Control and Shift+CapsLock to CapsLock
-clear lock
-clear control
-keycode 66 = Control_L Caps_Lock NoSymbol NoSymbol
-add control = Caps_Lock Control_L Control_R
-
-!keycode 113 = Left
-!keycode 114 = Right

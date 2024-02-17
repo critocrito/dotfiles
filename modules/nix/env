@@ -1,1 +1,0 @@
-export NIX_DIR="$HOME/.nix-profile"

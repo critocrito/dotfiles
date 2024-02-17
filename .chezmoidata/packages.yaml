@@ -2,3 +2,4 @@ packages:
   darwin:
     brews:
     - 'git-delta'
+    - 'sheldon'

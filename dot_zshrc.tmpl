@@ -1,0 +1,12 @@
+{{- if eq .chezmoi.os "darwin" }}
+# Setup Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- end }}
+
+# Configure the ZSH plugin management
+{{- if eq .chezmoi.os "darwin" }}
+export ZSH="$HOME/Library/sheldon/repos/github.com/ohmyzsh/ohmyzsh"
+{{ else }}
+export ZSH="$HOME/.local/share/sheldon/repos/github.com/ohmyzsh/ohmyzsh"
+{{- end }}
+eval "$(sheldon source)"

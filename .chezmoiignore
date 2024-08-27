@@ -1,5 +1,5 @@
-{{ if eq .chezmoi.os "darwin" }}
-.config/sheldon/plugins.toml
+{{ if ne .chezmoi.os "darwin" }}
+Library
 {{ else }}
-Library/Preferences/sheldon/plugins.toml
+.config/sheldon
 {{ end }}

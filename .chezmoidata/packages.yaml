@@ -1,44 +1,14 @@
 packages:
   common:
-  - 'git-delta'
-  - 'sheldon'
-  - 'atuin'
-  - 'starship'
-  - 'zoxide'
-  - 'fzf'
-  - 'direnv'
-  - 'eza'
-  - 'bat'
-  - 'htop'
-  - 'btop'
-  - 'jq'
-  - 'ripgrep'
-  - 'rsync'
-  - 'gnupg'
-  - 'pinentry'
+    - "sheldon"
 
   darwin:
-  - 'fd'
-  - 'coreutils'
-  - 'gnu-sed'
-  - 'gnu-tar'
-  - 'gawk'
-  - 'findutils'
-  - 'make'
-  - 'tree'
-  - 'gnutls'
-  - 'grep'
-  - 'pinentry-mac'
-
-  unix:
-  - 'fd-find'
+    - "git"
 
   freebsd:
-  - 'xsv-rs'
-  - 'pinentry-tty'
+    - "git-tiny"
+    - "zsh"
 
-  linux_archlinux:
-  - 'xsv'
-
-  linux_debian:
-  - 'pinentry-tty'
+  archlinux:
+    - "git"
+    - "zsh"

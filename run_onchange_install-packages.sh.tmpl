@@ -1,5 +1,5 @@
 {{ if eq .chezmoi.os "darwin" -}}
-#!/bin/bash
+#!/bin/sh
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range .packages.common -}}
@@ -13,13 +13,10 @@ EOF
 
 
 {{ if eq .chezmoi.os "freebsd" -}}
-#!/bin/bash
+#!/bin/sh
 
 sudo pkg install \
 {{ range .packages.common -}}
-{{ . | quote }} \
-{{ end -}}
-{{ range .packages.unix -}}
 {{ . | quote }} \
 {{ end -}}
 {{ range .packages.freebsd -}}
@@ -29,32 +26,14 @@ sudo pkg install \
 {{ end -}}
 
 
-{{ if eq .osid "linux-archlinux" -}}
-#!/bin/bash
-
-sudo pacman -S \
-{{   range .packages.common -}}
-{{   . | quote }} \
-{{   end -}}
-{{   range .packages.unix -}}
-{{   . | quote }} \
-{{   end -}}
-{{   range .packages.linux_archlinux -}}
-{{   . | quote }} \
-{{   end -}}
-{{ end -}}
-
-{{ if eq .osid "linux-debian" -}}
-#!/bin/bash
+{{ if eq .osid "archlinux" -}}
+#!/bin/sh
 
 sudo pacman -S \
 {{ range .packages.common -}}
 {{ . | quote }} \
 {{ end -}}
-{{ range .packages.unix -}}
-{{ . | quote }} \
-{{ end -}}
-{{ range .packages.linux_debian -}}
+{{ range .packages.archlinux -}}
 {{ . | quote }} \
 {{ end -}}
 

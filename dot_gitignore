@@ -1,0 +1,7 @@
+.DS_Store
+
+# Python pyenv configuration files
+.python-version
+
+# Annoying npm logs
+npm-debug.log

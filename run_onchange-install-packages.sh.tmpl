@@ -1,0 +1,61 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range .packages.common -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.darwin -}}
+brew {{ . | quote }}
+{{ end -}}
+EOF
+{{ end -}}
+
+
+{{ if eq .chezmoi.os "freebsd" -}}
+#!/bin/bash
+
+sudo pkg install \
+{{ range .packages.common -}}
+{{ . | quote }} \
+{{ end -}}
+{{ range .packages.unix -}}
+{{ . | quote }} \
+{{ end -}}
+{{ range .packages.freebsd -}}
+{{ . | quote }} \
+{{ end -}}
+
+{{ end -}}
+
+
+{{ if eq .osid "linux-archlinux" -}}
+#!/bin/bash
+
+sudo pacman -S \
+{{   range .packages.common -}}
+{{   . | quote }} \
+{{   end -}}
+{{   range .packages.unix -}}
+{{   . | quote }} \
+{{   end -}}
+{{   range .packages.linux_archlinux -}}
+{{   . | quote }} \
+{{   end -}}
+{{ end -}}
+
+{{ if eq .osid "linux-debian" -}}
+#!/bin/bash
+
+sudo pacman -S \
+{{ range .packages.common -}}
+{{ . | quote }} \
+{{ end -}}
+{{ range .packages.unix -}}
+{{ . | quote }} \
+{{ end -}}
+{{ range .packages.linux_debian -}}
+{{ . | quote }} \
+{{ end -}}
+
+{{ end -}}

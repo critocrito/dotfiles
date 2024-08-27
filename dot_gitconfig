@@ -1,6 +1,6 @@
 [user]
-	name = Christo Buschek
-	email = christo.buschek@proton.me
+    name = Christo Buschek
+    email = christo.buschek@proton.me
     signingkey = 0x290576A0E6A053E0
 [init]
     defaultBranch = main

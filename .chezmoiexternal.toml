@@ -1,0 +1,14 @@
+[".pyenv"]
+type = "git-repo"
+url = "https://github.com/pyenv/pyenv.git"
+refreshPeriod = "168h"
+
+[".pyenv/plugins/pyenv-virtualenv"]
+type = "git-repo"
+url = "https://github.com/pyenv/pyenv-virtualenv.git"
+refreshPeriod = "168h"
+
+[".nvm"]
+type = "git-repo"
+url = "https://github.com/nvm-sh/nvm"
+refreshPeriod = "168h"

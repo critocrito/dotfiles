@@ -1,6 +1,7 @@
 packages:
   common:
     - "sheldon"
+    - "starship"
 
   darwin:
     - "git"

@@ -26,14 +26,14 @@ sudo pkg install \
 {{ end -}}
 
 
-{{ if eq .osid "archlinux" -}}
+{{ if eq .osid "arch" -}}
 #!/bin/sh
 
 sudo pacman -S \
 {{ range .packages.common -}}
 {{ . | quote }} \
 {{ end -}}
-{{ range .packages.archlinux -}}
+{{ range .packages.arch -}}
 {{ . | quote }} \
 {{ end -}}
 

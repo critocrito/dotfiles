@@ -11,6 +11,6 @@ packages:
     - "git-tiny"
     - "zsh"
 
-  archlinux:
+  arch:
     - "git"
     - "zsh"

@@ -2,6 +2,7 @@ packages:
   common:
     - "sheldon"
     - "starship"
+    - "atuin"
 
   darwin:
     - "git"

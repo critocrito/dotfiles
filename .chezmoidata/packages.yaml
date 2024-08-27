@@ -3,14 +3,35 @@ packages:
     - "sheldon"
     - "starship"
     - "atuin"
+    - "zellij"
+    - "eza"
+    - "bat"
+    - "htop"
+    - "btop"
+    - "jq"
+    - "ripgrep"
+    - "rsync"
 
   darwin:
     - "git"
+    - "fd"
+    - "coreutils"
+    - "gnu-sed"
+    - "gnu-tar"
+    - "gawk"
+    - "findutils"
+    - "make"
+    - "tree"
+    - "grep"
 
   freebsd:
     - "git-tiny"
     - "zsh"
+    - "fd-find"
+    - "xsv-rs"
 
   arch:
     - "git"
     - "zsh"
+    - "fd"
+    - "xsv"

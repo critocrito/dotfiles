@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# gpg-agent.conf hash: {{ include "private_dot_gnupg/private_gpg-agent.conf.tmpl" | sha256sum }}
+gpg-connect-agent reloadagent /bye

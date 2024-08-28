@@ -11,6 +11,8 @@ packages:
     - "jq"
     - "ripgrep"
     - "rsync"
+    - "gnupg"
+    - "pinentry"
 
   darwin:
     - "git"
@@ -23,15 +25,20 @@ packages:
     - "make"
     - "tree"
     - "grep"
+    - "pinentry-mac"
+    - "pass"
 
   freebsd:
     - "git-tiny"
     - "zsh"
     - "fd-find"
     - "xsv-rs"
+    - "pinentry-tty"
+    - "password-store"
 
   arch:
     - "git"
     - "zsh"
     - "fd"
     - "xsv"
+    - "pass"

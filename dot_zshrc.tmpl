@@ -25,6 +25,28 @@ eval "$(starship init zsh)"
 # Shell history on the rocks
 eval "$(atuin init zsh)"
 
+# Manage an SSH agent
+{{- if eq .chezmoi.os "darwin" }}
+SSH_ENV="$HOME/.ssh/environment"
+
+ssh-add -l &>/dev/null
+if [ "$?" -eq 2 ]; then
+  test -r "$SSH_ENV" && \
+    eval "$(<$SSH_ENV)" >/dev/null
+
+  ssh-add -l &>/dev/null
+  if [ "$?" -eq 2 ]; then
+    (umask 066; ssh-agent > "$SSH_ENV")
+    eval "$(<$SSH_ENV)" >/dev/null
+    {{- if eq .chezmoi.os "darwin" }}
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+    {{ else }}
+    ssh-add ~/.ssh/id_ed25519
+    {{- end }}
+  fi
+fi
+{{- end }}
+
 export LC_ALL=
 export LANG=en_US.UTF-8
 export LESS="--ignore-case --raw-control-chars"
@@ -36,6 +58,7 @@ export HHIST_STAMPS="yyyy-mm-dd"
 export GREP_COLOR="3;33"
 export GREP_COLORS="mt=3;33"
 export BAT_THEME="Nord"
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 # Prefer our own version of md over the alias that comes with oh-my-zsh.
 unalias md

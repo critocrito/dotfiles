@@ -1,0 +1,15 @@
+# Cache settings - Cache for 24h
+default-cache-ttl 86400
+default-cache-ttl-ssh 86400
+enable-ssh-support
+
+{{- if eq .chezmoi.os "darwin" }}
+use-standard-socket
+pinentry-program /opt/homebrew/bin/pinentry-mac
+{{- end }}
+{{- if eq .chezmoi.os "freebsd" }}
+pinentry-program /usr/local/bin/pinentry-tty
+{{- end }}
+{{- if eq .osid "arch" }}
+pinentry-program /usr/bin/pinentry-gtk-2
+{{- end }}

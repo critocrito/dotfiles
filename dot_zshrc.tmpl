@@ -33,6 +33,9 @@ eval "$(zoxide init zsh)"
 # Shell fuzzy-finder
 source <(fzf --zsh)
 
+# Enable Rustup
+. "$HOME/.cargo/env"
+
 # Manage an SSH agent
 {{- if eq .chezmoi.os "darwin" }}
 SSH_ENV="$HOME/.ssh/environment"

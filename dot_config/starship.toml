@@ -16,3 +16,6 @@ disabled = true
 format = "[($type )]($style)"
 style = "bold blue"
 disabled = false
+
+[direnv]
+disabled = false

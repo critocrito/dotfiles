@@ -25,6 +25,9 @@ eval "$(starship init zsh)"
 # Shell history on the rocks
 eval "$(atuin init zsh)"
 
+# Enable local direnv
+eval "$(direnv hook zsh)"
+
 # Manage an SSH agent
 {{- if eq .chezmoi.os "darwin" }}
 SSH_ENV="$HOME/.ssh/environment"

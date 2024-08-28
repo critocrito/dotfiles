@@ -5,11 +5,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-  autoload -Uz compinit
-  compinit
 fi
 {{- end }}
+autoload -Uz compinit
+compinit
 
 # Configure the ZSH plugin management
 {{- if eq .chezmoi.os "darwin" }}
@@ -27,6 +26,12 @@ eval "$(atuin init zsh)"
 
 # Enable local direnv
 eval "$(direnv hook zsh)"
+
+# Better cd
+eval "$(zoxide init zsh)"
+
+# Shell fuzzy-finder
+source <(fzf --zsh)
 
 # Manage an SSH agent
 {{- if eq .chezmoi.os "darwin" }}

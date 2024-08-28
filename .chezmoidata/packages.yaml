@@ -15,6 +15,8 @@ packages:
     - "pinentry"
     - "direnv"
     - "git-delta"
+    - "zoxide"
+    - "fzf"
 
   darwin:
     - "git"
